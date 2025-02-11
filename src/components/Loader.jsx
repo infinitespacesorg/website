@@ -48,6 +48,7 @@ overflow: hidden;
   }
 `;
 
+/*
 const pathVariants = {
   hidden: {
     opacity: 0,
@@ -90,7 +91,7 @@ const Text = styled(motion.span)`
 
   }
 `;
-
+*/
 const Loader = () => {
   return (
     <Container

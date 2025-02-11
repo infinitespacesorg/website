@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+//import { motion } from 'framer-motion';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -34,6 +34,7 @@ const Container = styled.div`
     }
   }
 `;
+/*
 const Text = styled(motion.span)`
   font-size: ${(props) => props.theme.fontlg};
   color: ${(props) => props.theme.text};
@@ -72,7 +73,7 @@ const textVariants = {
     },
   },
 };
-
+*/
 const Logo = () => {
   return (
     <Container>
