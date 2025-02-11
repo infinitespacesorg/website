@@ -3,7 +3,9 @@ import React from "react";
 import { useLocomotiveScroll } from "react-locomotive-scroll";
 import styled from "styled-components";
 
-import Logo from "../assets/Svgs/star_white_48dp.svg";
+//import Logo from "../assets/Svgs/star_white_48dp.svg";
+import isLogo from "../assets/Svgs/isLogo.svg";
+import isText from "../assets/Svgs/isText.svg";
 
 const Section = styled.section`
   min-height: 100vh;
@@ -127,16 +129,26 @@ const Footer = () => {
     <Section>
       <LogoContainer>
         <img
-          width="300"
-          height="300"
-          src={Logo}
-          alt="Wibe"
+          width="100"
+          height="100"
+          src={isLogo}
+          alt="Infinite Spaces"
           data-scroll
           data-scroll-speed="2"
         />
+                <img
+          width="311"
+          height="301"
+          src={isText}
+          alt="Infinite Spaces"
+          data-scroll
+          data-scroll-speed="2"
+        />
+        {/*
         <h3 data-scroll data-scroll-speed="-1">
           Infinite Spaces
         </h3>
+      */}
       </LogoContainer>
       <FooterComponent
         initial={{ y: "-400px" }}

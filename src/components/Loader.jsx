@@ -2,6 +2,9 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import styled from 'styled-components';
 
+import isLogo from "../assets/Svgs/isLogo.svg";
+import isText from "../assets/Svgs/isText.svg";
+
 const Container = styled(motion.div)`
   position: absolute;
   top: 0;
@@ -95,8 +98,25 @@ const Loader = () => {
       exit={{ y: '100%', opacity: 0 }}
       transition={{ duration: 2 }}
     >
-
-      <svg
+      <img
+        width="300"
+        height="300"
+        src={isLogo}
+        alt="Logo"
+        data-scroll
+        data-scroll-speed="2"
+      />
+      
+      <img
+        width="400"
+        src={isText}
+        alt="Logo Text"
+        data-scroll
+        data-scroll-speed="2"
+        initial="hidden" 
+        animate="visible"
+      />
+      {/*<svg
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 24 24"
         height="48px"
@@ -113,10 +133,12 @@ const Loader = () => {
           />
         </g>
       </svg>
-     
+      
+
       <Text variants={textVariants} initial="hidden" animate="visible">
         Infinite Spaces
       </Text>
+      */}
     </Container>
   );
 };
