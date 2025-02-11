@@ -3,6 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import isLogoText from "../assets/Svgs/isLogoText.svg";
+
 const Container = styled.div`
   position: absolute;
   top: 1rem;
@@ -75,7 +77,8 @@ const Logo = () => {
   return (
     <Container>
       <Link to="/">
-        {/* <img src={star} alt="Infinite Spaces" /> */}
+        <img src={isLogoText} height="48px" alt="Infinite Spaces" /> 
+        {/*}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           enableBackground="new 0 0 24 24"
@@ -93,10 +96,19 @@ const Logo = () => {
             />
           </g>
         </svg>
-
+        */}
+        {/*
+        <svg width="48px" height="48p" viewBox="0 0 311 301" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g>
+        <path d="M255.318 68.804L161.927 0L-1.19209e-07 219.793L93.3917 288.597L255.318 68.804Z" fill="#CCCCCC"/>
+        <path d="M234.989 300.755C276.742 300.755 310.589 266.907 310.589 225.155C310.589 183.402 276.742 149.555 234.989 149.555C193.236 149.555 159.389 183.402 159.389 225.155C159.389 266.907 193.236 300.755 234.989 300.755Z" fill="#789BDE"/>
+        </g>
+        </svg>
+        
         <Text variants={textVariants} initial="hidden" animate="visible">
           Infinite Spaces
         </Text>
+        */}
       </Link>
     </Container>
   );
