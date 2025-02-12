@@ -35,6 +35,8 @@ const DarkOverlay = styled.div`
 `;
 
 const Title = styled(motion.div)`
+
+  font-size: ${(props) => props.theme.fontlg};
   position: absolute;
   top: 0;
   left: 0;
@@ -92,11 +94,6 @@ const container = {
   },
 };
 
-const item = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1 },
-};
-
 const CoverVideo = () => {
   return (
     <VideoContainer data-scroll>
@@ -127,56 +124,11 @@ const CoverVideo = () => {
         </clipPath>
         </defs>
         </svg>
-
-          {/*}
-          <img
-            width="300"
-            height="300"
-            src={InfiniteWordLogo}
-            alt="Logo"
-            data-scroll
-            data-scroll-speed="2"
-          />
-          
-          <img
-            width="400"
-            src={SpacesWordLogo}
-            alt="Logo Text"
-            data-scroll
-            data-scroll-speed="2"
-            initial="hidden" 
-            animate="visible"
-          />
-  */}a
-          {/*
-          <motion.h1
-            variants={isInfinite}
-            data-scroll
-            data-scroll-delay="0.13"
-            data-scroll-speed="4"
-          >
-            Infinite 
-          </motion.h1>
-          <motion.h1
-            variants={item}
-            data-scroll
-            data-scroll-delay="0.04"
-            data-scroll-speed="4"
-          >
-            Spaces
-          </motion.h1>
-        */}
         </div>
         
-        <motion.h2
-          style={{ alignSelf: "flex-end" }}
-          variants={item}
-          data-scroll
-          data-scroll-delay="0.04"
-          data-scroll-speed="2"
-        >
+        <div> 
           A Spatial Entertainment Company
-        </motion.h2>
+        </div>
     
       </Title>
 

@@ -19,7 +19,7 @@ export const light = {
 };
 
 export const dark = {
-  body: '#202020',
+  body: '#000', // #202020
   text: '#fff', // black shade
   bodyRgba: '32,32,32',
   textRgba: '255, 255, 255',
