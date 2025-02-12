@@ -7,10 +7,12 @@ import { ThemeProvider } from "styled-components";
 
 import Loader from "./components/Loader";
 import ScrollTriggerProxy from "./components/ScrollTriggerProxy";
-import About from "./sections/About";
+import Mission from "./sections/Mission";
+//import About from "./sections/About";
 import Footer from "./sections/Footer";
 import Home from "./sections/Home";
 import Marquee from "./sections/Marquee";
+import ContactForm from "./sections/ContactForm";
 //import Community from "./sections/Commmunity";
 import Productions from "./sections/Productions";
 import GlobalStyles from "./styles/GlobalStyles";
@@ -56,11 +58,13 @@ function App() {
             <ScrollTriggerProxy />
             <AnimatePresence>
               {Loaded ? null : <Loader />}
-
               <Home key="home" />
-              <About key="about" />
+              <Mission key="mission" />
+              {/*<About key="about" />
+              <What key="what" />*/}
               <Productions key="productions" />
               <Marquee key="marquee" />
+              <ContactForm key="contact" />
               <Footer key="Footer" />
             </AnimatePresence>
           </main>

@@ -165,9 +165,11 @@ const Footer = () => {
           <li aria-hidden="true" onClick={() => handleScroll(".about")}>
             about
           </li>
-          <li aria-hidden="true" onClick={() => handleScroll("#productions")}>
-            productionss
+          {/*
+          <li aria-hidden="true" onClick={() => handleScroll("#projects")}>
+            Community
           </li>
+          */}
         </ul>
         <Bottom>
           <span
