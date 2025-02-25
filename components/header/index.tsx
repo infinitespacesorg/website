@@ -41,14 +41,13 @@ useEffect(() => {
 }, [])
 
 return (
-  <header className={`top-0 w-full border-border/40 bg-background/95 z-50 ${isScrolled ? 'fixed bg-white' : 'absolute bg-transparent'}`}>
-    <div className="container flex items-center justify-between h-14">
+  <header className={`top-0 w-full border-border/40 bg-background/95 z-50 ${isScrolled ? 'fixed bg-white dark:bg-background' : 'absolute bg-transparent'}`}>
+    <div className="flex items-center justify-between h-14">
       <Link href="/" aria-label="Home page">
         <Logo />
       </Link>
       <div className={`hidden xl:flex gap-7 items-center justify-between ${isScrolled ? '' : 'text-white'}`}>
         <DesktopNav navItems={navItems} isScrolled={isScrolled} />
-        <ModeToggle />
       </div>
       <div className="flex items-center xl:hidden">
         <ModeToggle />
