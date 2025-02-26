@@ -13,7 +13,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Export dataset
-        run: npx sanity dataset export production backups/backup.tar.gz
+        run: npx sanity dataset export ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }} backups/backup.tar.gz
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
