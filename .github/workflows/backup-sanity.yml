@@ -1,8 +1,8 @@
 name: Backup Routine
 on:
   schedule:
-    # Runs every hour, for now, just to trigger it once
-    - cron: "* * * * *"
+    # Runs every day, is that too often?
+    - cron: "0 0 * * *"
 jobs:
   backup-dataset:
     runs-on: ubuntu-latest
