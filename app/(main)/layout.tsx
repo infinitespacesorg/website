@@ -1,10 +1,10 @@
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import { DisableDraftMode } from "@/components/disable-draft-mode";
 import { VisualEditing } from "next-sanity";
 import { draftMode } from "next/headers";
 import { SanityLive } from "@/sanity/lib/live";
 
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 import HeroBlock from "@/components/custom/heroblock";
 
 export default async function MainLayout({
@@ -24,7 +24,7 @@ export default async function MainLayout({
           <VisualEditing />
         </>
       )}
-      <Footer />
+      <Footer/>
     </>
   );
 }
