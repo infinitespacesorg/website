@@ -12,12 +12,19 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: npm install
-      - name: Export dataset
-        run: npx sanity dataset export ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }} backups/backup.tar.gz
+      - name: Debug Token Length
+        run: |
+          echo "Token length: ${#SANITY_AUTH_TOKEN}"
+        shell: bash
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }} 
+
+      - name: Export dataset
+        run: |
+          export SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}"
+          npx sanity dataset export production backups/backup.tar.gz --debug
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
       - name: Upload backup.tar.gz
         uses: actions/upload-artifact@v4
         with:
@@ -25,3 +32,5 @@ jobs:
           path: backups/backup.tar.gz
           # Fails the workflow if no files are found; defaults to 'warn'
           if-no-files-found: error
+
+
