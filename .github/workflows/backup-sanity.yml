@@ -2,7 +2,7 @@ name: Backup Routine
 on:
   schedule:
     # Runs every hour, for now, just to trigger it once
-    - cron: "30 * * * *"
+    - cron: "0 * * * *"
 jobs:
   backup-dataset:
     runs-on: ubuntu-latest
@@ -16,11 +16,8 @@ jobs:
         uses: sanity-io/github-action-sanity@v0.7-alpha
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-          NEXT_PUBLIC_SANITY_API_VERSION: ${{ secrets.NEXT_PUBLIC_SANITY_API_VERSION }}
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
-          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
         with:
-          args: dataset export production backups/backup.tar.gz
+          args: dataset export ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }} backups/backup.tar.gz
       - name: Upload backup.tar.gz
         uses: actions/upload-artifact@v4
         with:
