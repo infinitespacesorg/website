@@ -2,7 +2,7 @@ name: Backup Routine
 on:
   schedule:
     # Runs every hour, for now, just to trigger it once
-    - cron: "15 * * * *"
+    - cron: "30 * * * *"
 jobs:
   backup-dataset:
     runs-on: ubuntu-latest
