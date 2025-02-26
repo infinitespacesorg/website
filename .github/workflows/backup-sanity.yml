@@ -13,13 +13,11 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Export dataset
-        uses: sanity-io/github-action-sanity@v0.7-alpha
+        run: sanity dataset export production backups/backup.tar.gz
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
-        with:
-          args: dataset export ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }} backups/backup.tar.gz
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }} 
       - name: Upload backup.tar.gz
         uses: actions/upload-artifact@v4
         with:
