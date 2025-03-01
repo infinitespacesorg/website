@@ -30,6 +30,8 @@ const navItems = [
 
 export default function Footer() {
 
+  console.log('something')
+
   const [contactDialogOpen, setContactDialogOpen] = useState(false)
 
   const getCurrentYear = () => {
