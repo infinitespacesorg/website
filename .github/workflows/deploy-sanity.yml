@@ -14,8 +14,11 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Deploy Sanity Studio
-        uses: sanity-io/github-action-sanity@v0.7-alpha
+        run: |
+          export SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}"
+          npx sanity deploy
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
-        with:
-          args: deploy
+          NEXT_PUBLIC_SANITY_API_VERSION: ${{ secrets.NEXT_PUBLIC_SANITY_API_VERSION }}
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
