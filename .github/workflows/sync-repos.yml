@@ -33,7 +33,7 @@ jobs:
 
       - name: Sync Entire Repo
         run: |
-          rsync -av --delete --exclude ".git" --exclude ".github/workflows" --exclude "backup.tar.gz" ./ playpen/
+          rsync -av --delete --exclude ".git" --exclude ".github/workflows" --exclude "backup.tar.gz" ./ playpen
 
       - name: Commit and Push Changes
         run: |
