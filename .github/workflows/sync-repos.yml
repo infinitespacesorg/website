@@ -1,0 +1,43 @@
+name: Sync Entire Repo to /website-playpen
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Main Repo
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PLAYPEN_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Clone Playground Repo via SSH
+        run: |
+          git clone git@github.com:infinitespacesorg/website-playpen.git playpen
+          cd playpen
+          git checkout main
+
+      - name: Sync Entire Repo
+        run: |
+          rsync -av --delete --exclude ".git" --exclude ".github/workflows" --exclude "backup.tar.gz" ./ playpen/
+
+      - name: Commit and Push Changes
+        run: |
+          cd playpen
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+            git commit -m "Sync main repo changes to playpen - $TIMESTAMP"
+            git push origin main
+          fi
