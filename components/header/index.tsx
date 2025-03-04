@@ -53,7 +53,7 @@ export default function Header() {
           <ModeToggle />
           <DesktopNav navItems={navItems} isScrolled={isScrolled} />
         </div>
-        <div className="flex items-center xl:hidden">
+        <div className={`flex items-center xl:hidden ${isScrolled ? "" : "text-white"}`}>
           <ModeToggle />
           <MobileNav navItems={navItems} />
         </div>

@@ -1,6 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { Info } from "lucide-react";
-import { extractPlainText } from "@/lib/utils";
+import { extractPlainText } from "../../../../lib/utils"
+// "@/lib/utils";
 
 export default defineType({
   name: "split-info-list",

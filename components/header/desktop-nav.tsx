@@ -28,11 +28,11 @@ export default function DesktopNav({
   // some styles are commented out so that the hamburger menu can more closely match the ModeToggle menu
 
   return (
-    <div className={"hidden xl:flex items-center gap-1 text-primary"}>
+    <div className={clsx("hidden xl:flex items-center gap-1 text-primary")}>
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}
        modal={false} // this allows the scrollbar to remain usable
         >
-        <DropdownMenuTrigger asChild className={clsx("mx-3")}>
+        <DropdownMenuTrigger asChild className={clsx(`mx-3 ${isScrolled ? '' : 'text-white'}`)}>
           <Button variant="ghost" size="icon">
             <AlignRight></AlignRight>
             <span className="sr-only">Toggle theme</span>
