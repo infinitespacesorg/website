@@ -86,7 +86,7 @@ export default function Footer() {
             <Button
               key="Contact Us"
               className={
-                "transition-colors text-white right-5 bottom-20 z-[5]"
+                "transition-colors text-white dark:text-black right-5 bottom-20 z-[5]"
               }
               onClick={() => setContactDialogOpen}
             >
