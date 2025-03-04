@@ -31,23 +31,23 @@ export default defineType({
       initialValue: "left",
     }),
     defineField({
-        name: "FormField1",
+        name: "formField1",
         type: "string",
     }),
     defineField({
-        name: "FormField2",
+        name: "formField2",
         type: "string",
     }),
     defineField({
-        name: 'FormField3',
+        name: 'formField3',
         type: "string",
     }),
     defineField({
-        name: 'FormField4',
+        name: 'formField4',
         type: "string",
     }),
     defineField({
-        name: 'FormField5',
+        name: 'formField5',
         type: "string",
     }),
     defineField({
