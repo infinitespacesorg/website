@@ -157,6 +157,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    z-index: 1;
+    position: relative;
   }
   h1 {
     font-family: var(--font-sans);
