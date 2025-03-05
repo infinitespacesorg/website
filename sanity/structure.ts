@@ -47,12 +47,5 @@ export const structure = (S: any, context: any) =>
         icon: Quote,
         S,
         context,
-      }),
-      orderableDocumentListDeskItem({
-        type: "testform",
-        title: "Test Form",
-        icon: Clipboard,
-        S,
-        context,
-      }),
+      })
     ]);
