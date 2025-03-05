@@ -1,5 +1,6 @@
 "use client";
 import CoverVideo from "@/components/custom/covervideo";
+import { animate, motion } from "motion/react"
 
 const MainVideo = "https://dkljmdqtvrkrnjdtdsjw.supabase.co/storage/v1/object/public/website-storage/stage-cut.mp4"; 
 

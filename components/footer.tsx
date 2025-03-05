@@ -31,7 +31,6 @@ const navItems = [
 ];
 
 export default function Footer() {
-  console.log("something");
 
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
 
@@ -88,7 +87,7 @@ export default function Footer() {
               className={
                 "transition-colors text-white dark:text-black right-5 bottom-20 z-[5]"
               }
-              onClick={() => setContactDialogOpen}
+              onClick={() => setContactDialogOpen(!contactDialogOpen)}
             >
               Contact Us
             </Button>
