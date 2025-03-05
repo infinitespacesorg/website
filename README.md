@@ -8,30 +8,15 @@ This starter is a part of [Schema UI](https://schemaui.com) project, a comprehen
 
 [Docs](https://schemaui.com/docs) | [Components](https://schemaui.com/docs/components) | [Demo](https://starter.schemaui.com)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fserge-0v%2Fnext-js-sanity-starter&env=NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SITE_ENV,NEXT_PUBLIC_SANITY_API_VERSION,NEXT_PUBLIC_SANITY_PROJECT_ID,NEXT_PUBLIC_SANITY_DATASET,SANITY_API_READ_TOKEN,RESEND_API_KEY,RESEND_AUDIENCE_ID&demo-title=Next.js%20Sanity%20Starter&demo-description=Next.js%20Sanity%20Starter%20by%20Schema%20UI&demo-url=https%3A%2F%2Fstarter.schemaui.com)
-
 ## Getting Started
 
-### Installing the template
-
-#### 1. Initialize template with Sanity CLI
-
-Run the command in your Terminal to initialize this template on your local computer:
+#### 1. Clone this repo, install dependencies, and add environment variables
 
 ```bash
-npm create sanity@latest -- --template serge-0v/next-js-sanity-starter
+npm install
 ```
 
-See the documentation if you are [having issues with the CLI](https://www.sanity.io/help/cli-errors).
-
-This command will:
-
-- Create a new Sanity project
-- Add API Read Token
-- Configure CORS origin for http://localhost:3000
-- Set up environment variables
-- Clone the repository
-- Install dependencies
+Environment variables are stored in an .env.local file in the root of the project. Contact Steve for values for the keys in the .env.local.example file.
 
 #### 2. Run the template locally
 
@@ -41,6 +26,12 @@ Start the development servers:
 pnpm dev
 ```
 
+OR 
+
+```bash
+npm run dev
+```
+
 #### 3. Open the app and sign in to the Studio
 
 - Open the Next.js app at [http://localhost:3000](http://localhost:3000)
@@ -48,83 +39,62 @@ pnpm dev
 
 ### Adding content with Sanity
 
-#### 1. Import Sample Data (Optional)
-
-Import the demo dataset to get started with sample content:
-
-```bash
-npx sanity dataset import sample-data.tar.gz production --replace
-```
-
-#### 2. Publish your first document
+#### 1. Publish your first document
 
 The template comes pre-defined with a schema containing `Author`, `Category`, `FAQ`, `Page`, `Post`, and `Testimonial` document types.
+
+We have added documents for most of these types by now, but here's an example of how to add a document:
 
 From the Studio, click "+ Create" and select the `Page` document type. Go ahead and create and publish the document.
 
 Your content should now appear in your Next.js app ([http://localhost:3000](http://localhost:3000))
 
-#### 3. Extending the Sanity schema
+#### 2. Extending the Sanity schema
 
 The schema for the `Page` document type is defined in the `sanity/schemas/document/page.ts` file. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
 
+Here are the steps that Mason has taken to add a custom document:
+
+- Create a new .ts file for your document in the sanity/schemas/documents folder; feel free to copy from an existing document as a reference.
+
+- Add the document type to the array of types in the sanity/schema.ts file
+
+- Add the document as an "orderableDocumentListDeskItem" in the sanity/structure.ts file
+
 #### 4. Adding new components
 
-This template includes all components from the [Schema UI](https://schemaui.com/docs/components) library. Visit [Schema UI Docs](https://schemaui.com/docs/how-to-use) to learn how to add new components.
+This template includes all components from the [Schema UI](https://schemaui.com/docs/components) library.
 
-### Deploying your application
+Here are the steps that Mason has taken to add a custom component / block:
 
-#### 1. Configure CORS settings
+- Create a new .ts file for your block in the sanity/schemas/blocks folder; feel free to copy from an existing document as a reference.
 
-Add your production URL to the CORS Origins in your Sanity project settings to allow your deployed site to communicate with Sanity.
+- Create a new query for your block in the sanity/queries folder; query "_type" = block "name"
 
-#### 2. Deploy to Vercel
+- Add the block to the array of blocks defined in sanity/schemas/documents/page.ts (if you want to use this block on a page)
 
-Deploy your website to Vercel:
+- Add the block type to the array of types in the sanity/schema.ts file
 
-1. Create a new repository on [GitHub](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github).
-2. Push your code to GitHub
-3. Create a [new Vercel project](https://vercel.com/new)
-4. Connect your GitHub repository and import the project
-5. Copy the environment variables from the `.env.local` file and paste them to your Vercel project settings. Vercel supports pasting all variables at once.
-6. Deploy
-
-### Inviting collaborators
-
-Now that you've deployed your Next.js application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
-
-They will be able to access the deployed Studio, where you can collaborate together on creating content.
-
-### Configuring Resend (optional)
-
-To use the newsletter form, you need to configure Resend.
-
-1. Create a new [Resend account](https://resend.com/signup)
-2. Create a new [API key](https://resend.com/api-keys)
-3. Copy the [audience](https://resend.com/audiences) id
-4. Set the API key and audience ID in the Vercel project settings or in the `.env.local` file
-
-## Sanity TypeGen
-
-To generate the types, run the following command:
+- Run these two commands to update the schema.json file with JSON about the new block, and to update the sanity.types.ts file with a type for the new block:
 
 ```bash
 npx sanity schema extract
-```
-
-This will generate `schema.json` file in the root of the project.
-
-To generate the types, run the following command:
-
-```bash
 npx sanity typegen generate
 ```
 
-This will generate the types in the `sanity.types.ts` file in the root of the project.
+- Create a component in app/components that will render the component on the front end  
+
+### Deploying your application
+
+This website is deployed through Netlify, set up with preview deployments accessible whenever you create a new Pull Request. 
+
+Whenever a pull request is merged to the main branch, a new site is built and deployed to Netlify, and any changes to the /sanity folder are deployed to our Sanity Studio.
+
+A GitHub Action also merges any changes to the main branch to our playground repo, /website-playpen.
 
 ## Environment variables
 
-All environment variables and their descriptions:
+All environment variables and their descriptions (again, talk to Steve for the values):
 
 - `NEXT_PUBLIC_SITE_URL` - your website url. For example, `https://yourwebsite.com` without trailing slash.
 - `NEXT_PUBLIC_SITE_ENV` - specifies the environment type (development/production) and affects metadata configuration. Setting this to "development" prevents search engine indexing, which is useful for staging environments (e.g., `dev.yourwebsite.com`).
@@ -134,12 +104,6 @@ All environment variables and their descriptions:
 - `SANITY_API_READ_TOKEN` - your Sanity read token for Next.js to fetch data.
 - `RESEND_API_KEY` - your RESEND api key for the newsletter form.
 - `RESEND_AUDIENCE_ID` - your RESEND audience id for the newsletter form to store contacts.
-
-## Examples
-
-New i18n example added as separate branch at [example/i18n](https://github.com/serge-0v/next-js-sanity-starter/tree/example/i18n). Example is fully integrated with the template.
-
-[Preview i18n example Live](https://starter-i18n.schemaui.com/en)
 
 [react-url]: https://reactjs.org/
 [next-js-url]: https://nextjs.org/
