@@ -5,6 +5,8 @@ interface SocialIconsProps {
     className: string;
 }
 
+// https://www.instagram.com/infinite.spaces/
+
 export default function SocialIcons ({className = ''}: SocialIconsProps) {
     return (
         <div className={className}>
