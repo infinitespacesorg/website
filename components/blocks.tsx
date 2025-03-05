@@ -12,6 +12,7 @@ import LogoCloud1 from "@/components/ui/logo-cloud/logo-cloud-1";
 import FAQs from "@/components/ui/faqs";
 import FormNewsletter from "@/components/ui/forms/newsletter";
 import AllPosts from "@/components/ui/all-posts";
+import AboutYouTest from "./custom/aboutyoutest";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -31,6 +32,7 @@ const componentMap: {
   faqs: FAQs,
   "form-newsletter": FormNewsletter,
   "all-posts": AllPosts,
+  "about-you-test": AboutYouTest
 };
 
 export default function Blocks({ blocks }: { blocks: Block[] }) {
