@@ -32,7 +32,7 @@ export default function DesktopNav({
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}
        modal={false} // this allows the scrollbar to remain usable
         >
-        <DropdownMenuTrigger asChild className={clsx(`mx-3 ${isScrolled ? '' : 'text-white'}`)}>
+        <DropdownMenuTrigger asChild className={clsx(`mx-3 lig ${isScrolled ? '' : 'text-white  dark:text-white'}`)}>
           <Button variant="ghost" size="icon">
             <AlignRight></AlignRight>
             <span className="sr-only">Toggle theme</span>

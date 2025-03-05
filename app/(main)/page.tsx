@@ -2,6 +2,7 @@ import Blocks from "@/components/blocks";
 import { fetchSanityPageBySlug } from "./actions";
 import { generatePageMetadata } from "@/lib/metadata";
 import MissingSanityPage from "@/components/ui/missing-sanity-page";
+import HeroBlock from "@/components/custom/heroblock";
 
 export async function generateMetadata() {
   const page = await fetchSanityPageBySlug({ slug: "index" });
@@ -16,5 +17,9 @@ export default async function IndexPage() {
     return MissingSanityPage({ document: "page", slug: "index" });
   }
 
-  return <Blocks blocks={page?.blocks ?? []} />;
+  return <>
+  <HeroBlock/>
+  <Blocks blocks={page?.blocks ?? []} />
+  </>
+  
 }
