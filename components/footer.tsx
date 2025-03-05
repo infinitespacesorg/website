@@ -39,7 +39,7 @@ export default function Footer() {
   };
 
   return (
-    <div className="relative z-10">
+    <div className={`z-10 relative `}>
       {/* maybe this div should be its own component */}
       <div className="relative z-10">
         <SocialIcons
@@ -58,7 +58,7 @@ export default function Footer() {
           setContactDialogOpen={setContactDialogOpen}
         />
       </div>
-      <footer className="relative z-[100] bg-white">
+      <footer className={`z-[100] bg-white ${contactDialogOpen ? 'hidden' : 'relative'}`}>
         <div className="relative dark:bg-background py-5 xl:py-5 dark:text-gray-300 z-[100]">
           <Link
             className="block w-fit mx-auto"
