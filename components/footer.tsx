@@ -6,6 +6,7 @@ import ContactDialog from "./custom/contactdialog";
 import { Button } from "./ui/button";
 import clsx from "clsx";
 import SocialIcons from "./custom/socialicons";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   {
@@ -32,6 +33,8 @@ const navItems = [
 
 export default function Footer() {
 
+  const router = useRouter()
+
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
 
   const getCurrentYear = () => {
@@ -48,7 +51,12 @@ export default function Footer() {
         {/* <p className={`fixed right-1/36 bottom-20 bg-gray-500 z-[5]`}>Hello!</p> */}
         <Button
           className={`fixed right-5 bottom-10 z-[5]`}
-          onClick={() => setContactDialogOpen(!contactDialogOpen)}
+          // onClick={() => setContactDialogOpen(!contactDialogOpen)}
+          onClick={(e) => {
+            e.preventDefault();
+            // setIsOpen(false);
+            router.push('/contact-us');
+          }}
         >
           Contact Us
         </Button>
@@ -87,7 +95,12 @@ export default function Footer() {
               className={
                 "transition-colors text-white dark:text-black right-5 bottom-20 z-[5]"
               }
-              onClick={() => setContactDialogOpen(!contactDialogOpen)}
+              // onClick={() => setContactDialogOpen(!contactDialogOpen)}
+              onClick={(e) => {
+                e.preventDefault();
+                // setIsOpen(false);
+                router.push('/contact-us');
+              }}
             >
               Contact Us
             </Button>
