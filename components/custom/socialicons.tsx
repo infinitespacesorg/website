@@ -6,8 +6,6 @@ interface SocialIconsProps {
     className: string;
 }
 
-// https://www.instagram.com/infinite.spaces/
-
 const navItems = [
     {
       label: "Bluesky",
