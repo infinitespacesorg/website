@@ -2,8 +2,8 @@ name: Deploy Sanity
 on:
   push:
     branches: [main]
-    # paths:
-    #   - "sanity"
+    paths:
+      - "sanity"
 jobs:
   sanity-deploy:
     runs-on: ubuntu-latest
@@ -16,7 +16,7 @@ jobs:
       - name: Deploy Sanity Studio
         run: |
           export SANITY_AUTH_TOKEN="${{ secrets.SANITY_AUTH_TOKEN }}"
-          npx sanity deploy
+          npx sanity deploy --yes
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           NEXT_PUBLIC_SANITY_API_VERSION: ${{ secrets.NEXT_PUBLIC_SANITY_API_VERSION }}
