@@ -10,8 +10,8 @@ const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
   title: {
-    template: "%s | Schema UI Starter",
-    default: "Sanity Next.js Website | Schema UI Starter",
+    template: "%s | Infinite Spaces",
+    default: "Infinite Spaces",
   },
   openGraph: {
     images: [
@@ -40,7 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/favicon.png" />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased overscroll-none",

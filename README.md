@@ -1,4 +1,4 @@
-# Schema UI - Next.js Sanity Starter Template
+# Infinite Spaces Website
 
 This starter is a part of [Schema UI](https://schemaui.com) project, a comprehensive page builder that provides production-ready React components with pre-built Sanity schemas and GROQ queries, enabling rapid development of content-driven websites with Sanity CMS and Next.js.
 
