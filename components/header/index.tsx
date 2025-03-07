@@ -48,7 +48,7 @@ export default function Header() {
           <Logo />
         </Link>
         <div
-          className={`hidden xl:flex gap-1 items-center justify-between ${isScrolled ? "" : "text-white"}`}
+          className={`hidden xl:flex gap-1 items-center justify-between ${isScrolled ? "" : "text-white dark:text-white rounded-sm"}`}
         >
           <ModeToggle />
           <DesktopNav navItems={navItems} isScrolled={isScrolled} />
