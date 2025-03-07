@@ -19,8 +19,6 @@ export default function ContactDialog({
 
   const [isExiting, setIsExiting] = useState(false);
 
-  console.log(contactDialogOpen);
-
   function handleClose () {
     setIsExiting(true)
     setTimeout(() => {
