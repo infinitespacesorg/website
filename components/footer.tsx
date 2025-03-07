@@ -76,7 +76,7 @@ export default function Footer() {
             <Logo />
           </Link>
           <div className="pt-15 flex flex-row justify-between items-center mx-8">
-            <SocialIcons className={'flex-row'}/>
+            <SocialIcons className={'flex flex-row gap-2'}/>
             <div className=" flex flex-wrap items-center justify-center gap-7 text-primary z-50">
               {navItems.map((navItem) => (
                 <Link
