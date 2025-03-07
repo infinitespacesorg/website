@@ -48,7 +48,7 @@ export default function DesktopNav({
           >
             {navItems.map((navItem) => (
               <DropdownMenuItem
-                className={clsx(`px-2 w-30 p-1 m-1.5 text-right rounded-sm hover:bg-gray-100`)}
+                className={clsx(`px-2 w-30 p-1 m-1.5 text-right rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800`)}
                 key={navItem.label}
                 onSelect={() => {
                   setIsOpen(false)
