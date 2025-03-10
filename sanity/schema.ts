@@ -39,6 +39,7 @@ import faqs from "./schemas/blocks/faqs";
 import newsletter from "./schemas/blocks/forms/newsletter";
 import allPosts from "./schemas/blocks/all-posts";
 import aboutyoutest from "./schemas/blocks/forms/aboutyoutest";
+import aytformsubmission from "./schemas/documents/aytformsubmission";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -49,6 +50,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     category,
     faq,
     testimonial,
+    aytformsubmission,
     // shared objects
     blockContent,
     link,
