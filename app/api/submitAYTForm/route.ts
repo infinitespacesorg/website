@@ -10,10 +10,11 @@ const client = createClient({
 });
 
 interface FormSubmission {
-  name: string;
-  email: string;
-  message: string;
-  submittedAt: string;
+  firstName: string;
+  lastName: string;
+  location: string;
+  creativeType: string;
+  album2025: string;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -22,12 +23,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { name, email, message }: FormSubmission = req.body;
+    const { firstName, lastName, location, creativeType, album2025 }: FormSubmission = req.body;
     const doc = {
       _type: "formSubmission",
-      name,
-      email,
-      message,
+      firstName,
+      lastName,
+      location,
+      creativeType,
+      album2025,
       submittedAt: new Date().toISOString(),
       status: "pending",
     };
