@@ -1,6 +1,7 @@
 import { groq } from "next-sanity";
 import { hero1Query } from "./hero/hero-1";
 import { hero2Query } from "./hero/hero-2";
+import { hero3Query } from "./hero/hero-3";
 import { sectionHeaderQuery } from "./section-header";
 import { splitRowQuery } from "./split/split-row";
 import { gridRowQuery } from "./grid/grid-row";
@@ -19,6 +20,7 @@ export const PAGE_QUERY = groq`
     blocks[]{
       ${hero1Query},
       ${hero2Query},
+      ${hero3Query},
       ${sectionHeaderQuery},
       ${splitRowQuery},
       ${gridRowQuery},

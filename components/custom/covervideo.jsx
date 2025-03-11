@@ -1,3 +1,6 @@
+
+import styled from "styled-components";
+import { dark } from "../../css/Themes";
 import { useState, useEffect, useRef } from "react";
 import { motion, calcGeneratorDuration } from "motion/react";
 

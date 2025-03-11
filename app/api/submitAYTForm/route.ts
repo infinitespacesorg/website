@@ -19,6 +19,7 @@ interface FormSubmission {
 export const POST = async (request: Request) => {
     try {
         const body: FormSubmission = await request.json()
+
         const { firstName, lastName, location, creativeType, album2025 } = body;
         const doc = {
             _type: "aytformSubmission",

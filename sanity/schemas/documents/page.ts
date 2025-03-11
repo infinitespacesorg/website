@@ -41,6 +41,7 @@ export default defineType({
       of: [
         { type: "hero-1" },
         { type: "hero-2" },
+        { type: "hero-3" },
         { type: "section-header" },
         { type: "split-row" },
         { type: "grid-row" },
