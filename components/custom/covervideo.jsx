@@ -51,7 +51,7 @@ export default function CoverVideo() {
 
   return (
     <section
-      className={`relative w-full ${showImage ? "aspect-video" : "h-screen"}`}
+      className={`relative bg-black w-full ${showImage ? "aspect-video" : "h-screen"}`}
     >
       <div className="absolute inset-0 z-10 bg-black/60"></div>
       {/* <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}> */}
