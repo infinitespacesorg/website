@@ -36,7 +36,7 @@ export default function Hero3({ tagLine, title, body, links }: Hero3Props) {
 
         </div>
       )}
-      {links && links.length > 0 && (
+      {/* {links && links.length > 0 && (
         <div className="mt-10 flex flex-wrap gap-4 justify-center animate-fade-up [animation-delay:400ms] opacity-0">
           {links.map((link) => (
             <Button
@@ -54,7 +54,7 @@ export default function Hero3({ tagLine, title, body, links }: Hero3Props) {
             </Button>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
