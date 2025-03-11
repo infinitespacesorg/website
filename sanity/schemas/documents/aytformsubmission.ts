@@ -56,8 +56,14 @@ export default defineType({
     ],
     preview: {
         select: {
-            title: "name",
-            media: "image",
+            firstName: "firstName",
+            lastName: "lastName",
         },
+        prepare(selection) {
+            const {firstName, lastName} = selection
+            return {
+                title: `${firstName} ${lastName}`
+            }
+        }
     },
 });

@@ -983,7 +983,7 @@ export type Code = {
   highlightedLines?: Array<number>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | AllPosts | AboutYouTest | FormNewsletter | Faqs | LogoCloud1 | Cta1 | Timelines1 | TimelineRow | Carousel2 | Carousel1 | GridRow | GridPost | PricingCard | GridCard | SplitInfo | SplitInfoList | SplitImage | SplitCard | SplitCardsList | SplitContent | SplitRow | SectionHeader | Hero3 | Hero2 | Hero1 | SectionPadding | ButtonVariant | ColorVariant | Link | BlockContent | Testimonial | Faq | Category | Post | Author | Page | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | Code;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | AllPosts | AboutYouTest | FormNewsletter | Faqs | LogoCloud1 | Cta1 | Timelines1 | TimelineRow | Carousel2 | Carousel1 | GridRow | GridPost | PricingCard | GridCard | SplitInfo | SplitInfoList | SplitImage | SplitCard | SplitCardsList | SplitContent | SplitRow | SectionHeader | Hero3 | Hero2 | Hero1 | SectionPadding | ButtonVariant | ColorVariant | Link | BlockContent | AytformSubmission | Testimonial | Faq | Category | Post | Author | Page | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | Code;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./app/sitemap.ts
 // Variable: pagesQuery
