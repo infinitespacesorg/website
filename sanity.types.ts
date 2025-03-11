@@ -723,6 +723,22 @@ export type BlockContent = Array<{
   _key: string;
 } & Code>;
 
+export type AytformSubmission = {
+  _id: string;
+  _type: "aytformSubmission";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  firstName?: string;
+  lastName?: string;
+  creativeType?: string;
+  location?: string;
+  album2025?: string;
+  submittedAt?: string;
+  status?: "pending" | "approved" | "rejected";
+  orderRank?: string;
+};
+
 export type Testimonial = {
   _id: string;
   _type: "testimonial";
