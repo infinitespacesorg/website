@@ -47,5 +47,12 @@ export const structure = (S: any, context: any) =>
         icon: Quote,
         S,
         context,
+      }),
+      orderableDocumentListDeskItem({
+        type: 'aytformSubmission',
+        title: 'Form Submission AYT',
+        icon: Clipboard,
+        S,
+        context,
       })
     ]);
