@@ -19,9 +19,6 @@ const nextConfig = {
       },
     ],
   },
-  compiler: {
-    styledComponents: true // Enable SSR for styled-components
-  }
 };
 
 export default nextConfig;
