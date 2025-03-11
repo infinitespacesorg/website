@@ -12,11 +12,14 @@ interface ContactDialogProps {
 }
 
 interface FormNewsletterProps {
-  padding: {};
-  colorVariant: string;
-  consentText: string;
-  buttonText: string;
-  successMessage: string;
+  _type: "form-newsletter";
+  _key?: string;
+  padding?: {}
+  colorVariant?: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
+  stackAlign?: "center" | "left" | "right" | null; // Optional
+  consentText?: string | null;
+  buttonText?: string | null;
+  successMessage?: string | null;
 }
 
 export default function ContactDialog({
@@ -32,7 +35,7 @@ export default function ContactDialog({
     setTimeout(() => {
       setIsExiting(false);
       setContactDialogOpen(false);
-    }, 500);
+    }, 100);
   }
 
   const formNewsletterProps: FormNewsletterProps = {
@@ -42,6 +45,9 @@ export default function ContactDialog({
       "By subscribing, you agree to receive emails from us. You can unsubscribe at any time.",
     buttonText: "Subscribe",
     successMessage: "Thank you for subscribing!",
+    _type: "form-newsletter",
+    _key: 'contact-dialog-form-newsletter',
+    stackAlign: "center",
   };
 
   return (
