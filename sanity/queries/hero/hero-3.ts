@@ -7,24 +7,7 @@ export const hero3Query = groq`
     _key,
     tagLine,
     title,
-    body[]{
-      ...,
-      _type == "image" => {
-        ...,
-        asset->{
-          _id,
-          url,
-          mimeType,
-          metadata {
-            lqip,
-            dimensions {
-              width,
-              height
-            }
-          }
-        }
-      }
-    },
+    body,
     links,
   }
 `;

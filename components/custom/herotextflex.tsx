@@ -12,8 +12,6 @@ export default function HeroTextFlex({
   colorVariant
 }: HeroTextFlexProps) {
 
-    console.log(colorVariant)
-
   return (
     <section
       className={`flex ${flexType} bg-${colorVariant} justify-center items-center py-20 text-left gap-2/10`}
