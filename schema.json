@@ -3905,6 +3905,61 @@
     }
   },
   {
+    "name": "hero-text-flex",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "hero-text-flex"
+          }
+        },
+        "bigText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "smallerText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "flexType": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "flex-row"
+              },
+              {
+                "type": "string",
+                "value": "flex-row-reverse"
+              },
+              {
+                "type": "string",
+                "value": "flex-col"
+              },
+              {
+                "type": "string",
+                "value": "flex-col-reverse"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "hero-3",
     "type": "type",
     "value": {
@@ -6320,6 +6375,36 @@
                 "rest": {
                   "type": "inline",
                   "name": "hero-2"
+                }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "hero-3"
+                }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "hero-text-flex"
                 }
               },
               {

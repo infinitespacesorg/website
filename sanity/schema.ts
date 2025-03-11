@@ -41,6 +41,7 @@ import newsletter from "./schemas/blocks/forms/newsletter";
 import allPosts from "./schemas/blocks/all-posts";
 import aboutyoutest from "./schemas/blocks/forms/aboutyoutest";
 import aytformsubmission from "./schemas/documents/aytformsubmission";
+import heroTextFlex from "./schemas/blocks/hero/hero-text-flex";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -62,6 +63,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     hero1,
     hero2,
     hero3,
+    heroTextFlex,
     sectionHeader,
     splitRow,
     splitContent,

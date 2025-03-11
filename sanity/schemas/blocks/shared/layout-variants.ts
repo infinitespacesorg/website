@@ -13,3 +13,10 @@ export const COLS_VARIANTS = [
   { title: "3 Columns", value: "grid-cols-3" },
   { title: "4 Columns", value: "grid-cols-4" },
 ];
+
+export const FLEX_VARIANTS = [
+  { title: "flex-row", value: "flex-row"},
+  { title: "flex-row-reverse", value: "flex-row-reverse"},
+  { title: "flex-col", value: "flex-col"},
+  { title: "flex-col-reverse", value: "flex-col-reverse"},
+]
