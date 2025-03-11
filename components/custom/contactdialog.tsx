@@ -73,7 +73,7 @@ export default function ContactDialog({
             <p className={`mt-3`}>We're excited to work with you!</p>
           </div>
           <div className="w-full max-w-md">
-            <FormNewsletter {...formNewsletterProps} className={"rounded-md"} />
+            <FormNewsletter {...formNewsletterProps} />
           </div>
         </div>
 
