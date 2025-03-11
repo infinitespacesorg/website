@@ -42,21 +42,21 @@ export default function Footer() {
   };
 
   return (
-    <div className={`z-10 relative `}>
+    <div className={`z-50 relative `}>
       {/* maybe this div should be its own component */}
-      <div className="relative z-10">
+      <div className="relative z-50">
         <SocialIcons
           className={`flex flex-col left-5 bottom-10 gap-2 fixed`}
         />
         {/* <p className={`fixed right-1/36 bottom-20 bg-gray-500 z-[5]`}>Hello!</p> */}
         <Button
-          className={`fixed right-5 bottom-10 z-[5]`}
-          // onClick={() => setContactDialogOpen(!contactDialogOpen)}
-          onClick={(e) => {
-            e.preventDefault();
-            // setIsOpen(false);
-            router.push('/contact-us');
-          }}
+          className={`fixed right-5 bottom-10 z-[50]`}
+          onClick={() => setContactDialogOpen(!contactDialogOpen)}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   setIsOpen(false);
+          //   router.push('/contact-us');
+          // }}
         >
           Contact Us
         </Button>
@@ -95,12 +95,12 @@ export default function Footer() {
               className={
                 "transition-colors text-white dark:text-black right-5 bottom-20 z-[5]"
               }
-              // onClick={() => setContactDialogOpen(!contactDialogOpen)}
-              onClick={(e) => {
-                e.preventDefault();
-                // setIsOpen(false);
-                router.push('/contact-us');
-              }}
+              onClick={() => setContactDialogOpen(!contactDialogOpen)}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   // setIsOpen(false);
+              //   router.push('/contact-us');
+              // }}
             >
               Contact Us
             </Button>
