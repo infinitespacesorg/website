@@ -6,6 +6,7 @@ const client = createClient({
     useCdn: false,
     apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
     token: process.env.SANITY_AUTH_TOKEN,
+    perspective: 'published'
 });
 
 interface FormSubmission {
@@ -17,12 +18,13 @@ interface FormSubmission {
 }
 
 export const POST = async (request: Request) => {
+    console.log(request)
     try {
         const body: FormSubmission = await request.json()
-        console.log(body)
+        console.log('body', body)
         const { firstName, lastName, location, creativeType, album2025 } = body;
         const doc = {
-            _type: "formSubmission",
+            _type: "aytformSubmission",
             firstName,
             lastName,
             location,
@@ -32,7 +34,9 @@ export const POST = async (request: Request) => {
             status: "pending",
         };
 
-        await client.create(doc)
+        const submission = await client.create(doc)
+
+        console.log(submission)
 
         return Response.json({ success: true })
     } catch (error: any) {
