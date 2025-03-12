@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import SectionPadding from "@/sanity/schemas/blocks/shared/section-padding"
+import type { SectionPadding } from "@/sanity/schemas/blocks/shared/section-padding"
 import { Form, FormDescription } from "../ui/form";
 import Newsletter from "@/sanity/schemas/blocks/forms/newsletter";
 import FormNewsletter from "../ui/forms/newsletter";
@@ -40,7 +40,7 @@ export default function ContactDialog({
   }
 
   const formNewsletterProps: FormNewsletterProps = {
-    padding: { bottom: true, top: true, _type: "section-padding" } as SectionPadding,
+    padding: { bottom: true, top: true, _type: "section-padding" },
     colorVariant: "background",
     consentText:
       "By subscribing, you agree to receive emails from us. You can unsubscribe at any time.",
