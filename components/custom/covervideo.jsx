@@ -1,31 +1,20 @@
-
-import styled from "styled-components";
-import { dark } from "../../css/Themes";
 import { useState, useEffect, useRef } from "react";
-import { motion, calcGeneratorDuration } from "motion/react";
+import { motion } from "motion/react"
 
 const MainVideo =
   "https://dkljmdqtvrkrnjdtdsjw.supabase.co/storage/v1/object/public/website-storage/stage-cut.mp4";
 
 const staticImage = "/images/wallpaper-preview.jpg";
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      delayChildren: 5, // 2
-      staggerChildren: 0.3,
-    },
-  },
-};
-
 //export default function CoverVideo()
 export default function CoverVideo() {
   const [svgWidth, setSvgWidth] = useState("400");
   const [playCount, setPlayCount] = useState(0);
   const [showImage, setShowImage] = useState(false);
+  const [fadingOut, setFadingOut] = useState(false);
   const videoRef = useRef(null);
+
+  const MAX_PLAYS = 1
 
   function getSvgWidth() {
     return window.innerWidth < 600 ? "70vw" : "400";
@@ -34,8 +23,16 @@ export default function CoverVideo() {
   function handleVideoEnd() {
     setPlayCount((prevCount) => {
       const newCount = prevCount + 1;
-      if (newCount >= 3) setShowImage(true);
-      else videoRef.current.play();
+      if (newCount >= MAX_PLAYS) {
+        setFadingOut(true);
+        setTimeout(() => {
+          setShowImage(true)
+          setFadingOut(false)  
+        }, 1000);
+      }
+      else {
+        videoRef.current?.play();
+      }
       return newCount;
     });
   }
@@ -50,12 +47,37 @@ export default function CoverVideo() {
   }, []);
 
   return (
-    <section
-      className={`relative w-full ${showImage ? "aspect-video" : "h-screen"}`}
+    <motion.section 
+    // bg-white dark:bg-black 
+      className={`relative w-full`}
+      // style={{ backgroundImage: `url(${staticImage})`, backgroundSize: "cover", backgroundPosition: "center" }}
+      animate={{ height: showImage ? "auto" : "100vh"}}
+      initial={{ height: "100vh" }}
+      transition={{ duration: 1}}
     >
-      <div className="absolute inset-0 z-10 bg-black/60"></div>
-      {/* <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}> */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-white text-center">
+      <motion.div
+        className="absolute inset-0 w-full h-full"
+        style={{
+          backgroundImage: `url(${staticImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showImage ? 1 : 0 }}
+        transition={{ duration: 1 }}
+      />
+      <motion.video
+        ref={videoRef}
+        src={MainVideo}
+        className={`absolute inset-0 w-full h-screen object-cover`}
+        type="video/mp4"
+        autoPlay
+        muted
+        onEnded={handleVideoEnd}
+        animate={{ opacity: fadingOut || showImage ? 0 : 1 }}
+        transition={{ duration: 1 }}
+      />
+      <div className={`inset-0 z-20 flex flex-col justify-center items-center text-white text-center ${showImage ? 'relative py-40' : 'absolute top-0 left-0'}`}>
         <div>
           <svg
             width={svgWidth}
@@ -132,26 +154,9 @@ export default function CoverVideo() {
         <div className="text-white text-xl mt-4">
           A Spatial Entertainment Company
         </div>
-        {/* </motion.div> */}
       </div>
-      {showImage ? (
-        <img
-          src={staticImage}
-          alt="static background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      ) : (
-        <video
-          ref={videoRef}
-          src={MainVideo}
-          className="absolute inset-0 w-full h-screen object-contain"
-          type="video/mp4"
-          autoPlay
-          muted
-          // loop={true}
-          onEnded={() => handleVideoEnd()}
-        />
-      )}
-    </section>
-  );
+      
+    </motion.section>
+  )
 }
+  

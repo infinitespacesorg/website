@@ -11,6 +11,23 @@ interface ContactDialogProps {
   setContactDialogOpen: (open: boolean) => void;
 }
 
+interface SectionPadding {
+  top: boolean;
+  bottom: boolean;
+  _type: "section-padding";
+}
+
+interface FormNewsletterProps {
+  _type: "form-newsletter";
+  _key: string;
+  padding: SectionPadding;
+  colorVariant: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
+  stackAlign: "center" | "left" | null; // Optional
+  consentText: string | null;
+  buttonText: string | null;
+  successMessage: string | null;
+}
+
 export default function ContactDialog({
   setContactDialogOpen,
   contactDialogOpen,
@@ -19,13 +36,25 @@ export default function ContactDialog({
 
   const [isExiting, setIsExiting] = useState(false);
 
-  function handleClose () {
-    setIsExiting(true)
+  function handleClose() {
+    setIsExiting(true);
     setTimeout(() => {
-      setIsExiting(false)
-      setContactDialogOpen(false)
-    }, 500);
+      setIsExiting(false);
+      setContactDialogOpen(false);
+    }, 100);
   }
+
+  const formNewsletterProps: FormNewsletterProps = {
+    padding: { bottom: true, top: true, _type: "section-padding" },
+    colorVariant: "background",
+    consentText:
+      "By subscribing, you agree to receive emails from us. You can unsubscribe at any time.",
+    buttonText: "Subscribe",
+    successMessage: "Thank you for subscribing!",
+    _type: "form-newsletter",
+    _key: 'contact-dialog-form-newsletter',
+    stackAlign: "center",
+  };
 
   return (
     // eventually something with a separate handleSubmit function like this:
@@ -35,12 +64,12 @@ export default function ContactDialog({
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 100 }}
-        transition={{duration: 0.5}}
-        className={` bg-gray-900 text-white  ${contactDialogOpen ? "fixed h-full w-full top-0 left-0 z-9999" : "hidden"}`}
+        transition={{ duration: 0.5 }}
+        className={` ${contactDialogOpen ? "fixed h-full w-full top-0 left-0 flex justify-center items-center z-9999 bg-background/80 backdrop-blur-xs" : "hidden"}`}
       >
         <Button
           className={
-            "absolute right-5 top-20 bg-white text-black hover:bg-gray-200"
+            "absolute right-5 top-10 bg-white text-black hover:bg-gray-200"
           }
           onClick={() => handleClose()}
           disabled={isExiting}
@@ -49,10 +78,15 @@ export default function ContactDialog({
         </Button>
         {/* <form onSubmit={() => form.handleSubmit(onSubmit)}></form> */}
         <div
-          className={`flex flex-col justify-center items-center mx-auto my-30 px-0 w-fit`}
+          className={`flex flex-row justify-center items-center bg-background mx-auto h-fit my-auto px-5 w-fit rounded-xl shadow-lg`}
         >
-          <h1>Contact Us</h1>
-          <p>more text about contacting us</p>
+          <div>
+            <h1>Get in touch</h1>
+            <p className={`mt-3`}>We're excited to work with you!</p>
+          </div>
+          <div className="w-full max-w-md">
+            <FormNewsletter {...formNewsletterProps} />
+          </div>
         </div>
 
         {/* <Form {...form}>
