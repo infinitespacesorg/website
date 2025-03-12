@@ -19,13 +19,13 @@ interface SectionPadding {
 
 interface FormNewsletterProps {
   _type: "form-newsletter";
-  _key?: string;
-  padding?: SectionPadding;
-  colorVariant?: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
-  stackAlign?: "center" | "left" | "right" | null; // Optional
-  consentText?: string | null;
-  buttonText?: string | null;
-  successMessage?: string | null;
+  _key: string;
+  padding: SectionPadding;
+  colorVariant: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
+  stackAlign: "center" | "left" | "right" | null; // Optional
+  consentText: string | null;
+  buttonText: string | null;
+  successMessage: string | null;
 }
 
 export default function ContactDialog({
