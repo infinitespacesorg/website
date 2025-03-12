@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import type { SectionPadding } from "@/sanity/schemas/blocks/shared/section-padding"
 import { Form, FormDescription } from "../ui/form";
 import Newsletter from "@/sanity/schemas/blocks/forms/newsletter";
 import FormNewsletter from "../ui/forms/newsletter";
