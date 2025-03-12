@@ -39,7 +39,7 @@ export default function ContactDialog({
   }
 
   const formNewsletterProps: FormNewsletterProps = {
-    padding: { bottom: true, top: true, _type: "section-padding" },
+    padding: { bottom: true, top: true, _type: "section-padding" } as SectionPadding,
     colorVariant: "background",
     consentText:
       "By subscribing, you agree to receive emails from us. You can unsubscribe at any time.",
