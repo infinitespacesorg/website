@@ -12,10 +12,16 @@ interface ContactDialogProps {
   setContactDialogOpen: (open: boolean) => void;
 }
 
+interface SectionPadding {
+  top: boolean;
+  bottom: boolean;
+  _type: "section-padding";
+}
+
 interface FormNewsletterProps {
   _type: "form-newsletter";
   _key?: string;
-  padding?: {}
+  padding?: SectionPadding;
   colorVariant?: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
   stackAlign?: "center" | "left" | "right" | null; // Optional
   consentText?: string | null;
