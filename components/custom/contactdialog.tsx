@@ -22,7 +22,7 @@ interface FormNewsletterProps {
   _key: string;
   padding: SectionPadding;
   colorVariant: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
-  stackAlign: "center" | "left" | "right" | null; // Optional
+  stackAlign: "center" | "left" | null; // Optional
   consentText: string | null;
   buttonText: string | null;
   successMessage: string | null;
