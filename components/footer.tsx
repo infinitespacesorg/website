@@ -24,11 +24,6 @@ const navItems = [
     href: "/about",
     target: false,
   },
-  {
-    label: "Careers",
-    href: "/careers",
-    target: false,
-  },
 ];
 
 export default function Footer() {
