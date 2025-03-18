@@ -11,7 +11,7 @@ const supabase = createClient();
 
 export const POST = async (request: Request) => {
 
-    const allowedOrigins = ["https://infinitespaces.io", "https://infinitespaces.org", "http://localhost:3000"];
+    const allowedOrigins = ["https://infinitespaces.co", "https://infinitespaces.org", "http://localhost:3000"];
 
     const origin = request.headers.get("origin");
 
