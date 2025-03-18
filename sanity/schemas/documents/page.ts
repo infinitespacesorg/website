@@ -54,7 +54,8 @@ export default defineType({
         { type: "faqs" },
         { type: "form-newsletter" },
         { type: "all-posts" },
-        { type: "about-you-test"}
+        { type: "about-you-test"},
+        { type: "contact-us-form"},
       ],
     }),
     defineField({

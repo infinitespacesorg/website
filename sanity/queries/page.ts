@@ -15,6 +15,7 @@ import { faqsQuery } from "./faqs";
 import { formNewsletterQuery } from "./forms/newsletter";
 import { allPostsQuery } from "./all-posts";
 import { aboutYouTestQuery } from "./forms/aboutyoutest";
+import { contactUsFormQuery } from "./forms/contact-us";
 
 export const PAGE_QUERY = groq`
   *[_type == "page" && slug.current == $slug][0]{
@@ -34,7 +35,8 @@ export const PAGE_QUERY = groq`
       ${faqsQuery},
       ${formNewsletterQuery},
       ${allPostsQuery},
-      ${aboutYouTestQuery}
+      ${aboutYouTestQuery},
+      ${contactUsFormQuery}
     },
     meta_title,
     meta_description,
