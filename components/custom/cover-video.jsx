@@ -4,7 +4,7 @@ import { motion } from "motion/react"
 const MainVideo =
   "https://dkljmdqtvrkrnjdtdsjw.supabase.co/storage/v1/object/public/website-storage/stage-cut.mp4";
 
-const staticImage = "/images/wallpaper-preview.jpg";
+const staticImage = "/images/landscape.jpg";
 
 //export default function CoverVideo()
 export default function CoverVideo() {
