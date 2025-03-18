@@ -86,7 +86,9 @@ npx sanity typegen generate
 
 7. Create a component in app/components that will render the component on the front end
 
-8. Now you are free to add the block to a page in Sanity Studio, and it will be rendered in the app!
+8. Add that component to the list of blocks in the componentMap in the components/blocks.tsx file
+
+9. Now you are free to add the block to a page in Sanity Studio, and it will be rendered in the app!
 
 ### Deploying your application
 

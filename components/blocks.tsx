@@ -15,6 +15,7 @@ import FormNewsletter from "@/components/ui/forms/newsletter";
 import AllPosts from "@/components/ui/all-posts";
 import AboutYouTest from "./custom/about-you-test";
 import HeroTextFlex from "./custom/hero-flex-text";
+import ContactUsForm from "./custom/contact-us"
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -36,7 +37,8 @@ const componentMap: {
   faqs: FAQs,
   "form-newsletter": FormNewsletter,
   "all-posts": AllPosts,
-  "about-you-test": AboutYouTest
+  "about-you-test": AboutYouTest,
+  'contact-us-form': ContactUsForm,
 };
 
 export default function Blocks({ blocks }: { blocks: Block[] }) {
