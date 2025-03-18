@@ -17,7 +17,8 @@ export default function CoverVideo() {
   const MAX_PLAYS = 1
 
   function getSvgWidth() {
-    return window.innerWidth < 600 ? "70vw" : "400";
+    const value = window.innerWidth < 600 ? "70vw" : "400";
+    return value
   }
 
   function handleVideoEnd() {
@@ -38,12 +39,7 @@ export default function CoverVideo() {
   }
 
   useEffect(() => {
-    const handleResize = () => {
-      setSvgWidth(getSvgWidth());
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    setSvgWidth(getSvgWidth());
   }, []);
 
   return (
@@ -55,13 +51,21 @@ export default function CoverVideo() {
       initial={{ height: "100vh" }}
       transition={{ duration: 1}}
     >
+      {/* all I did to change the styling here was changed backgroundPosition to "bottom" from "center" */}
+      {/* because the aspect ratio of the image is ~1.77:1, and the screen aspect ratio will almost always be smaller than this, I think this might be the best solution */}
       <motion.div
         className="absolute inset-0 w-full h-full"
         style={{
           backgroundImage: `url(${staticImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "bottom",
         }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showImage ? 1 : 0 }}
+        transition={{ duration: 1 }}
+      />
+      <motion.div
+        className="absolute inset-0 w-full h-full bg-linear-to-b from-transparent from-88% to-secondary:50 via-93% to-secondary:80 to-97% to-secondary z-[40]"
         initial={{ opacity: 0 }}
         animate={{ opacity: showImage ? 1 : 0 }}
         transition={{ duration: 1 }}

@@ -1,8 +1,8 @@
 import { groq } from "next-sanity";
 
 // @sanity-typegen-ignore
-export const hero3Query = groq`
-  _type == "hero-3" => {
+export const heroColorBodyTextQuery = groq`
+  _type == "hero-color-body-text" => {
     _type,
     _key,
     tagLine,

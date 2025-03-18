@@ -3,8 +3,8 @@ import { Columns2 } from "lucide-react"
 import { FLEX_VARIANTS } from "../shared/layout-variants";
 
 export default defineType({
-    name: "hero-text-flex",
-    title: "Hero Text Flex",
+    name: "hero-flex-text",
+    title: "Hero Flex Text",
     type: "object",
     icon: Columns2,
     fields: [
@@ -38,7 +38,7 @@ export default defineType({
         },
         prepare({ subtitle }) {
             return {
-                title: "Hero Text Flex",
+                title: "Hero Flex Text",
                 subtitle: subtitle,
             };
         },

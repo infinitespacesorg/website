@@ -8,7 +8,7 @@ import { PAGE_QUERYResult } from "@/sanity.types";
 
 type Hero1Props = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
-  { _type: "hero-1" }
+  { _type: "hero-with-image" }
 >;
 
 export default function Hero1({

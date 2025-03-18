@@ -521,16 +521,16 @@ export type SectionHeader = {
   description?: string;
 };
 
-export type HeroTextFlex = {
-  _type: "hero-text-flex";
+export type HeroFlexText = {
+  _type: "hero-flex-text";
   bigText?: string;
   smallerText?: string;
   flexType?: "flex-row" | "flex-row-reverse" | "flex-col" | "flex-col-reverse";
   colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
 };
 
-export type Hero3 = {
-  _type: "hero-3";
+export type HeroColorBodyText = {
+  _type: "hero-color-body-text";
   tagLine?: string;
   title?: string;
   body?: string;
@@ -539,8 +539,8 @@ export type Hero3 = {
   } & Link>;
 };
 
-export type Hero2 = {
-  _type: "hero-2";
+export type HeroTextCentered = {
+  _type: "hero-text-centered";
   tagLine?: string;
   title?: string;
   body?: Array<{
@@ -584,8 +584,8 @@ export type Hero2 = {
   } & Link>;
 };
 
-export type Hero1 = {
-  _type: "hero-1";
+export type HeroWithImage = {
+  _type: "hero-with-image";
   tagLine?: string;
   title?: string;
   body?: Array<{
@@ -841,13 +841,13 @@ export type Page = {
   slug?: Slug;
   blocks?: Array<{
     _key: string;
-  } & Hero1 | {
+  } & HeroWithImage | {
     _key: string;
-  } & Hero2 | {
+  } & HeroTextCentered | {
     _key: string;
-  } & Hero3 | {
+  } & HeroColorBodyText | {
     _key: string;
-  } & HeroTextFlex | {
+  } & HeroFlexText | {
     _key: string;
   } & SectionHeader | {
     _key: string;
@@ -960,7 +960,7 @@ export type Code = {
   highlightedLines?: Array<number>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | AllPosts | AboutYouTest | FormNewsletter | Faqs | LogoCloud1 | Cta1 | Timelines1 | TimelineRow | Carousel2 | Carousel1 | GridRow | GridPost | PricingCard | GridCard | SplitInfo | SplitInfoList | SplitImage | SplitCard | SplitCardsList | SplitContent | SplitRow | SectionHeader | HeroTextFlex | Hero3 | Hero2 | Hero1 | SectionPadding | ButtonVariant | ColorVariant | Link | BlockContent | AytformSubmission | Testimonial | Faq | Category | Post | Author | Page | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | Code;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | AllPosts | AboutYouTest | FormNewsletter | Faqs | LogoCloud1 | Cta1 | Timelines1 | TimelineRow | Carousel2 | Carousel1 | GridRow | GridPost | PricingCard | GridCard | SplitInfo | SplitInfoList | SplitImage | SplitCard | SplitCardsList | SplitContent | SplitRow | SectionHeader | HeroFlexText | HeroColorBodyText | HeroTextCentered | HeroWithImage | SectionPadding | ButtonVariant | ColorVariant | Link | BlockContent | AytformSubmission | Testimonial | Faq | Category | Post | Author | Page | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | Code;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./app/sitemap.ts
 // Variable: pagesQuery
@@ -982,7 +982,7 @@ export type PostsQueryResult = Array<{
 
 // Source: ./sanity/queries/page.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0]{    blocks[]{        _type == "hero-1" => {    _type,    _key,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    image{      ...,      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },    links,  },        _type == "hero-2" => {    _type,    _key,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    links,  },        _type == "hero-3" => {    _type,    _key,    tagLine,    title,    body,    links,  },        _type == "hero-text-flex" => {    _type,    _key,    bigText,    smallerText,    flexType,    colorVariant},        _type == "section-header" => {    _type,    _key,    padding,    colorVariant,    sectionWidth,    stackAlign,    tagLine,    title,    description,    link,  },        _type == "split-row" => {    _type,    _key,    padding,    colorVariant,    noGap,    splitColumns[]{        _type == "split-content" => {    _type,    _key,    sticky,    padding,    colorVariant,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    link,  },        _type == "split-cards-list" => {    _type,    _key,    list[]{      tagLine,      title,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },    },  },        _type == "split-image" => {    _type,    _key,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },  },        _type == "split-info-list" => {    _type,    _key,    list[]{      image{        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        },        alt      },      title,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },      tags[],    },  },    },  },        _type == "grid-row" => {    _type,    _key,    padding,    colorVariant,    gridColumns,    columns[]{        _type == "grid-card" => {    _type,    _key,    title,    excerpt,    image{      ...,      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },    link,  },        _type == "pricing-card" => {    _type,    _key,    title,    tagLine,    price,    list[],    excerpt,    link,  },        _type == "grid-post" => {    _type,    _key,    post->{      title,      slug,      excerpt,      image{        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        },        alt      },      categories[]->{        _id,        title,      },    },  },    },  },        _type == "carousel-1" => {    _type,    _key,    padding,    colorVariant,    size,    orientation,    indicators,    images[]{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },  },        _type == "carousel-2" => {    _type,    _key,    padding,    colorVariant,    testimonial[]->{      _id,      name,      title,      image{        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        },        alt      },      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },      rating,    },  },        _type == "timeline-row" => {    _type,    _key,    padding,    colorVariant,    timelines[]{      title,      tagLine,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },    },  },        _type == "cta-1" => {    _type,    _key,    padding,    colorVariant,    sectionWidth,    stackAlign,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    links,  },        _type == "logo-cloud-1" => {    _type,    _key,    padding,    colorVariant,    title,    images[]{      ...,      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },  },        _type == "faqs" => {    _type,    _key,    padding,    colorVariant,    faqs[]->{      _id,      title,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },    },  },        _type == "form-newsletter" => {    _type,    _key,    padding,    colorVariant,    stackAlign,    consentText,    buttonText,    successMessage,  },        _type == "all-posts" => {    _type,    _key,    padding,    colorVariant,  },        _type == "about-you-test" => {    _type,    _key,    padding,    colorVariant,    stackAlign,    consentText,    buttonText,    successMessage,    formField1,    formField2,    formField3,    formField4,    formField5  }    },    meta_title,    meta_description,    noindex,    ogImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height          }        }      },    }  }
+// Query: *[_type == "page" && slug.current == $slug][0]{    blocks[]{        _type == "hero-with-image" => {    _type,    _key,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    image{      ...,      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },    links,  },        _type == "hero-text-centered" => {    _type,    _key,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    links,  },        _type == "hero-color-body-text" => {    _type,    _key,    tagLine,    title,    body,    links,  },        _type == "hero-flex-text" => {    _type,    _key,    bigText,    smallerText,    flexType,    colorVariant},        _type == "section-header" => {    _type,    _key,    padding,    colorVariant,    sectionWidth,    stackAlign,    tagLine,    title,    description,    link,  },        _type == "split-row" => {    _type,    _key,    padding,    colorVariant,    noGap,    splitColumns[]{        _type == "split-content" => {    _type,    _key,    sticky,    padding,    colorVariant,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    link,  },        _type == "split-cards-list" => {    _type,    _key,    list[]{      tagLine,      title,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },    },  },        _type == "split-image" => {    _type,    _key,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },  },        _type == "split-info-list" => {    _type,    _key,    list[]{      image{        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        },        alt      },      title,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },      tags[],    },  },    },  },        _type == "grid-row" => {    _type,    _key,    padding,    colorVariant,    gridColumns,    columns[]{        _type == "grid-card" => {    _type,    _key,    title,    excerpt,    image{      ...,      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },    link,  },        _type == "pricing-card" => {    _type,    _key,    title,    tagLine,    price,    list[],    excerpt,    link,  },        _type == "grid-post" => {    _type,    _key,    post->{      title,      slug,      excerpt,      image{        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        },        alt      },      categories[]->{        _id,        title,      },    },  },    },  },        _type == "carousel-1" => {    _type,    _key,    padding,    colorVariant,    size,    orientation,    indicators,    images[]{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },  },        _type == "carousel-2" => {    _type,    _key,    padding,    colorVariant,    testimonial[]->{      _id,      name,      title,      image{        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        },        alt      },      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },      rating,    },  },        _type == "timeline-row" => {    _type,    _key,    padding,    colorVariant,    timelines[]{      title,      tagLine,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },    },  },        _type == "cta-1" => {    _type,    _key,    padding,    colorVariant,    sectionWidth,    stackAlign,    tagLine,    title,    body[]{      ...,      _type == "image" => {        ...,        asset->{          _id,          url,          mimeType,          metadata {            lqip,            dimensions {              width,              height            }          }        }      }    },    links,  },        _type == "logo-cloud-1" => {    _type,    _key,    padding,    colorVariant,    title,    images[]{      ...,      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },  },        _type == "faqs" => {    _type,    _key,    padding,    colorVariant,    faqs[]->{      _id,      title,      body[]{        ...,        _type == "image" => {          ...,          asset->{            _id,            url,            mimeType,            metadata {              lqip,              dimensions {                width,                height              }            }          }        }      },    },  },        _type == "form-newsletter" => {    _type,    _key,    padding,    colorVariant,    stackAlign,    consentText,    buttonText,    successMessage,  },        _type == "all-posts" => {    _type,    _key,    padding,    colorVariant,  },        _type == "about-you-test" => {    _type,    _key,    padding,    colorVariant,    stackAlign,    consentText,    buttonText,    successMessage,    formField1,    formField2,    formField3,    formField4,    formField5  }    },    meta_title,    meta_description,    noindex,    ogImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height          }        }      },    }  }
 export type PAGE_QUERYResult = {
   blocks: Array<{
     _type: "about-you-test";
@@ -1294,7 +1294,78 @@ export type PAGE_QUERYResult = {
       link: Link | null;
     }> | null;
   } | {
-    _type: "hero-1";
+    _type: "hero-color-body-text";
+    _key: string;
+    tagLine: string | null;
+    title: string | null;
+    body: string | null;
+    links: Array<{
+      _key: string;
+    } & Link> | null;
+  } | {
+    _type: "hero-flex-text";
+    _key: string;
+    bigText: string | null;
+    smallerText: string | null;
+    flexType: "flex-col-reverse" | "flex-col" | "flex-row-reverse" | "flex-row" | null;
+    colorVariant: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
+  } | {
+    _type: "hero-text-centered";
+    _key: string;
+    tagLine: string | null;
+    title: string | null;
+    body: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    } | {
+      _key: string;
+      _type: "code";
+      language?: string;
+      filename?: string;
+      code?: string;
+      highlightedLines?: Array<number>;
+    } | {
+      asset: {
+        _id: string;
+        url: string | null;
+        mimeType: string | null;
+        metadata: {
+          lqip: string | null;
+          dimensions: {
+            width: number | null;
+            height: number | null;
+          } | null;
+        } | null;
+      } | null;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    } | {
+      videoId?: string;
+      _type: "youtube";
+      _key: string;
+    }> | null;
+    links: Array<{
+      _key: string;
+    } & Link> | null;
+  } | {
+    _type: "hero-with-image";
     _key: string;
     tagLine: string | null;
     title: string | null;
@@ -1366,77 +1437,6 @@ export type PAGE_QUERYResult = {
     links: Array<{
       _key: string;
     } & Link> | null;
-  } | {
-    _type: "hero-2";
-    _key: string;
-    tagLine: string | null;
-    title: string | null;
-    body: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    } | {
-      _key: string;
-      _type: "code";
-      language?: string;
-      filename?: string;
-      code?: string;
-      highlightedLines?: Array<number>;
-    } | {
-      asset: {
-        _id: string;
-        url: string | null;
-        mimeType: string | null;
-        metadata: {
-          lqip: string | null;
-          dimensions: {
-            width: number | null;
-            height: number | null;
-          } | null;
-        } | null;
-      } | null;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-      _key: string;
-    } | {
-      videoId?: string;
-      _type: "youtube";
-      _key: string;
-    }> | null;
-    links: Array<{
-      _key: string;
-    } & Link> | null;
-  } | {
-    _type: "hero-3";
-    _key: string;
-    tagLine: string | null;
-    title: string | null;
-    body: string | null;
-    links: Array<{
-      _key: string;
-    } & Link> | null;
-  } | {
-    _type: "hero-text-flex";
-    _key: string;
-    bigText: string | null;
-    smallerText: string | null;
-    flexType: "flex-col-reverse" | "flex-col" | "flex-row-reverse" | "flex-row" | null;
-    colorVariant: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
   } | {
     _type: "logo-cloud-1";
     _key: string;
@@ -1905,7 +1905,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "\n    *[_type == 'page'] | order(slug.current) {\n      'url': $baseUrl + select(slug.current == 'index' => '', '/' + slug.current),\n      'lastModified': _updatedAt,\n      'changeFrequency': 'daily',\n      'priority': select(\n        slug.current == 'index' => 1,\n        0.5\n      )\n    }\n  ": PagesQueryResult;
     "\n    *[_type == 'post'] | order(_updatedAt desc) {\n      'url': $baseUrl + '/blog/' + slug.current,\n      'lastModified': _updatedAt,\n      'changeFrequency': 'weekly',\n      'priority': 0.7\n    }\n  ": PostsQueryResult;
-    "\n  *[_type == \"page\" && slug.current == $slug][0]{\n    blocks[]{\n      \n  _type == \"hero-1\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    links,\n  }\n,\n      \n  _type == \"hero-2\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    links,\n  }\n,\n      \n  _type == \"hero-3\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body,\n    links,\n  }\n,\n      \n  _type == \"hero-text-flex\" => {\n    _type,\n    _key,\n    bigText,\n    smallerText,\n    flexType,\n    colorVariant\n}\n,\n      \n  _type == \"section-header\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    sectionWidth,\n    stackAlign,\n    tagLine,\n    title,\n    description,\n    link,\n  }\n,\n      \n  _type == \"split-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    noGap,\n    splitColumns[]{\n      \n  _type == \"split-content\" => {\n    _type,\n    _key,\n    sticky,\n    padding,\n    colorVariant,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    link,\n  }\n,\n      \n  _type == \"split-cards-list\" => {\n    _type,\n    _key,\n    list[]{\n      tagLine,\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"split-image\" => {\n    _type,\n    _key,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"split-info-list\" => {\n    _type,\n    _key,\n    list[]{\n      image{\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n      tags[],\n    },\n  }\n,\n    },\n  }\n,\n      \n  _type == \"grid-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    gridColumns,\n    columns[]{\n      \n  _type == \"grid-card\" => {\n    _type,\n    _key,\n    title,\n    excerpt,\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    link,\n  }\n,\n      \n  _type == \"pricing-card\" => {\n    _type,\n    _key,\n    title,\n    tagLine,\n    price,\n    list[],\n    excerpt,\n    link,\n  }\n,\n      \n  _type == \"grid-post\" => {\n    _type,\n    _key,\n    post->{\n      title,\n      slug,\n      excerpt,\n      image{\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      categories[]->{\n        _id,\n        title,\n      },\n    },\n  }\n,\n    },\n  }\n,\n      \n  _type == \"carousel-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    size,\n    orientation,\n    indicators,\n    images[]{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"carousel-2\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    testimonial[]->{\n      _id,\n      name,\n      title,\n      image{\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n      rating,\n    },\n  }\n,\n      \n  _type == \"timeline-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    timelines[]{\n      title,\n      tagLine,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"cta-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    sectionWidth,\n    stackAlign,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    links,\n  }\n,\n      \n  _type == \"logo-cloud-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    title,\n    images[]{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"faqs\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    faqs[]->{\n      _id,\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"form-newsletter\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    stackAlign,\n    consentText,\n    buttonText,\n    successMessage,\n  }\n,\n      \n  _type == \"all-posts\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n  }\n,\n      \n  _type == \"about-you-test\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    stackAlign,\n    consentText,\n    buttonText,\n    successMessage,\n    formField1,\n    formField2,\n    formField3,\n    formField4,\n    formField5\n  }\n\n    },\n    meta_title,\n    meta_description,\n    noindex,\n    ogImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n    }\n  }\n": PAGE_QUERYResult;
+    "\n  *[_type == \"page\" && slug.current == $slug][0]{\n    blocks[]{\n      \n  _type == \"hero-with-image\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    links,\n  }\n,\n      \n  _type == \"hero-text-centered\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    links,\n  }\n,\n      \n  _type == \"hero-color-body-text\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body,\n    links,\n  }\n,\n      \n  _type == \"hero-flex-text\" => {\n    _type,\n    _key,\n    bigText,\n    smallerText,\n    flexType,\n    colorVariant\n}\n,\n      \n  _type == \"section-header\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    sectionWidth,\n    stackAlign,\n    tagLine,\n    title,\n    description,\n    link,\n  }\n,\n      \n  _type == \"split-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    noGap,\n    splitColumns[]{\n      \n  _type == \"split-content\" => {\n    _type,\n    _key,\n    sticky,\n    padding,\n    colorVariant,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    link,\n  }\n,\n      \n  _type == \"split-cards-list\" => {\n    _type,\n    _key,\n    list[]{\n      tagLine,\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"split-image\" => {\n    _type,\n    _key,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"split-info-list\" => {\n    _type,\n    _key,\n    list[]{\n      image{\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n      tags[],\n    },\n  }\n,\n    },\n  }\n,\n      \n  _type == \"grid-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    gridColumns,\n    columns[]{\n      \n  _type == \"grid-card\" => {\n    _type,\n    _key,\n    title,\n    excerpt,\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    link,\n  }\n,\n      \n  _type == \"pricing-card\" => {\n    _type,\n    _key,\n    title,\n    tagLine,\n    price,\n    list[],\n    excerpt,\n    link,\n  }\n,\n      \n  _type == \"grid-post\" => {\n    _type,\n    _key,\n    post->{\n      title,\n      slug,\n      excerpt,\n      image{\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      categories[]->{\n        _id,\n        title,\n      },\n    },\n  }\n,\n    },\n  }\n,\n      \n  _type == \"carousel-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    size,\n    orientation,\n    indicators,\n    images[]{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"carousel-2\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    testimonial[]->{\n      _id,\n      name,\n      title,\n      image{\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n      rating,\n    },\n  }\n,\n      \n  _type == \"timeline-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    timelines[]{\n      title,\n      tagLine,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"cta-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    sectionWidth,\n    stackAlign,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    links,\n  }\n,\n      \n  _type == \"logo-cloud-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    title,\n    images[]{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"faqs\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    faqs[]->{\n      _id,\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"form-newsletter\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    stackAlign,\n    consentText,\n    buttonText,\n    successMessage,\n  }\n,\n      \n  _type == \"all-posts\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n  }\n,\n      \n  _type == \"about-you-test\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    stackAlign,\n    consentText,\n    buttonText,\n    successMessage,\n    formField1,\n    formField2,\n    formField3,\n    formField4,\n    formField5\n  }\n\n    },\n    meta_title,\n    meta_description,\n    noindex,\n    ogImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n    }\n  }\n": PAGE_QUERYResult;
     "*[_type == \"page\" && defined(slug)]{slug}": PAGES_SLUGS_QUERYResult;
     "*[_type == \"post\" && slug.current == $slug][0]{\n    title,\n    slug,\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    author->{\n      name,\n      image {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      }\n    },\n    _createdAt,\n    _updatedAt,\n    meta_title,\n    meta_description,\n    noindex,\n    ogImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n    }\n}": POST_QUERYResult;
     "*[_type == \"post\" && defined(slug)] | order(_createdAt desc){\n    title,\n    slug,\n    excerpt,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": POSTS_QUERYResult;
