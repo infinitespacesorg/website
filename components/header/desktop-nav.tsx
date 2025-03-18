@@ -23,16 +23,14 @@ export default function DesktopNav({
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false)
-  // check out DropdownMenu.Sub https://www.radix-ui.com/primitives/docs/components/dropdown-menu#with-submenus if we want to put the ModeToggle inside the DropdownMenu
-
-  // some styles are commented out so that the hamburger menu can more closely match the ModeToggle menu
+  
 
   return (
     <div className={clsx("hidden xl:flex items-center gap-1 text-primary")}>
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}
        modal={false} // this allows the scrollbar to remain usable
         >
-        <DropdownMenuTrigger asChild className={clsx(`mx-3 lig ${isScrolled ? '' : 'text-white  dark:text-white'}`)}>
+        <DropdownMenuTrigger asChild className={clsx(`mx-3 lig ${isScrolled ? '' : 'text-gray-400  dark:text-white'}`)}>
           <Button variant="ghost" size="icon">
             <AlignRight></AlignRight>
             <span className="sr-only">Toggle theme</span>
@@ -43,7 +41,6 @@ export default function DesktopNav({
             align="end"
             className={clsx(
               "-mx-3 my-1 z-50 rounded-sm border-1 bg-background",
-              // { "bg-background": isScrolled, "bg-transparent": !isScrolled }
             )}
           >
             {navItems.map((navItem) => (

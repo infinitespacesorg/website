@@ -1,7 +1,7 @@
 import { PAGE_QUERYResult } from "@/sanity.types";
-import Hero1 from "@/components/ui/hero/hero-1";
-import Hero2 from "@/components/ui/hero/hero-2";
-import Hero3 from "@/components/ui/hero/hero-3";
+import HeroWithImage from "@/components/ui/hero/hero-with-image";
+import HeroTextCentered from "@/components/ui/hero/hero-text-centered";
+import HeroColorBodyText from "@/components/ui/hero/hero-color-body-text";
 import SectionHeader from "@/components/ui/section-header";
 import SplitRow from "@/components/ui/split/split-row";
 import GridRow from "@/components/ui/grid/grid-row";
@@ -13,18 +13,18 @@ import LogoCloud1 from "@/components/ui/logo-cloud/logo-cloud-1";
 import FAQs from "@/components/ui/faqs";
 import FormNewsletter from "@/components/ui/forms/newsletter";
 import AllPosts from "@/components/ui/all-posts";
-import AboutYouTest from "./custom/aboutyoutest";
-import heroTextFlex from "./custom/herotextflex";
+import AboutYouTest from "./custom/about-you-test";
+import HeroTextFlex from "./custom/hero-flex-text";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
 const componentMap: {
   [K in Block["_type"]]: React.ComponentType<Extract<Block, { _type: K }>>;
 } = {
-  "hero-1": Hero1,
-  "hero-2": Hero2,
-  "hero-3": Hero3,
-  "hero-text-flex": heroTextFlex,
+  "hero-flex-text": HeroTextFlex,
+  "hero-with-image": HeroWithImage,
+  "hero-color-body-text": HeroColorBodyText,
+  "hero-text-centered": HeroTextCentered,
   "section-header": SectionHeader,
   "split-row": SplitRow,
   "grid-row": GridRow,

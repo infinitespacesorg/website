@@ -1,8 +1,8 @@
 import { groq } from "next-sanity";
-import { hero1Query } from "./hero/hero-1";
-import { hero2Query } from "./hero/hero-2";
-import { hero3Query } from "./hero/hero-3";
-import { heroTextFlexQuery } from "./hero/hero-text-flex";
+import { heroWithImageQuery } from "./hero/hero-with-image";
+import { heroTextCenteredQuery } from "./hero/hero-text-centered";
+import { heroColorBodyTextQuery } from "./hero/hero-color-body-text";
+import { heroFlexTextQuery } from "./hero/hero-flex-text"
 import { sectionHeaderQuery } from "./section-header";
 import { splitRowQuery } from "./split/split-row";
 import { gridRowQuery } from "./grid/grid-row";
@@ -19,10 +19,10 @@ import { aboutYouTestQuery } from "./forms/aboutyoutest";
 export const PAGE_QUERY = groq`
   *[_type == "page" && slug.current == $slug][0]{
     blocks[]{
-      ${hero1Query},
-      ${hero2Query},
-      ${hero3Query},
-      ${heroTextFlexQuery},
+      ${heroWithImageQuery},
+      ${heroTextCenteredQuery},
+      ${heroColorBodyTextQuery},
+      ${heroFlexTextQuery},
       ${sectionHeaderQuery},
       ${splitRowQuery},
       ${gridRowQuery},

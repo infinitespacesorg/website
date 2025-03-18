@@ -1,8 +1,8 @@
 import { groq } from "next-sanity";
 
 // @sanity-typegen-ignore
-export const heroTextFlexQuery = groq`
-  _type == "hero-text-flex" => {
+export const heroFlexTextQuery = groq`
+  _type == "hero-flex-text" => {
     _type,
     _key,
     bigText,
