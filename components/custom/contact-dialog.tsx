@@ -1,99 +1,98 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Form, FormDescription } from "../ui/form";
-import Newsletter from "@/sanity/schemas/blocks/forms/newsletter";
-import FormNewsletter from "../ui/forms/newsletter";
+import { PAGE_QUERYResult } from "@/sanity.types";
 import { Button } from "../ui/button";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import ContactUsForm from "./contact-us";
+
+type ContactUsFormProps = Extract<
+  NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
+  { _type: "contact-us-form" }
+>;
 
 interface ContactDialogProps {
   contactDialogOpen: boolean;
   setContactDialogOpen: (open: boolean) => void;
 }
 
-interface SectionPadding {
-  top: boolean;
-  bottom: boolean;
-  _type: "section-padding";
-}
-
-interface FormNewsletterProps {
-  _type: "form-newsletter";
-  _key: string;
-  padding: SectionPadding;
-  colorVariant: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
-  stackAlign: "center" | "left" | null; // Optional
-  consentText: string | null;
-  buttonText: string | null;
-  successMessage: string | null;
-}
-
 export default function ContactDialog({
   setContactDialogOpen,
   contactDialogOpen,
 }: ContactDialogProps) {
-  const form = useForm();
 
   const [isExiting, setIsExiting] = useState(false);
 
   function handleClose() {
+    if (isExiting) return;
     setIsExiting(true);
+
     setTimeout(() => {
       setIsExiting(false);
       setContactDialogOpen(false);
-    }, 100);
+    }, 300);
   }
 
-  const formNewsletterProps: FormNewsletterProps = {
+  const handleBackdropClick = (event: React.MouseEvent) => {
+    handleClose();
+  };
+
+  const contactUsFormProps: ContactUsFormProps = {
+    _type: "contact-us-form",
     padding: { bottom: true, top: true, _type: "section-padding" },
     colorVariant: "background",
     consentText:
-      "By subscribing, you agree to receive emails from us. You can unsubscribe at any time.",
-    buttonText: "Subscribe",
-    successMessage: "Thank you for subscribing!",
-    _type: "form-newsletter",
-    _key: 'contact-dialog-form-newsletter',
-    stackAlign: "center",
+      "By submitting this form, you agree to the terms and conditions.",
+    buttonText: "Submit",
+    successMessage: "Thanks for your submission! We'll be in touch soon.",
+    // _type: "form-newsletter",
+    _key: "contact-dialog-form",
+    stackAlign: "left",
+    formField1: "Name",
+    formField2: "Email",
+    formField3: "Website",
+    formField4: "Message",
   };
 
   return (
-    // eventually something with a separate handleSubmit function like this:
-    // https://schemaui.com/docs/components/forms/form-newsletter
-    contactDialogOpen && (
+    <AnimatePresence>
+      {contactDialogOpen && (
       <motion.div
+        key="contact-dialog"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 100 }}
-        transition={{ duration: 0.5 }}
-        className={` ${contactDialogOpen ? "fixed h-full w-full top-0 left-0 flex justify-center items-center z-9999 bg-background/80 backdrop-blur-xs" : "hidden"}`}
+        transition={{ duration: 0.3 }}
+        onAnimationComplete={() => {
+          if (isExiting) {
+            setIsExiting(false);
+            setContactDialogOpen(false);
+          }
+        }}
+        className={` ${contactDialogOpen ? "fixed h-full w-full top-0 left-0 flex justify-center items-center z-9999 bg-muted/90 backdrop-blur-xs" : "hidden"}`}
+        onClick={handleBackdropClick}
       >
         <Button
           className={
             "absolute right-5 top-10 bg-white text-black hover:bg-gray-200"
           }
-          onClick={() => handleClose()}
+          onClick={handleClose}
           disabled={isExiting}
         >
           X
         </Button>
-        {/* <form onSubmit={() => form.handleSubmit(onSubmit)}></form> */}
         <div
-          className={`flex flex-row justify-center items-center bg-background mx-auto h-fit my-auto px-5 w-fit rounded-xl shadow-lg`}
+          className={`flex flex-row  justify-around items-center bg-background mx-auto h-fit my-auto px-5 w-[80vw] rounded-xl shadow-lg`}
+          onClick={(e) => e.stopPropagation()}
         >
           <div>
             <h1>Get in touch</h1>
             <p className={`mt-3`}>We're excited to work with you!</p>
           </div>
           <div className="w-full max-w-md">
-            <FormNewsletter {...formNewsletterProps} />
+            <ContactUsForm {...contactUsFormProps} />
           </div>
         </div>
-
-        {/* <Form {...form}>
-        <form onSubmit={() => console.log("submitted that form")}></form>
-        <FormDescription>something</FormDescription>
-      </Form> */}
       </motion.div>
-    )
+      )}
+    </AnimatePresence>
   );
 }
