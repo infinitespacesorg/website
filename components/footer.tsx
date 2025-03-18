@@ -2,10 +2,10 @@
 import Link from "next/link";
 import Logo from "@/components/logo";
 import { useState } from "react";
-import ContactDialog from "./custom/contactdialog";
+import ContactDialog from "./custom/contact-dialog";
 import { Button } from "./ui/button";
 import clsx from "clsx";
-import SocialIcons from "./custom/socialicons";
+import SocialIcons from "./custom/social-icons";
 import { useRouter } from "next/navigation";
 
 const navItems = [
@@ -24,11 +24,11 @@ const navItems = [
     href: "/about",
     target: false,
   },
-  {
-    label: "Careers",
-    href: "/careers",
-    target: false,
-  },
+  // {
+  //   label: "Careers",
+  //   href: "/careers",
+  //   target: false,
+  // },
 ];
 
 export default function Footer() {
@@ -75,8 +75,8 @@ export default function Footer() {
           >
             <Logo />
           </Link>
-          <div className="pt-15 flex flex-row justify-between items-center mx-8">
-            <SocialIcons className={'flex flex-row gap-2'}/>
+          <div className="pt-7 flex flex-col sm:flex-row gap-5 sm:gap-0 justify-between items-center mx-8">
+            <SocialIcons className={'flex flex-row gap-7 sm:gap-3'}/>
             <div className=" flex flex-wrap items-center justify-center gap-7 text-primary z-50">
               {navItems.map((navItem) => (
                 <Link

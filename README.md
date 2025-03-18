@@ -55,11 +55,11 @@ The schema for the `Page` document type is defined in the `sanity/schemas/docume
 
 Here are the steps that Mason has taken to add a custom document:
 
-- Create a new .ts file for your document in the sanity/schemas/documents folder; feel free to copy from an existing document as a reference.
+1. Create a new .ts file for your document in the sanity/schemas/documents folder; feel free to copy from an existing document as a reference.
 
-- Add the document type to the array of types in the sanity/schema.ts file
+2. Add the document type to the array of types in the sanity/schema.ts file
 
-- Add the document as an "orderableDocumentListDeskItem" in the sanity/structure.ts file
+3. Add the document as an "orderableDocumentListDeskItem" in the sanity/structure.ts file
 
 #### 4. Adding new components
 
@@ -67,22 +67,26 @@ This template includes all components from the [Schema UI](https://schemaui.com/
 
 Here are the steps that Mason has taken to add a custom component / block:
 
-- Create a new .ts file for your block in the sanity/schemas/blocks folder; feel free to copy from an existing document as a reference.
+1. Create a new .ts file for your block in the sanity/schemas/blocks folder; feel free to copy from an existing document as a reference.
 
-- Create a new query for your block in the sanity/queries folder; query "_type" = block "name"
+2. Create a new query for your block in the sanity/queries folder; query "_type" = block "name"
 
-- Add the block to the array of blocks defined in sanity/schemas/documents/page.ts (if you want to use this block on a page)
+3. Add the query to the list of block queries defined in the PAGE_QUERY inside sanity/queries/page.ts
 
-- Add the block type to the array of types in the sanity/schema.ts file
+4. Add the block to the array of blocks defined in sanity/schemas/documents/page.ts
 
-- Run these two commands to update the schema.json file with JSON about the new block, and to update the sanity.types.ts file with a type for the new block:
+5. Add the block type to the array of types in the sanity/schema.ts file
+
+6. Run these two commands to update the schema.json file with JSON about the new block, and to update the sanity.types.ts file with a type for the new block:
 
 ```bash
 npx sanity schema extract
 npx sanity typegen generate
 ```
 
-- Create a component in app/components that will render the component on the front end  
+7. Create a component in app/components that will render the component on the front end
+
+8. Now you are free to add the block to a page in Sanity Studio, and it will be rendered in the app!
 
 ### Deploying your application
 

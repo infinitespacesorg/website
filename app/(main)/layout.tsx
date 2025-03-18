@@ -14,7 +14,7 @@ export default async function MainLayout({
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="min-h-[80vh]">{children}</main>
       <SanityLive />
       {(await draftMode()).isEnabled && (
         <>

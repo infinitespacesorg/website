@@ -1,8 +1,8 @@
 import { groq } from "next-sanity";
 
 // @sanity-typegen-ignore
-export const hero2Query = groq`
-  _type == "hero-2" => {
+export const heroTextCenteredQuery = groq`
+  _type == "hero-text-centered" => {
     _type,
     _key,
     tagLine,

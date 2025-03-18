@@ -2,7 +2,7 @@ import { PAGE_QUERYResult } from "@/sanity.types";
 
 type HeroTextFlexProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
-  { _type: "hero-text-flex" }
+  { _type: "hero-flex-text" }
 >;
 
 export default function HeroTextFlex({

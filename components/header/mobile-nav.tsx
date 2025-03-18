@@ -26,7 +26,7 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
           variant="ghost"
           className="w-10 p-5 focus-visible:ring-1 focus-visible:ring-offset-1"
         >
-          <AlignRight className="dark:text-white" />
+          <AlignRight className="dark:text-white text-gray-400" />
         </Button>
       </SheetTrigger>
       <SheetContent className={clsx('width: 100vw')}>

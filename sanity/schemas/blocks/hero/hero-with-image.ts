@@ -2,8 +2,8 @@ import { defineField, defineType } from "sanity";
 import { LayoutTemplate } from "lucide-react";
 
 export default defineType({
-  name: "hero-2",
-  title: "Hero 2",
+  name: "hero-with-image",
+  title: "Hero With Image",
   type: "object",
   icon: LayoutTemplate,
   fields: [
@@ -20,6 +20,18 @@ export default defineType({
       type: "block-content",
     }),
     defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+        },
+      ],
+    }),
+    defineField({
       name: "links",
       type: "array",
       of: [{ type: "link" }],
@@ -32,7 +44,7 @@ export default defineType({
     },
     prepare({ title }) {
       return {
-        title: "Hero 2",
+        title: "Hero With Image",
         subtitle: title,
       };
     },

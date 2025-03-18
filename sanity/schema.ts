@@ -15,9 +15,10 @@ import { colorVariant } from "./schemas/blocks/shared/color-variant";
 import { buttonVariant } from "./schemas/blocks/shared/button-variant";
 import sectionPadding from "./schemas/blocks/shared/section-padding";
 // Schema UI objects
-import hero1 from "./schemas/blocks/hero/hero-1";
-import hero2 from "./schemas/blocks/hero/hero-2";
-import hero3 from "./schemas/blocks/hero/hero-3";
+import heroWithImage from "./schemas/blocks/hero/hero-with-image";
+import heroTextCentered from "./schemas/blocks/hero/hero-text-centered";
+import heroColorBodyText from "./schemas/blocks/hero/hero-color-body-text";
+import heroTextFlex from "./schemas/blocks/hero/hero-flex-text";
 import sectionHeader from "./schemas/blocks/section-header";
 import splitRow from "./schemas/blocks/split/split-row";
 import splitContent from "./schemas/blocks/split/split-content";
@@ -41,7 +42,7 @@ import newsletter from "./schemas/blocks/forms/newsletter";
 import allPosts from "./schemas/blocks/all-posts";
 import aboutyoutest from "./schemas/blocks/forms/aboutyoutest";
 import aytformsubmission from "./schemas/documents/aytformsubmission";
-import heroTextFlex from "./schemas/blocks/hero/hero-text-flex";
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -60,9 +61,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     buttonVariant,
     sectionPadding,
     // blocks
-    hero1,
-    hero2,
-    hero3,
+    heroWithImage,
+    heroTextCentered,
+    heroColorBodyText,
     heroTextFlex,
     sectionHeader,
     splitRow,

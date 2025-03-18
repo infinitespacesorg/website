@@ -1,5 +1,5 @@
 "use client";
-import CoverVideo from "@/components/custom/covervideo";
+import CoverVideo from "@/components/custom/cover-video";
 import { animate, motion } from "motion/react";
 
 const MainVideo =

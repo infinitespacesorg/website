@@ -1,15 +1,21 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { stegaClean } from "next-sanity";
-import PortableTextRenderer from "@/components/portable-text-renderer";
 import { PAGE_QUERYResult } from "@/sanity.types";
 
-type Hero2Props = Extract<
+type Hero3Props = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
-  { _type: "hero-2" }
+  { _type: "hero-color-body-text" }
 >;
 
-export default function Hero2({ tagLine, title, body, links }: Hero2Props) {
+export default function Hero3({ tagLine, title, body, links }: Hero3Props) {
+
+  //  the text gradient didn't play well with the PTR Sanity component so I tried to figure out how to do it without it
+
+  // basically you can't pass className or style props to the PTR component, and it renders different HTML elements based on the type defined in the schemas for the block, so you can't really control the styling of it as specifically as we would like to
+
+  // but I did figure out how to make the gradient without having to use react-text-gradients, pretty simple in Tailwind
+
   return (
     <div className="container dark:bg-background py-20 lg:pt-40 text-center">
       {tagLine && (
@@ -24,7 +30,9 @@ export default function Hero2({ tagLine, title, body, links }: Hero2Props) {
       )}
       {body && (
         <div className="text-lg mt-6 max-w-2xl mx-auto animate-fade-up [animation-delay:300ms] opacity-0">
-          <PortableTextRenderer value={body} />
+          <span className="bg-linear-to-l from-blue-500 to-red-500 bg-clip-text text-transparent">
+            {body}
+          </span>
         </div>
       )}
       {links && links.length > 0 && (
