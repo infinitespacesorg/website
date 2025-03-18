@@ -42,6 +42,7 @@ import newsletter from "./schemas/blocks/forms/newsletter";
 import allPosts from "./schemas/blocks/all-posts";
 import aboutyoutest from "./schemas/blocks/forms/aboutyoutest";
 import aytformsubmission from "./schemas/documents/aytformsubmission";
+import contactUsForm from "./schemas/blocks/forms/contact-us"
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -87,5 +88,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     newsletter,
     aboutyoutest,
     allPosts,
+    contactUsForm,
   ],
 };

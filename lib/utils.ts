@@ -36,3 +36,4 @@ export const extractPlainText = (blocks: BlockContent): string | null => {
     })
     .join(" ");
 };
+
