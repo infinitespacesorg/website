@@ -65,7 +65,7 @@ export default function CoverVideo() {
         transition={{ duration: 1 }}
       />
       <motion.div
-        className="absolute inset-0 w-full h-full bg-linear-to-b from-transparent from-88% to-secondary:50 via-93% to-secondary:80 to-97% to-secondary z-[40]"
+        className="absolute inset-0 w-full h-full bg-linear-to-b from-transparent from-88% to-background:50 via-93% to-background:80 to-97% to-background z-[40]"
         initial={{ opacity: 0 }}
         animate={{ opacity: showImage ? 1 : 0 }}
         transition={{ duration: 1 }}

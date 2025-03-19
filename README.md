@@ -57,9 +57,18 @@ Here are the steps that Mason has taken to add a custom document:
 
 1. Create a new .ts file for your document in the sanity/schemas/documents folder; feel free to copy from an existing document as a reference.
 
-2. Add the document type to the array of types in the sanity/schema.ts file
+2. Add a query for your document type in the sanity/queries folder
 
-3. Add the document as an "orderableDocumentListDeskItem" in the sanity/structure.ts file
+3. Add the document type to the array of types in the sanity/schema.ts file
+
+4. Add the document as an "orderableDocumentListDeskItem" in the sanity/structure.ts file
+
+5. Run these two commands to update the schema.json file with JSON about the new document, and to update the sanity.types.ts file with a type for the new document:
+
+```bash
+npx sanity schema extract
+npx sanity typegen generate
+```
 
 #### 4. Adding new components
 
