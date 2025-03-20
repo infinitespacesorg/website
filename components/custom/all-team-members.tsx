@@ -10,7 +10,7 @@ type AllTeamMembersProps = Extract<
   { _type: "all-team-members" }
 >;
 
-export default async function AllPosts({
+export default async function AllTeamMembers({
   padding,
   colorVariant,
 }: AllTeamMembersProps) {
