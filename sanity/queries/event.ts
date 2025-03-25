@@ -1,11 +1,16 @@
 import { groq } from "next-sanity";
 
-export const TEAM_MEMBERS_QUERY = groq`*[_type == "team-member" && defined(slug)] | order(orderRank asc){
+export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0]{
     _type,
-    name,
+    name, 
+    startDateTime,
+    endDateTime,
+    address,
+    city,
+    state,
+    externalLink,
+    description,
     slug,
-    jobTitle,
-    bio,
     image{
       asset->{
         _id,
@@ -20,7 +25,5 @@ export const TEAM_MEMBERS_QUERY = groq`*[_type == "team-member" && defined(slug)
         }
       },
       alt
-    },
+    }
 }`;
-
-export const TEAM_MEMBERS_SLUGS_QUERY = groq`*[_type == "team-member" && defined(slug)]{slug}`;

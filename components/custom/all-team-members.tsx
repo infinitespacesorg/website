@@ -1,5 +1,5 @@
 import SectionContainer from "@/components/ui/section-container";
-import PostCard from "@/components/ui/post-card";
+import OneTeamMember from "./one-team-member";
 import Link from "next/link";
 import { stegaClean } from "next-sanity";
 import { PAGE_QUERYResult } from "@/sanity.types";
@@ -19,19 +19,16 @@ export default async function AllTeamMembers({
 
   return (
     <SectionContainer color={color} padding={padding}>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-[80vw] lg:w-[60vw] m-auto">
         {teamMembers.map((mem) => (
-          <Link
-            key={mem?.slug?.current}
-            className="flex w-full rounded-3xl ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            href={`/blog/${mem?.slug?.current}`}
-          >
-            <PostCard
-              title={mem?.name ?? ""}
-              excerpt={mem?.bio ?? ""}
-              image={mem?.image ?? null}
+            <OneTeamMember
+              key={mem.slug?.current}
+              slug={mem.slug}
+              name={mem?.name ?? ""}
+              bio={mem?.bio ?? ""}
+              image={mem?.image}
+              jobTitle={mem?.jobTitle}
             />
-          </Link>
         ))}
       </div>
     </SectionContainer>

@@ -55,6 +55,7 @@ export default defineType({
         { type: "form-newsletter" },
         { type: "all-posts" },
         { type: "all-team-members"},
+        { type: 'all-events'},
         { type: "about-you-test"},
         { type: "contact-us-form"},
       ],
