@@ -16,6 +16,8 @@ import AllPosts from "@/components/ui/all-posts";
 import AboutYouTest from "./custom/about-you-test";
 import HeroTextFlex from "./custom/hero-flex-text";
 import ContactUsForm from "./custom/contact-us"
+import AllTeamMembers from "./custom/all-team-members";
+import AllEvents from "./custom/all-events"
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -37,6 +39,8 @@ const componentMap: {
   faqs: FAQs,
   "form-newsletter": FormNewsletter,
   "all-posts": AllPosts,
+  "all-team-members": AllTeamMembers,
+  "all-events": AllEvents,
   "about-you-test": AboutYouTest,
   'contact-us-form': ContactUsForm,
 };

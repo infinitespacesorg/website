@@ -15,6 +15,27 @@ export const formatDate = (date: string): string => {
   return dateObj.toLocaleDateString("en-US", options);
 };
 
+export const creatorCategories = [
+  'AI',
+  'AR/VR',
+  'Art',
+  'Broadcast',
+  'Education',
+  'Entertainment',
+  'Fashion',
+  'Film',
+  'Festivals',
+  'Games',
+  'Immersive Experiences',
+  'Live',
+  'Music',
+  'Placemaker',
+  'Streaming',
+  'Storytelling',
+  'XR',
+  'Visual Production',
+]
+
 // Define the types for block content and children
 type Block = {
   _type: string;
