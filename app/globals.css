@@ -1,3 +1,8 @@
+/* an example font import from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Boldonse&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap");
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -6,6 +11,7 @@
 
 @theme {
   --font-sans: var(--font-sans);
+ 
 
   /* Custom animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -42,7 +48,21 @@
   }
 }
 
+@keyframes scroll-text {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 :root {
+   /* if we wanted to use the Roboto Google Font: */
+   --font-roboto: "Roboto", sans-serif;
+   --font-boldonse: "Boldonse", sans-serif;
+   --font-nm: 'Nanum Myeongjo', sans-serif;
+
   --background: hsl(0 0% 100%);
   --foreground: hsl(224 71.4% 4.1%);
   --card: hsl(0 0% 100%);
@@ -221,5 +241,24 @@
   .text-fill-transparent {
     -webkit-text-fill-color: transparent;
   }
+}
+
+.scroll-text-slow {
+  animation: scroll-text 15s linear infinite;
+}
+
+.scroll-text-normal {
+  animation: scroll-text 10s linear infinite;
+}
+
+.scroll-text-fast {
+  animation: scroll-text 7s linear infinite;
+}
+
+.text-clip {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
