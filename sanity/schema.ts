@@ -7,7 +7,7 @@ import category from "./schemas/documents/category";
 import faq from "./schemas/documents/faq";
 import testimonial from "./schemas/documents/testimonial";
 import teamMember from "./schemas/documents/team-member";
-import aytformsubmission from "./schemas/documents/aytformsubmission";
+import event from "./schemas/documents/event";
 
 // Schema UI shared objects
 import blockContent from "./schemas/blocks/shared/block-content";
@@ -44,7 +44,7 @@ import allPosts from "./schemas/blocks/all-posts";
 import aboutyoutest from "./schemas/blocks/forms/aboutyoutest";
 import contactUsForm from "./schemas/blocks/forms/contact-us"
 import allTeamMembers from "./schemas/blocks/all-team-members";
-
+import allEvents from "./schemas/blocks/all-events";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -56,7 +56,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faq,
     testimonial,
     teamMember,
-    aytformsubmission,
+    event,
     // shared objects
     blockContent,
     link,
@@ -91,6 +91,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     aboutyoutest,
     allPosts,
     allTeamMembers,
+    allEvents,
     contactUsForm,
   ],
 };
