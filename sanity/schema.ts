@@ -45,6 +45,8 @@ import aboutyoutest from "./schemas/blocks/forms/aboutyoutest";
 import contactUsForm from "./schemas/blocks/forms/contact-us"
 import allTeamMembers from "./schemas/blocks/all-team-members";
 import allEvents from "./schemas/blocks/all-events";
+import heroTextBackgroundImage from "./schemas/blocks/hero/hero-text-background-image";
+import scrollyText from "./schemas/blocks/scrolly-text";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -68,6 +70,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     heroTextCentered,
     heroColorBodyText,
     heroTextFlex,
+    heroTextBackgroundImage,
     sectionHeader,
     splitRow,
     splitContent,
@@ -93,5 +96,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     allTeamMembers,
     allEvents,
     contactUsForm,
+    scrollyText
   ],
 };
