@@ -43,6 +43,7 @@ export default defineType({
         { type: "hero-text-centered" },
         { type: "hero-color-body-text" },
         { type: "hero-flex-text"},
+        { type: 'hero-text-background-image'},
         { type: "section-header" },
         { type: "split-row" },
         { type: "grid-row" },
@@ -58,6 +59,7 @@ export default defineType({
         { type: 'all-events'},
         { type: "about-you-test"},
         { type: "contact-us-form"},
+        { type: 'scrolly-text'}
       ],
     }),
     defineField({

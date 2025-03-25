@@ -22,8 +22,6 @@ export default function OneEvent({
   image,
 }: EventProps) {
 
-  console.log(startDateTime, endDateTime)
-
     let eventDate
     const startDate = new Date(startDateTime!)
     const endDate = new Date(endDateTime!)
