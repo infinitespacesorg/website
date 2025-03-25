@@ -326,6 +326,116 @@
     }
   },
   {
+    "name": "scrolly-text",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "scrolly-text"
+          }
+        },
+        "text": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "colorVariant": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "background"
+              },
+              {
+                "type": "string",
+                "value": "primary"
+              },
+              {
+                "type": "string",
+                "value": "secondary"
+              },
+              {
+                "type": "string",
+                "value": "card"
+              },
+              {
+                "type": "string",
+                "value": "accent"
+              },
+              {
+                "type": "string",
+                "value": "destructive"
+              },
+              {
+                "type": "string",
+                "value": "muted"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "padding": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "section-padding"
+          },
+          "optional": true
+        },
+        "fontVariant": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "font-sans"
+              },
+              {
+                "type": "string",
+                "value": "font-roboto"
+              },
+              {
+                "type": "string",
+                "value": "font-boldonse"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "motionVariant": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "slow"
+              },
+              {
+                "type": "string",
+                "value": "normal"
+              },
+              {
+                "type": "string",
+                "value": "fast"
+              }
+            ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "contact-us-form",
     "type": "type",
     "value": {
@@ -4154,6 +4264,98 @@
     }
   },
   {
+    "name": "hero-text-background-image",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "hero-text-background-image"
+          }
+        },
+        "text": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "image": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "object",
+            "attributes": {
+              "asset": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "object",
+                  "attributes": {
+                    "_ref": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "_type": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "string",
+                        "value": "reference"
+                      }
+                    },
+                    "_weak": {
+                      "type": "objectAttribute",
+                      "value": {
+                        "type": "boolean"
+                      },
+                      "optional": true
+                    }
+                  },
+                  "dereferencesTo": "sanity.imageAsset"
+                },
+                "optional": true
+              },
+              "hotspot": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageHotspot"
+                },
+                "optional": true
+              },
+              "crop": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageCrop"
+                },
+                "optional": true
+              },
+              "alt": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "image"
+                }
+              }
+            }
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "hero-flex-text",
     "type": "type",
     "value": {
@@ -6627,6 +6829,21 @@
                 },
                 "rest": {
                   "type": "inline",
+                  "name": "hero-text-background-image"
+                }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
                   "name": "section-header"
                 }
               },
@@ -6838,6 +7055,21 @@
                 "rest": {
                   "type": "inline",
                   "name": "contact-us-form"
+                }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "scrolly-text"
                 }
               }
             ]
