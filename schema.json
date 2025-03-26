@@ -405,7 +405,7 @@
               },
               {
                 "type": "string",
-                "value": "font-boldonse"
+                "value": "font-nm"
               }
             ]
           },
@@ -5956,6 +5956,13 @@
         },
         "optional": true
       },
+      "associatedLink": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "image": {
         "type": "objectAttribute",
         "value": {
@@ -6022,6 +6029,13 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "showOnAboutPage": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
         },
         "optional": true
       },

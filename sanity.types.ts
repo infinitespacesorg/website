@@ -73,7 +73,7 @@ export type ScrollyText = {
   text?: string;
   colorVariant?: "background" | "primary" | "secondary" | "card" | "accent" | "destructive" | "muted";
   padding?: SectionPadding;
-  fontVariant?: "font-sans" | "font-roboto" | "font-boldonse";
+  fontVariant?: "font-sans" | "font-roboto" | "font-nm";
   motionVariant?: "slow" | "normal" | "fast";
 };
 
@@ -788,6 +788,7 @@ export type TeamMember = {
   slug?: Slug;
   jobTitle?: string;
   bio?: string;
+  associatedLink?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -800,6 +801,7 @@ export type TeamMember = {
     alt?: string;
     _type: "image";
   };
+  showOnAboutPage?: boolean;
   orderRank?: string;
 };
 
@@ -1682,7 +1684,7 @@ export type PAGE_QUERYResult = {
     colorVariant: "accent" | "background" | "card" | "destructive" | "muted" | "primary" | "secondary" | null;
     motionVariant: "fast" | "normal" | "slow" | null;
     padding: SectionPadding | null;
-    fontVariant: "font-boldonse" | "font-roboto" | "font-sans" | null;
+    fontVariant: "font-nm" | "font-roboto" | "font-sans" | null;
   } | {
     _type: "section-header";
     _key: string;
@@ -2122,13 +2124,15 @@ export type POSTS_SLUGS_QUERYResult = Array<{
 
 // Source: ./sanity/queries/team-member.ts
 // Variable: teamMemberQuery
-// Query: *[_type == "team-member" && slug.current == $slug][0]{    _type,    name,    slug,    jobTitle,    bio,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },}
+// Query: *[_type == "team-member" && slug.current == $slug][0]{    _type,    name,    slug,    jobTitle,    bio,    associatedLink,    showOnAboutPage,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },}
 export type TeamMemberQueryResult = {
   _type: "team-member";
   name: string | null;
   slug: Slug | null;
   jobTitle: string | null;
   bio: string | null;
+  associatedLink: string | null;
+  showOnAboutPage: boolean | null;
   image: {
     asset: {
       _id: string;
@@ -2148,13 +2152,15 @@ export type TeamMemberQueryResult = {
 
 // Source: ./sanity/queries/team-members.ts
 // Variable: TEAM_MEMBERS_QUERY
-// Query: *[_type == "team-member" && defined(slug)] | order(orderRank asc){    _type,    name,    slug,    jobTitle,    bio,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },}
+// Query: *[_type == "team-member" && defined(slug)] | order(orderRank asc){    _type,    name,    slug,    jobTitle,    bio,    associatedLink,    showOnAboutPage,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },}
 export type TEAM_MEMBERS_QUERYResult = Array<{
   _type: "team-member";
   name: string | null;
   slug: Slug | null;
   jobTitle: string | null;
   bio: string | null;
+  associatedLink: string | null;
+  showOnAboutPage: boolean | null;
   image: {
     asset: {
       _id: string;
@@ -2191,8 +2197,8 @@ declare module "@sanity/client" {
     "*[_type == \"post\" && slug.current == $slug][0]{\n    title,\n    slug,\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    author->{\n      name,\n      image {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      }\n    },\n    _createdAt,\n    _updatedAt,\n    meta_title,\n    meta_description,\n    noindex,\n    ogImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n    }\n}": POST_QUERYResult;
     "*[_type == \"post\" && defined(slug)] | order(_createdAt desc){\n    title,\n    slug,\n    excerpt,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": POSTS_QUERYResult;
     "*[_type == \"post\" && defined(slug)]{slug}": POSTS_SLUGS_QUERYResult;
-    "*[_type == \"team-member\" && slug.current == $slug][0]{\n    _type,\n    name,\n    slug,\n    jobTitle,\n    bio,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": TeamMemberQueryResult;
-    "*[_type == \"team-member\" && defined(slug)] | order(orderRank asc){\n    _type,\n    name,\n    slug,\n    jobTitle,\n    bio,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": TEAM_MEMBERS_QUERYResult;
+    "*[_type == \"team-member\" && slug.current == $slug][0]{\n    _type,\n    name,\n    slug,\n    jobTitle,\n    bio,\n    associatedLink,\n    showOnAboutPage,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": TeamMemberQueryResult;
+    "*[_type == \"team-member\" && defined(slug)] | order(orderRank asc){\n    _type,\n    name,\n    slug,\n    jobTitle,\n    bio,\n    associatedLink,\n    showOnAboutPage,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": TEAM_MEMBERS_QUERYResult;
     "*[_type == \"team-member\" && defined(slug)]{slug}": TEAM_MEMBERS_SLUGS_QUERYResult;
   }
 }
