@@ -10,6 +10,7 @@ export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0]{
     state,
     externalLink,
     description,
+    excerpt,
     slug,
     image{
       asset->{
@@ -25,5 +26,20 @@ export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0]{
         }
       },
       alt
-    }
+    },
+    meta_title,
+    meta_description,
+    ogImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      },
+    },
+    noindex
 }`;

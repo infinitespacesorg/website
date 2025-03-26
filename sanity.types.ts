@@ -761,7 +761,8 @@ export type Event = {
   address?: string;
   city?: string;
   state?: string;
-  description?: string;
+  description?: BlockContent;
+  excerpt?: string;
   image?: {
     asset?: {
       _ref: string;
@@ -775,6 +776,20 @@ export type Event = {
     _type: "image";
   };
   externalLink?: string;
+  meta_title?: string;
+  meta_description?: string;
+  noindex?: boolean;
+  ogImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   orderRank?: string;
 };
 
@@ -1085,7 +1100,7 @@ export type PostsQueryResult = Array<{
 
 // Source: ./sanity/queries/event.ts
 // Variable: eventQuery
-// Query: *[_type == "event" && slug.current == $slug][0]{    _type,    name,     startDateTime,    endDateTime,    address,    city,    state,    externalLink,    description,    slug,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    }}
+// Query: *[_type == "event" && slug.current == $slug][0]{    _type,    name,     startDateTime,    endDateTime,    address,    city,    state,    externalLink,    description,    excerpt,    slug,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },    meta_title,    meta_description,    ogImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height          }        }      },    },    noindex}
 export type EventQueryResult = {
   _type: "event";
   name: string | null;
@@ -1095,7 +1110,8 @@ export type EventQueryResult = {
   city: string | null;
   state: string | null;
   externalLink: string | null;
-  description: string | null;
+  description: BlockContent | null;
+  excerpt: string | null;
   slug: Slug | null;
   image: {
     asset: {
@@ -1112,11 +1128,26 @@ export type EventQueryResult = {
     } | null;
     alt: string | null;
   } | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  ogImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+  noindex: boolean | null;
 } | null;
 
 // Source: ./sanity/queries/events.ts
 // Variable: EVENTS_QUERY
-// Query: *[_type == "event" && defined(slug.current) && endDateTime > now()] | order(startDateTime asc){    _type,    name,     startDateTime,    endDateTime,    address,    city,    state,    externalLink,    description,    slug,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    }}
+// Query: *[_type == "event" && defined(slug.current) && endDateTime > now()] | order(startDateTime asc){    _type,    name,     startDateTime,    endDateTime,    address,    city,    state,    externalLink,    description,    excerpt,    slug,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },    meta_title,    meta_description,    ogImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height          }        }      },    },    noindex}
 export type EVENTS_QUERYResult = Array<{
   _type: "event";
   name: string | null;
@@ -1126,7 +1157,8 @@ export type EVENTS_QUERYResult = Array<{
   city: string | null;
   state: string | null;
   externalLink: string | null;
-  description: string | null;
+  description: BlockContent | null;
+  excerpt: string | null;
   slug: Slug | null;
   image: {
     asset: {
@@ -1143,6 +1175,21 @@ export type EVENTS_QUERYResult = Array<{
     } | null;
     alt: string | null;
   } | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  ogImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+  noindex: boolean | null;
 }>;
 // Variable: EVENTS_SLUGS_QUERY
 // Query: *[_type == "event" && defined(slug)]{slug}
@@ -2152,7 +2199,7 @@ export type TeamMemberQueryResult = {
 
 // Source: ./sanity/queries/team-members.ts
 // Variable: TEAM_MEMBERS_QUERY
-// Query: *[_type == "team-member" && defined(slug)] | order(orderRank asc){    _type,    name,    slug,    jobTitle,    bio,    associatedLink,    showOnAboutPage,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },}
+// Query: *[_type == "team-member" && defined(slug) && showOnAboutPage] | order(orderRank asc){    _type,    name,    slug,    jobTitle,    bio,    associatedLink,    showOnAboutPage,    image{      asset->{        _id,        url,        mimeType,        metadata {          lqip,          dimensions {            width,            height          }        }      },      alt    },}
 export type TEAM_MEMBERS_QUERYResult = Array<{
   _type: "team-member";
   name: string | null;
@@ -2189,8 +2236,8 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "\n    *[_type == 'page'] | order(slug.current) {\n      'url': $baseUrl + select(slug.current == 'index' => '', '/' + slug.current),\n      'lastModified': _updatedAt,\n      'changeFrequency': 'daily',\n      'priority': select(\n        slug.current == 'index' => 1,\n        0.5\n      )\n    }\n  ": PagesQueryResult;
     "\n    *[_type == 'post'] | order(_updatedAt desc) {\n      'url': $baseUrl + '/blog/' + slug.current,\n      'lastModified': _updatedAt,\n      'changeFrequency': 'weekly',\n      'priority': 0.7\n    }\n  ": PostsQueryResult;
-    "*[_type == \"event\" && slug.current == $slug][0]{\n    _type,\n    name, \n    startDateTime,\n    endDateTime,\n    address,\n    city,\n    state,\n    externalLink,\n    description,\n    slug,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    }\n}": EventQueryResult;
-    "*[_type == \"event\" && defined(slug.current) && endDateTime > now()] | order(startDateTime asc){\n    _type,\n    name, \n    startDateTime,\n    endDateTime,\n    address,\n    city,\n    state,\n    externalLink,\n    description,\n    slug,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    }\n}": EVENTS_QUERYResult;
+    "*[_type == \"event\" && slug.current == $slug][0]{\n    _type,\n    name, \n    startDateTime,\n    endDateTime,\n    address,\n    city,\n    state,\n    externalLink,\n    description,\n    excerpt,\n    slug,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    meta_title,\n    meta_description,\n    ogImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n    },\n    noindex\n}": EventQueryResult;
+    "*[_type == \"event\" && defined(slug.current) && endDateTime > now()] | order(startDateTime asc){\n    _type,\n    name, \n    startDateTime,\n    endDateTime,\n    address,\n    city,\n    state,\n    externalLink,\n    description,\n    excerpt,\n    slug,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    meta_title,\n    meta_description,\n    ogImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n    },\n    noindex\n}": EVENTS_QUERYResult;
     "*[_type == \"event\" && defined(slug)]{slug}": EVENTS_SLUGS_QUERYResult;
     "\n  *[_type == \"page\" && slug.current == $slug][0]{\n    blocks[]{\n      \n  _type == \"hero-with-image\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    links,\n  }\n,\n      \n  _type == \"hero-text-centered\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    links,\n  }\n,\n      \n  _type == \"hero-color-body-text\" => {\n    _type,\n    _key,\n    tagLine,\n    title,\n    body,\n    links,\n  }\n,\n      \n  _type == \"hero-flex-text\" => {\n    _type,\n    _key,\n    bigText,\n    smallerText,\n    flexType,\n    colorVariant\n}\n,\n      \n  _type == \"hero-text-background-image\" => {\n    _type,\n    _key,\n    text,\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    }\n  }\n,\n      \n  _type == \"section-header\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    sectionWidth,\n    stackAlign,\n    tagLine,\n    title,\n    description,\n    link,\n  }\n,\n      \n  _type == \"split-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    noGap,\n    splitColumns[]{\n      \n  _type == \"split-content\" => {\n    _type,\n    _key,\n    sticky,\n    padding,\n    colorVariant,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    link,\n  }\n,\n      \n  _type == \"split-cards-list\" => {\n    _type,\n    _key,\n    list[]{\n      tagLine,\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"split-image\" => {\n    _type,\n    _key,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"split-info-list\" => {\n    _type,\n    _key,\n    list[]{\n      image{\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n      tags[],\n    },\n  }\n,\n    },\n  }\n,\n      \n  _type == \"grid-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    gridColumns,\n    columns[]{\n      \n  _type == \"grid-card\" => {\n    _type,\n    _key,\n    title,\n    excerpt,\n    image{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n    link,\n  }\n,\n      \n  _type == \"pricing-card\" => {\n    _type,\n    _key,\n    title,\n    tagLine,\n    price,\n    list[],\n    excerpt,\n    link,\n  }\n,\n      \n  _type == \"grid-post\" => {\n    _type,\n    _key,\n    post->{\n      title,\n      slug,\n      excerpt,\n      image{\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      categories[]->{\n        _id,\n        title,\n      },\n    },\n  }\n,\n    },\n  }\n,\n      \n  _type == \"carousel-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    size,\n    orientation,\n    indicators,\n    images[]{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"carousel-2\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    testimonial[]->{\n      _id,\n      name,\n      title,\n      image{\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        },\n        alt\n      },\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n      rating,\n    },\n  }\n,\n      \n  _type == \"timeline-row\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    timelines[]{\n      title,\n      tagLine,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"cta-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    sectionWidth,\n    stackAlign,\n    tagLine,\n    title,\n    body[]{\n      ...,\n      _type == \"image\" => {\n        ...,\n        asset->{\n          _id,\n          url,\n          mimeType,\n          metadata {\n            lqip,\n            dimensions {\n              width,\n              height\n            }\n          }\n        }\n      }\n    },\n    links,\n  }\n,\n      \n  _type == \"logo-cloud-1\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    title,\n    images[]{\n      ...,\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n  }\n,\n      \n  _type == \"faqs\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    faqs[]->{\n      _id,\n      title,\n      body[]{\n        ...,\n        _type == \"image\" => {\n          ...,\n          asset->{\n            _id,\n            url,\n            mimeType,\n            metadata {\n              lqip,\n              dimensions {\n                width,\n                height\n              }\n            }\n          }\n        }\n      },\n    },\n  }\n,\n      \n  _type == \"form-newsletter\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    stackAlign,\n    consentText,\n    buttonText,\n    successMessage,\n  }\n,\n      \n  _type == \"all-posts\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n  }\n,\n      \n_type == \"all-team-members\" => {\n  _type,\n  _key,\n  padding,\n  colorVariant,\n}\n,\n      \n_type == \"all-events\" => {\n  _type,\n  _key,\n  padding,\n  colorVariant,\n}\n,\n      \n  _type == \"about-you-test\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    stackAlign,\n    consentText,\n    buttonText,\n    successMessage,\n    formField1,\n    formField2,\n    formField3,\n    formField4,\n    formField5\n  }\n,\n      \n  _type == \"contact-us-form\" => {\n    _type,\n    _key,\n    padding,\n    colorVariant,\n    stackAlign,\n    consentText,\n    buttonText,\n    successMessage,\n    formField1,\n    formField2,\n    formField3,\n    formField4,\n  }\n,\n      \n  _type == \"scrolly-text\" => {\n    _type,\n    _key,\n    text,\n    colorVariant,\n    motionVariant,\n    padding,\n    fontVariant\n  }\n\n    },\n    meta_title,\n    meta_description,\n    noindex,\n    ogImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n    }\n  }\n": PAGE_QUERYResult;
     "*[_type == \"page\" && defined(slug)]{slug}": PAGES_SLUGS_QUERYResult;
@@ -2198,7 +2245,7 @@ declare module "@sanity/client" {
     "*[_type == \"post\" && defined(slug)] | order(_createdAt desc){\n    title,\n    slug,\n    excerpt,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": POSTS_QUERYResult;
     "*[_type == \"post\" && defined(slug)]{slug}": POSTS_SLUGS_QUERYResult;
     "*[_type == \"team-member\" && slug.current == $slug][0]{\n    _type,\n    name,\n    slug,\n    jobTitle,\n    bio,\n    associatedLink,\n    showOnAboutPage,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": TeamMemberQueryResult;
-    "*[_type == \"team-member\" && defined(slug)] | order(orderRank asc){\n    _type,\n    name,\n    slug,\n    jobTitle,\n    bio,\n    associatedLink,\n    showOnAboutPage,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": TEAM_MEMBERS_QUERYResult;
+    "*[_type == \"team-member\" && defined(slug) && showOnAboutPage] | order(orderRank asc){\n    _type,\n    name,\n    slug,\n    jobTitle,\n    bio,\n    associatedLink,\n    showOnAboutPage,\n    image{\n      asset->{\n        _id,\n        url,\n        mimeType,\n        metadata {\n          lqip,\n          dimensions {\n            width,\n            height\n          }\n        }\n      },\n      alt\n    },\n}": TEAM_MEMBERS_QUERYResult;
     "*[_type == \"team-member\" && defined(slug)]{slug}": TEAM_MEMBERS_SLUGS_QUERYResult;
   }
 }

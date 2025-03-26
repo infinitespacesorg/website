@@ -10,6 +10,7 @@ export const EVENTS_QUERY = groq`*[_type == "event" && defined(slug.current) && 
     state,
     externalLink,
     description,
+    excerpt,
     slug,
     image{
       asset->{
@@ -25,7 +26,22 @@ export const EVENTS_QUERY = groq`*[_type == "event" && defined(slug.current) && 
         }
       },
       alt
-    }
+    },
+    meta_title,
+    meta_description,
+    ogImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      },
+    },
+    noindex
 }`;
 
 export const EVENTS_SLUGS_QUERY = groq`*[_type == "event" && defined(slug)]{slug}`;

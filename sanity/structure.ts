@@ -50,14 +50,14 @@ export const structure = (S: any, context: any) =>
       }),
       orderableDocumentListDeskItem({
         type: 'team-member',
-        title: 'Team Member',
+        title: 'Team Members',
         icon: PersonStanding,
         S,
         context,
       }),
       orderableDocumentListDeskItem({
         type: 'event',
-        title: 'Event',
+        title: 'Events',
         icon: Calendar,
         S,
         context,
