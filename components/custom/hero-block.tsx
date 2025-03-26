@@ -12,11 +12,6 @@ export default function HeroBlock() {
   return (
     <>
       <CoverVideo />
-      {/*
-    <div className="relative min-h-screen w-full bg-[url('/images/event.jpeg')] bg-cover bg-no-repeat">
-        <div className="absolute inset-0 h-full w-full bg-gray-900/60" />
-    </div>
-    */}
     </>
   );
 }

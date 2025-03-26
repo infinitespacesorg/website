@@ -13,18 +13,28 @@ export default function ScrollyText({
   padding,
   colorVariant,
 }: ScrollyTextProps) {
+
+  const paddingClass =
+  padding?.top && padding?.bottom
+    ? "py-10"
+    : padding?.top
+    ? "pt-10"
+    : padding?.bottom
+    ? "pb-10"
+    : "p-0";
+
+
   return (
-    <SectionContainer
-      color={colorVariant}
-      padding={padding}
-      className="overflow-hidden whitespace-nowrap"
+    <section
+      className={`marquee-wrapper w-full p-0 bg-${colorVariant} ${paddingClass}`}
     >
       {text && (
-        <div className={`inline-block scroll-text-${motionVariant}`}>
-          <h1 className={`text-3xl ${fontVariant}`}>{text}</h1>
+        <div className={`marquee-${motionVariant} ${fontVariant}`}>
+          <span className="mx-8 text-3xl font-bold uppercase">{text}</span>
+          <span className="mx-8 text-3xl font-bold uppercase">{text}</span>
         </div>
       )}
-    </SectionContainer>
+    </section>
   );
 }
 

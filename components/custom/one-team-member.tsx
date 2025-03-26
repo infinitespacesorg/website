@@ -24,6 +24,8 @@ export default function OneTeamMember({
   image,
   bio,
   jobTitle,
+  showOnAboutPage,
+  associatedLink
 }: TeamMemberProps) {
   const [isHovering, setIsHovering] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -31,22 +33,6 @@ export default function OneTeamMember({
   function hoverElement() {
     return (
       <div className="hidden lg:flex w-full max-w-[300px] lg:max-w-[600px] m-auto flex-col text-center">
-        {/* {image && image.asset?._id && (
-          <div className="mb-4 relative h-[15rem] sm:h-[20rem] md:h-[25rem] lg:h-[9.5rem] xl:h-[12rem] rounded-2xl overflow-hidden">
-            <Image
-              src={urlFor(image).url()}
-              alt={image.alt || ""}
-              placeholder={image?.asset?.metadata?.lqip ? "blur" : undefined}
-              blurDataURL={image?.asset?.metadata?.lqip || ""}
-              fill
-              style={{
-                objectFit: "cover",
-              }}
-              // sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-              quality={100}
-            />
-          </div>
-        )} */}
         <h1 className="text-xl xl:text-2xl">{name}</h1>
         <h3 className="text-base xl:text-xl">{jobTitle}</h3>
       </div>

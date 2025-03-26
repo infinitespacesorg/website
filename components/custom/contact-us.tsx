@@ -9,6 +9,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { TextArea } from "@/components/ui/textarea";
 import SectionContainer from "@/components/ui/section-container";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,7 +18,7 @@ import { toast } from "sonner";
 import { useCallback } from "react";
 import { Loader2 } from "lucide-react";
 import { stegaClean } from "next-sanity";
-import { TextArea } from "@/components/ui/textarea";
+
 
 type ContactUsFormProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -61,7 +62,6 @@ export default function ContactUsForm({
   const handleSend = useCallback(
     async ({ name, email, website, message }: z.infer<typeof formSchema>) => {
       try {
-        console.log(name, email, website, message);
         const response = await fetch("/api/contact-us-form", {
           method: "POST",
           headers: {
@@ -116,7 +116,7 @@ export default function ContactUsForm({
                     <Input
                       {...field}
                       type="text"
-                      placeholder="Paul Allen"
+                      placeholder="Joe Cool"
                       autoComplete="off"
                       autoCapitalize="on"
                       data-1p-ignore
@@ -138,7 +138,7 @@ export default function ContactUsForm({
                     <Input
                       {...field}
                       type="text"
-                      placeholder="paul.allen@gmail.com"
+                      placeholder="joe.cool@gmail.com"
                       autoComplete="off"
                       autoCapitalize="off"
                       data-1p-ignore
@@ -160,7 +160,7 @@ export default function ContactUsForm({
                     <Input
                       {...field}
                       type="text"
-                      placeholder="https://paulallen.biz (optional)"
+                      placeholder="https://joecool.biz (optional)"
                       autoComplete="off"
                       autoCapitalize="off"
                       data-1p-ignore

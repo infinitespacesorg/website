@@ -4,7 +4,6 @@ import { AArrowUp } from "lucide-react";
 export const FONT_VARIANTS = [
     { title: "Normal", value: "font-sans" },
     { title: "Roboto", value: "font-roboto" },
-    { title: 'Boldonse', value: "font-boldonse" },
     { title: 'NM', value: "font-nm" }
 ];
 
