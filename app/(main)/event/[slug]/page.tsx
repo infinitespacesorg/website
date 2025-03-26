@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import PostHero from "@/components/ui/post/hero";
 import PortableTextRenderer from "@/components/portable-text-renderer";
 import {
   fetchSanityEventBySlug,
@@ -78,12 +77,6 @@ export default async function EventPage(props: {
             </Link>
           </>
         )}
-
-        {/* <article className="max-w-3xl mx-auto">
-          <Breadcrumbs links={links} />
-          <PostHero {...post} />
-          {post.body && <PortableTextRenderer value={post.body} />}
-        </article> */}
       </div>
     </section>
   );
