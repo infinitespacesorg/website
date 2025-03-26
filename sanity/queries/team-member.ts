@@ -6,6 +6,8 @@ export const teamMemberQuery = groq`*[_type == "team-member" && slug.current == 
     slug,
     jobTitle,
     bio,
+    associatedLink,
+    showOnAboutPage,
     image{
       asset->{
         _id,
