@@ -10,7 +10,7 @@ type AllEventsProps = Extract<
   { _type: "all-events" }
 >;
 
-export default async function AllTeamMembers({
+export default async function AllEvents({
   padding,
   colorVariant,
 }: AllEventsProps) {
