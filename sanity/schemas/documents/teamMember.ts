@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { orderRankField } from "@sanity/orderable-document-list";
 
 export default defineType({
-    name: "team-member",
+    name: "teamMember",
     title: 'Team Member',
     type: 'document',
     fields: [
@@ -61,7 +61,7 @@ export default defineType({
             type: 'boolean',
             initialValue: false,
         }),
-        orderRankField({ type: "team-member" }),
+        orderRankField({ type: "teamMember" }),
     ],
     preview: {
         select: {

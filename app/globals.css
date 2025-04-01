@@ -299,3 +299,7 @@
   white-space: nowrap;
 }
 
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}

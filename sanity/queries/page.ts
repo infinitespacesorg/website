@@ -20,6 +20,7 @@ import { allTeamMembersQuery } from "./all-team-members";
 import { allEventsQuery } from "./all-events";
 import { heroTextBackgroundImageQuery } from "./hero/hero-text-background-image";
 import { scrollyTextQuery } from "./scrolly-text";
+import { allPastProjectsQuery } from "./all-pastProjects";
 
 export const PAGE_QUERY = groq`
   *[_type == "page" && slug.current == $slug][0]{
@@ -44,7 +45,8 @@ export const PAGE_QUERY = groq`
       ${allEventsQuery},
       ${aboutYouTestQuery},
       ${contactUsFormQuery},
-      ${scrollyTextQuery}
+      ${scrollyTextQuery},
+      ${allPastProjectsQuery}
     },
     meta_title,
     meta_description,

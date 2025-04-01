@@ -1,6 +1,6 @@
 import { groq } from "next-sanity";
 
-export const TEAM_MEMBERS_QUERY = groq`*[_type == "team-member" && defined(slug) && showOnAboutPage] | order(orderRank asc){
+export const TEAM_MEMBERS_QUERY = groq`*[_type == "teamMember" && defined(slug) && showOnAboutPage] | order(orderRank asc){
     _type,
     name,
     slug,
@@ -25,4 +25,4 @@ export const TEAM_MEMBERS_QUERY = groq`*[_type == "team-member" && defined(slug)
     },
 }`;
 
-export const TEAM_MEMBERS_SLUGS_QUERY = groq`*[_type == "team-member" && defined(slug)]{slug}`;
+export const TEAM_MEMBERS_SLUGS_QUERY = groq`*[_type == "teamMember" && defined(slug)]{slug}`;
