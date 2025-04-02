@@ -1,18 +1,18 @@
-/* an example font import from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Boldonse&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap");
-
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
+/* add new fonts by declaring their variable names in app/layout.tsx (similar to Roboto, Inter as FontSans), then add them in @theme here */
+
+/* https://nextjs.org/docs/pages/building-your-application/optimizing/fonts */
+
 @theme {
   --font-sans: var(--font-sans);
+  --font-roboto: var(--font-roboto);
+  --font-nm: var(--font-nm);
  
-
   /* Custom animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -48,21 +48,16 @@
   }
 }
 
-@keyframes scroll-text {
+@keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
 :root {
-   /* if we wanted to use the Roboto Google Font: */
-   --font-roboto: "Roboto", sans-serif;
-   --font-boldonse: "Boldonse", sans-serif;
-   --font-nm: 'Nanum Myeongjo', sans-serif;
-
   --background: hsl(0 0% 100%);
   --foreground: hsl(224 71.4% 4.1%);
   --card: hsl(0 0% 100%);
@@ -172,6 +167,25 @@
 }
 
 @layer base {
+
+  @font-face {
+    font-family: "Roboto";
+    src: url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Nanum Myeongjo";
+    src: url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Boldonse";
+    src: url("https://fonts.googleapis.com/css2?family=Boldonse&display=swap");
+    font-display: swap;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -262,3 +276,30 @@
   color: transparent;
 }
 
+.marquee-slow {
+  display: flex;
+  width: fit-content;
+  animation: marquee 25s linear infinite;
+}
+
+.marquee-normal {
+  display: flex;
+  width: fit-content;
+  animation: marquee 15s linear infinite;
+}
+
+.marquee-fast {
+  display: flex;
+  width: fit-content;
+  animation: marquee 10s linear infinite;
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}

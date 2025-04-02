@@ -20,6 +20,7 @@ import AllTeamMembers from "./custom/all-team-members";
 import AllEvents from "./custom/all-events"
 import ScrollyText from "./custom/scrolly-text";
 import HeroTextBackgroundImage from "./custom/hero-text-background-image";
+import AllPastProjects from "./custom/all-past-projects";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -44,6 +45,7 @@ const componentMap: {
   "all-posts": AllPosts,
   "all-team-members": AllTeamMembers,
   "all-events": AllEvents,
+  "all-past-projects": AllPastProjects,
   "about-you-test": AboutYouTest,
   'contact-us-form': ContactUsForm,
   'scrolly-text': ScrollyText,

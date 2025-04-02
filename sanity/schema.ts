@@ -6,8 +6,9 @@ import author from "./schemas/documents/author";
 import category from "./schemas/documents/category";
 import faq from "./schemas/documents/faq";
 import testimonial from "./schemas/documents/testimonial";
-import teamMember from "./schemas/documents/team-member";
+import teamMember from "./schemas/documents/teamMember";
 import event from "./schemas/documents/event";
+import pastProject from "./schemas/documents/pastProject";
 
 // Schema UI shared objects
 import blockContent from "./schemas/blocks/shared/block-content";
@@ -47,6 +48,8 @@ import allTeamMembers from "./schemas/blocks/all-team-members";
 import allEvents from "./schemas/blocks/all-events";
 import heroTextBackgroundImage from "./schemas/blocks/hero/hero-text-background-image";
 import scrollyText from "./schemas/blocks/scrolly-text";
+import pastProjects from "./schemas/blocks/all-past-projects";
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -59,6 +62,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     testimonial,
     teamMember,
     event,
+    pastProject,
     // shared objects
     blockContent,
     link,
@@ -96,6 +100,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     allTeamMembers,
     allEvents,
     contactUsForm,
-    scrollyText
+    scrollyText,
+    pastProjects
   ],
 };

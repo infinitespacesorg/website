@@ -46,11 +46,11 @@ export default function Footer() {
       {/* maybe this div should be its own component */}
       <div className="relative z-50">
         <SocialIcons
-          className={`flex flex-col left-5 bottom-10 gap-2 fixed`}
+          className={`flex flex-col left-3 bottom-3 md:left-5 md:bottom-10 gap-2 fixed`}
         />
         {/* <p className={`fixed right-1/36 bottom-20 bg-gray-500 z-[5]`}>Hello!</p> */}
         <Button
-          className={`fixed right-5 bottom-10 z-[50]`}
+          className={`fixed right-3 bottom-3 md:right-5 md:bottom-10 z-[50]`}
           onClick={() => setContactDialogOpen(!contactDialogOpen)}
           // onClick={(e) => {
           //   e.preventDefault();

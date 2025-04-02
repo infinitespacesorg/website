@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 import { orderRankField } from "@sanity/orderable-document-list";
 
 export default defineType({
-    name: "team-member",
+    name: "teamMember",
     title: 'Team Member',
     type: 'document',
     fields: [
@@ -26,13 +26,19 @@ export default defineType({
             name: "jobTitle",
             title: "Job Title",
             type: "string",
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "bio",
             title: "Bio",
             type: "text",
-            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'associatedLink',
+            title: 'Personal Website / Linkto',
+            type: "url",
+            validation: Rule => Rule.uri({
+                scheme: ['http', 'https']
+              })
         }),
         defineField({
             name: "image",
@@ -49,7 +55,13 @@ export default defineType({
                 }),
             ],
         }),
-        orderRankField({ type: "team-member" }),
+        defineField({
+            name: 'showOnAboutPage',
+            title: "Show on About Page?",
+            type: 'boolean',
+            initialValue: false,
+        }),
+        orderRankField({ type: "teamMember" }),
     ],
     preview: {
         select: {

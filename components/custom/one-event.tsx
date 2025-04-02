@@ -19,6 +19,7 @@ export default function OneEvent({
   state,
   externalLink,
   description,
+  excerpt,
   image,
 }: EventProps) {
 
@@ -55,7 +56,7 @@ export default function OneEvent({
       <h1 className="text-2xl text-center py-5">{name}</h1>
       <h2 className="text-xl py-2">{eventDate}</h2>
       <h3 className="text-base py-2">{address} - {city}, {state}</h3>
-      <p className="text-sm py-2">{description}</p>
+      <p className="text-sm py-2">{excerpt}</p>
     </div>
   );
 }
