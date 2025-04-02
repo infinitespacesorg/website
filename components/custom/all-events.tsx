@@ -3,14 +3,14 @@ import OneEvent from "./one-event";
 import Link from "next/link";
 import { stegaClean } from "next-sanity";
 import { PAGE_QUERYResult } from "@/sanity.types";
-import { fetchSanityEvents } from "@/app/(main)/[slug]/actions";
+import { fetchSanityEvents } from "@/app/(main)/event/actions";
 
 type AllEventsProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
   { _type: "all-events" }
 >;
 
-export default async function AllTeamMembers({
+export default async function AllEvents({
   padding,
   colorVariant,
 }: AllEventsProps) {
@@ -24,20 +24,11 @@ export default async function AllTeamMembers({
           <Link
             key={event?.slug?.current}
             className="flex w-full rounded-3xl ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            href={event.externalLink!}
+            href={`/event/${event?.slug?.current}`}
           >
             <OneEvent
+            {...event}
               key={event.slug?.current}
-              slug={event.slug}
-              name={event?.name ?? ""}
-              startDateTime={event?.startDateTime}
-              endDateTime={event?.endDateTime}
-              address={event?.address ?? ""}
-              city={event?.city ?? ""}
-              state={event?.state ?? ""}
-              description={event?.description ?? ''}
-              externalLink={event?.externalLink}
-              image={event?.image}
             />
           </Link>
         ))}

@@ -59,7 +59,8 @@ export default defineType({
         { type: 'all-events'},
         { type: "about-you-test"},
         { type: "contact-us-form"},
-        { type: 'scrolly-text'}
+        { type: 'scrolly-text'},
+        { type: 'all-past-projects'},
       ],
     }),
     defineField({

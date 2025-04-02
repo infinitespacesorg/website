@@ -9,7 +9,25 @@ export const EVENTS_QUERY = groq`*[_type == "event" && defined(slug.current) && 
     city,
     state,
     externalLink,
-    description,
+    description[]{
+      ...,
+      _type == "image" => {
+        ...,
+        asset->{
+          _id,
+          url,
+          mimeType,
+          metadata {
+            lqip,
+            dimensions {
+              width,
+              height
+            }
+          }
+        }
+      }
+    },
+    excerpt,
     slug,
     image{
       asset->{
@@ -25,7 +43,22 @@ export const EVENTS_QUERY = groq`*[_type == "event" && defined(slug.current) && 
         }
       },
       alt
-    }
+    },
+    meta_title,
+    meta_description,
+    ogImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      },
+    },
+    noindex
 }`;
 
 export const EVENTS_SLUGS_QUERY = groq`*[_type == "event" && defined(slug)]{slug}`;

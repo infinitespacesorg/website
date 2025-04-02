@@ -1,13 +1,13 @@
 import { groq } from "next-sanity";
 
-export const teamMemberQuery = groq`*[_type == "teamMember" && slug.current == $slug][0]{
+export const pastProjectQuery = groq`*[_type == "pastProject" && slug.current == $slug][0]{
     _type,
-    name,
+    name, 
     slug,
-    jobTitle,
-    bio,
+    teamMember,
+    impact,
+    description,
     associatedLink,
-    showOnAboutPage,
     image{
       asset->{
         _id,
@@ -22,5 +22,5 @@ export const teamMemberQuery = groq`*[_type == "teamMember" && slug.current == $
         }
       },
       alt
-    },
+    }
 }`;
