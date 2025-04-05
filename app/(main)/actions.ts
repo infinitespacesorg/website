@@ -4,7 +4,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { PAGE_QUERYResult, PAGES_SLUGS_QUERYResult } from "@/sanity.types";
 
 import { encodedRedirect } from "@/lib/utils";
-import { createMiddlewareClient } from "@/lib/supabase-utils";
+import { createMiddlewareClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -80,7 +80,7 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-in", error.message);
   }
 
-  return redirect("/protected");
+  return redirect("/account");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
@@ -157,5 +157,5 @@ export const resetPasswordAction = async (formData: FormData) => {
 export const signOutAction = async () => {
   const supabase = await createMiddlewareClient();
   await supabase.auth.signOut();
-  return redirect("/sign-in");
+  return redirect("/login");
 };
