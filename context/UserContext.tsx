@@ -4,34 +4,71 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/browser";
 import type { User } from "@supabase/supabase-js";
+import type { Account } from "@/types";
 
 type UserContextType = {
-  user: User | null;
+  authUser: User | null;
+  account: Account | null;
   loading: boolean;
 };
 
 const UserContext = createContext<UserContextType>({
-  user: null,
+  authUser: null,
+  account: null,
   loading: true,
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [authUser, setAuthUser] = useState<User | null>(null);
+  const [account, setAccount] = useState<Account | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) console.error("Error getting user:", error);
-      setUser(data?.user ?? null);
+    const loadUserData = async () => {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error("Failed to get auth user", userError);
+        setAuthUser(null)
+        setAccount(null)
+        setLoading(false);
+        return;
+      }
+
+      setAuthUser(user);
+
+      const { data: accountData, error: accountError } = await supabase
+        .from("accounts")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+      if (accountError) {
+        console.error("Failed to get account info", accountError);
+        setAccount(null);
+      } else {
+        setAccount(accountData);
+      }
+
       setLoading(false);
     };
 
-    getUser();
+    loadUserData();
 
     const { data: subscription } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
+      async (_event, session) => {
+        const currentUser = session?.user ?? null;
+        setAuthUser(currentUser);
+
+        if (currentUser) {
+          const { data: accountData } = await supabase
+            .from("accounts")
+            .select("*")
+            .eq("id", currentUser.id)
+            .single();
+          setAccount(accountData ?? null);
+        } else setAccount(null);
       }
     );
 
@@ -41,7 +78,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, loading }}>
+    <UserContext.Provider value={{ authUser, account, loading }}>
       {children}
     </UserContext.Provider>
   );

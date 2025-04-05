@@ -16,18 +16,21 @@ export default function Header() {
     { label: "Blog", href: "/blog", target: false },
     { label: "About", href: "/about", target: false },
     { label: "Login", href: "/login", target: false },
-  ])
+  ]);
 
-  const { user } = useUser()
+  const { authUser, account } = useUser();
 
   useEffect(() => {
-    if (user) {
+    if (authUser) {
       setNavItems((items) => [
-        ...items.slice(0, -1), // remove last item
-        { label: "Sign Out", action: "signOut" },
+        { label: "Home", href: "/", target: false },
+    { label: "Blog", href: "/blog", target: false },
+    { label: "About", href: "/about", target: false },
+    { label: "Account", href: "/account", target: false },
+    { label: "Sign Out", action: "signOut" },
       ]);
     }
-  }, [user]);
+  }, [authUser]);
 
   useEffect(() => {
     function handleScroll() {
@@ -54,7 +57,9 @@ export default function Header() {
           <ModeToggle />
           <DesktopNav navItems={navItems} isScrolled={isScrolled} />
         </div>
-        <div className={`flex items-center xl:hidden ${isScrolled ? "" : "text-gray-400 dark:text-white"}`}>
+        <div
+          className={`flex items-center xl:hidden ${isScrolled ? "" : "text-gray-400 dark:text-white"}`}
+        >
           <ModeToggle />
           <MobileNav navItems={navItems} />
         </div>

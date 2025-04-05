@@ -6,18 +6,18 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { parseMessageFromSearchParams } from "@/lib/utils";
 
 export default function Login() {
-  const { user, loading } = useUser();
+  const { authUser, account, loading } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   // if there's a user, redirect to /account
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && authUser) {
       router.push("/account");
     }
-  }, [user, loading, router]);
+  }, [authUser, loading, router]);
 
-  if (loading || user) return null;
+  if (loading || authUser) return null;
 
   // if there isn't a user, then show the sign in page
   const message = parseMessageFromSearchParams(searchParams);
