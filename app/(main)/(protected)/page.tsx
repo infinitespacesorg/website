@@ -1,4 +1,4 @@
-import { createMiddlewareClient } from "@/lib/supabase-utils";
+import { createMiddlewareClient } from "@/lib/supabase/server";
 import { InfoIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 

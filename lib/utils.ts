@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { redirect } from "next/navigation";
+import type { Message } from "@/components/ui/form-message";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -65,4 +66,15 @@ export function encodedRedirect(
   message: string,
 ) {
   return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
+}
+
+export function parseMessageFromSearchParams(params: URLSearchParams): Message | null {
+  const msg = params.get("message");
+  const status = params.get("status");
+
+  if (!msg || !status) return null;
+
+  if (status === "success") return { success: msg };
+  if (status === "error") return { error: msg };
+  return { message: msg };
 }
