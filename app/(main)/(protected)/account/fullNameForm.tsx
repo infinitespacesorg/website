@@ -1,4 +1,10 @@
-import { Form, FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import { useEffect, useState, useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -7,88 +13,65 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import { useTransition } from "react";
+import { upsertFullName } from "../actions";
+import { useUser } from "@/context/UserContext";
+
+const fullNameFormSchema = z.object({
+  full_name: z.string().min(1, { message: "Please enter your full name" }),
+});
 
 export default function FullNameForm() {
-  const fullNameFormSchema = z.object({
-    full_name: z.string().min(1, { message: "Please enter your full name" }),
-  });
+  const { account, setAccount } = useUser();
+  const [isPending, startTransition] = useTransition();
 
-  const fullNameForm = useForm<z.infer<typeof fullNameFormSchema>>({
+  const form = useForm<z.infer<typeof fullNameFormSchema>>({
     resolver: zodResolver(fullNameFormSchema),
     defaultValues: {
-      full_name: "",
+      full_name: account?.full_name ?? "",
     },
   });
 
-  const { isSubmitting } = fullNameForm.formState;
+  const onSubmit = (values: z.infer<typeof fullNameFormSchema>) => {
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append("full_name", values.full_name);
 
-  const handleFNSend = useCallback(
-    async ({ full_name }: { full_name: string }) => {
-      try {
-        const response = await fetch("/api/newsletter", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            full_name,
-          }),
-        });
+      await upsertFullName(formData);
 
-        const result = await response.json();
+      setAccount((prev) =>
+        prev ? { ...prev, full_name: values.full_name } : prev
+      );
 
-        if (response.ok) {
-          toast("display name updated");
-          fullNameForm.reset();
-        } else {
-          toast.error(result.error);
-        }
-      } catch (error: any) {
-        toast.error(error.message);
-        throw new Error(error.message);
-      }
-    },
-    [fullNameForm]
-  );
-
-  async function onSubmitFN(values: z.infer<typeof fullNameFormSchema>) {
-    await handleFNSend(values);
-  }
+      toast.success("Full name updated!");
+    });
+  };
 
   return (
-    <Form {...fullNameForm}>
-      <form className="" onSubmit={fullNameForm.handleSubmit(onSubmitFN)}>
-        <div className="flex gap-4">
-          <FormField
-            control={fullNameForm.control}
-            name="full_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="text"
-                    placeholder="Enter your full name"
-                    autoComplete="off"
-                    data-1p-ignore
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            className="h-9"
-            size="sm"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting && (
-              <Loader2 className="w-6 h-6 mr-2 animate-spin" />
-            )}
-            update
-          </Button>
-        </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-4">
+        <FormField
+          control={form.control}
+          name="full_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  type="text"
+                  placeholder="Enter your full name"
+                  autoComplete="off"
+                  data-1p-ignore
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button className="h-9" size="sm" type="submit" disabled={isPending}>
+          {isPending && <Loader2 className="w-6 h-6 mr-2 animate-spin" />}
+          update
+        </Button>
       </form>
     </Form>
   );

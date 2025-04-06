@@ -13,7 +13,7 @@ import { ModeToggle } from "../menu-toggle";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
-import { signOutAction } from "@/app/(main)/actions";
+import { signOutAction } from "@/app/(main)/(auth-pages)/actions";
 
 export default function DesktopNav({
   navItems,
