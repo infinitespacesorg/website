@@ -27,14 +27,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const loadUserData = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       const {
         data: { user },
         error: userError,
       } = await supabase.auth.getUser();
       if (userError || !user) {
-        console.error("Failed to get auth user", userError);
-        setAuthUser(null)
-        setAccount(null)
+        setAuthUser(null);
+        setAccount(null);
         setLoading(false);
         return;
       }
@@ -47,7 +48,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         .eq("id", user.id)
         .single();
       if (accountError) {
-        console.error("Failed to get account info", accountError);
         setAccount(null);
       } else {
         setAccount(accountData);
@@ -58,21 +58,24 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     loadUserData();
 
-    const { data: subscription } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        const currentUser = session?.user ?? null;
-        setAuthUser(currentUser);
+    const { data: subscription } = supabase.auth.onAuthStateChange(async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-        if (currentUser) {
-          const { data: accountData } = await supabase
-            .from("accounts")
-            .select("*")
-            .eq("id", currentUser.id)
-            .single();
-          setAccount(accountData ?? null);
-        } else setAccount(null);
+      setAuthUser(user ?? null);
+
+      if (user) {
+        const { data: accountData } = await supabase
+          .from("accounts")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+        setAccount(accountData ?? null);
+      } else {
+        setAccount(null);
       }
-    );
+    });
 
     return () => {
       subscription.subscription.unsubscribe();

@@ -53,7 +53,7 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-in", error.message);
   }
 
-  return redirect("/account");
+  return redirect("/auth/sync?next=/account");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
@@ -93,5 +93,5 @@ export const forgotPasswordAction = async (formData: FormData) => {
 export const signOutAction = async () => {
   const supabase = await createMiddlewareClient();
   await supabase.auth.signOut();
-  return redirect("/login");
+  return redirect("/auth/sync?next=/login");
 };
