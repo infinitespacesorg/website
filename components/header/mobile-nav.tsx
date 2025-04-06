@@ -14,7 +14,7 @@ import Logo from "@/components/logo";
 import { useState } from "react";
 import { AlignRight } from "lucide-react";
 import clsx from "clsx";
-import { signOutAction } from "@/app/(main)/actions";
+import { signOutAction } from "@/app/(main)/(auth-pages)/actions";
 
 export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
   const [open, setOpen] = useState(false);

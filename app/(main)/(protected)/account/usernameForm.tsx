@@ -13,88 +13,65 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import { upsertUsername } from "../actions";
+import { useTransition } from "react";
+import { useUser } from "@/context/UserContext";
+
+const usernameFormSchema = z.object({
+  username: z.string().min(1, { message: "Please enter your display name" }),
+});
 
 export default function UsernameForm() {
-  const usernameFormSchema = z.object({
-    username: z.string().min(1, { message: "Please enter your display name" }),
-  });
+  const { account, setAccount } = useUser();
+  const [isPending, startTransition] = useTransition();
 
   const usernameForm = useForm<z.infer<typeof usernameFormSchema>>({
     resolver: zodResolver(usernameFormSchema),
     defaultValues: {
-      username: "",
+      username: account?.username ?? "",
     },
   });
 
-  const { isSubmitting } = usernameForm.formState;
+  const onSubmit = (values: z.infer<typeof usernameFormSchema>) => {
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append("full_name", values.username);
 
-  const handleUNSend = useCallback(
-    async ({ username }: { username: string }) => {
-      try {
-        const response = await fetch("/api/newsletter", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-          }),
-        });
+      await upsertUsername(formData);
 
-        const result = await response.json();
+      setAccount((prev) =>
+        prev ? { ...prev, username: values.username } : prev
+      );
 
-        if (response.ok) {
-          toast("display name updated");
-          usernameForm.reset();
-        } else {
-          toast.error(result.error);
-        }
-      } catch (error: any) {
-        toast.error(error.message);
-        throw new Error(error.message);
-      }
-    },
-    [usernameForm]
-  );
-
-  async function onSubmitUN(values: z.infer<typeof usernameFormSchema>) {
-    await handleUNSend(values);
-  }
+      toast.success("Username updated!");
+    });
+  };
 
   return (
     <Form {...usernameForm}>
-      <form className="" onSubmit={usernameForm.handleSubmit(onSubmitUN)}>
-        <div className="flex gap-4">
-          <FormField
-            control={usernameForm.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="text"
-                    placeholder="Enter your new username"
-                    autoComplete="off"
-                    data-1p-ignore
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            className="h-9"
-            size="sm"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting && (
-              <Loader2 className="w-6 h-6 mr-2 animate-spin" />
-            )}
-            update
-          </Button>
-        </div>
+      <form onSubmit={usernameForm.handleSubmit(onSubmit)} className="flex gap-4">
+        <FormField
+          control={usernameForm.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  type="text"
+                  placeholder="Enter your new username"
+                  autoComplete="off"
+                  data-1p-ignore
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button className="h-9" size="sm" type="submit" disabled={isPending}>
+          {isPending && <Loader2 className="w-6 h-6 mr-2 animate-spin" />}
+          update
+        </Button>
       </form>
     </Form>
   );

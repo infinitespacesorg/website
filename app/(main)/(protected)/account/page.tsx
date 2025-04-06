@@ -13,6 +13,8 @@ export default function Account() {
 
   const { authUser, account } = useUser();
 
+  console.log(account, authUser)
+
   useEffect(() => {
     if (account?.full_name) setHasFullName(true);
   }, [account]);

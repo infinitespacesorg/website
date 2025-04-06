@@ -1,7 +1,7 @@
 // context/UserContext.tsx
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/browser";
 import type { User } from "@supabase/supabase-js";
 import type { Account } from "@/types";
@@ -10,12 +10,14 @@ type UserContextType = {
   authUser: User | null;
   account: Account | null;
   loading: boolean;
+  setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
 };
 
 const UserContext = createContext<UserContextType>({
   authUser: null,
   account: null,
   loading: true,
+  setAccount: () => {},
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -78,7 +80,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ authUser, account, loading }}>
+    <UserContext.Provider value={{ authUser, account, setAccount, loading }}>
       {children}
     </UserContext.Provider>
   );
