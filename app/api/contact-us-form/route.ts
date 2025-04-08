@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase-utils";
+import { supabase } from "@/lib/supabase/browser";
 
 interface FormSubmission {
     name: string;
@@ -6,8 +6,6 @@ interface FormSubmission {
     website: string | null;
     message: string;
 }
-
-const supabase = createClient();
 
 export const POST = async (request: Request) => {
 

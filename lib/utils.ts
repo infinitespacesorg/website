@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { redirect } from "next/navigation";
 import type { Message } from "@/components/ui/form-message";
+import { Resend } from "resend"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,6 +17,8 @@ export const formatDate = (date: string): string => {
   };
   return dateObj.toLocaleDateString("en-US", options);
 };
+
+export const resend = new Resend(`${process.env.RESEND_API_KEY}`)
 
 export const creatorCategories = [
   'AI',

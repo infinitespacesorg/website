@@ -2,6 +2,7 @@
 import { createMiddlewareClient } from "@/lib/supabase/server";
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
+import * as z from "zod";
 
 export const resetPasswordAction = async (formData: FormData) => {
     const supabase = await createMiddlewareClient();
@@ -43,8 +44,20 @@ export const resetPasswordAction = async (formData: FormData) => {
 export async function upsertUsername(
     formData: FormData
 ): Promise<void>{
-    const supabase = await createMiddlewareClient()
+
     const username = formData.get("username")
+    const usernameFormSchema = z.object({
+        username: z.string().min(1, { message: "Please enter your username" }),
+      });
+
+    const result = usernameFormSchema.safeParse({ username })
+
+      if (!result.success) {
+        const errorMessage = result.error.format().username?._errors?.[0]
+        throw new Error(errorMessage)
+      }
+
+    const supabase = await createMiddlewareClient()
 
     const {
         data: { user },
@@ -55,7 +68,7 @@ export async function upsertUsername(
         throw new Error("Not authenticated");
     }
 
-    const { error } = await supabase.from('accounts').update({ username }).eq("id", user.id)
+    const { error } = await supabase.from('accounts').update({ username: result.data.username }).eq("id", user.id)
 
     if (error) {
         throw new Error("Failed to update username")
@@ -68,9 +81,18 @@ export async function upsertFullName(
     formData: FormData
 ): Promise<void>{
 
-    console.log(formData)
+    const fullNameFormSchema = z.object({
+        full_name: z.string().min(1, { message: "Please enter your full name" }),
+      });
 
     const full_name = formData.get("full_name")
+
+    const result = fullNameFormSchema.safeParse({ full_name })
+
+    if (!result.success) {
+        const errorMessage = result.error.format().full_name?._errors?.[0] || "Invalid input";
+        throw new Error(errorMessage);
+      }
 
     const supabase = await createMiddlewareClient()
 
@@ -85,10 +107,13 @@ export async function upsertFullName(
 
     console.log(user)
 
-    const { error } = await supabase.from('accounts').update({ full_name }).eq("id", user.id)
+    const { error } = await supabase.from('accounts').update({ full_name: result.data.full_name }).eq("id", user.id)
 
     if (error) {
         throw new Error("Failed to update full name", error)
     }
     revalidatePath('/account')
 }
+
+
+

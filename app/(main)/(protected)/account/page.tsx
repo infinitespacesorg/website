@@ -25,6 +25,8 @@ export default function Account() {
     if (account?.full_name) setHasFullName(true);
   }, [account]);
 
+  console.log(authUser, account)
+
   return (
     <section className="py-15 max-w-[800px] m-auto">
       {!loading && account && (

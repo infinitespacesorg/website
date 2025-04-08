@@ -5,7 +5,6 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { useEffect, useState, useCallback } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,6 +15,7 @@ import { Loader2 } from "lucide-react";
 import { upsertUsername } from "../actions";
 import { useTransition } from "react";
 import { useUser } from "@/context/UserContext";
+import { upsertFullName } from "../actions";
 
 const usernameFormSchema = z.object({
   username: z.string().min(1, { message: "Please enter your display name" }),
@@ -35,7 +35,9 @@ export default function UsernameForm() {
   const onSubmit = (values: z.infer<typeof usernameFormSchema>) => {
     startTransition(async () => {
       const formData = new FormData();
-      formData.append("full_name", values.username);
+      formData.append("username", values.username);
+
+      console.log(formData)
 
       await upsertUsername(formData);
 

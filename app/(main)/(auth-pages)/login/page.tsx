@@ -19,6 +19,8 @@ export default function Login() {
 
   if (loading || authUser) return null;
 
+  console.log(loading, authUser)
+
   // if there isn't a user, then show the sign in page
   const message = parseMessageFromSearchParams(searchParams);
 
