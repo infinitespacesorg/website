@@ -7,7 +7,7 @@ export default function AuthSync() {
   const next = useSearchParams().get("next") || "/";
 
   useEffect(() => {
-    window.location.href = next;
+    window.location.replace(next);
   }, [ next]);
 
   return (

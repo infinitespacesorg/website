@@ -4,6 +4,8 @@ import { encodedRedirect } from "@/lib/utils";
 import { createMiddlewareClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { resend } from "@/lib/utils"
+import { ResendEmailConfirmationTemplate } from "@/emails/ConfirmEmail";
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
@@ -19,13 +21,22 @@ export const signUpAction = async (formData: FormData) => {
     );
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data: userData, error: error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
     },
   });
+
+  // this doesn't work yet, not sure how to bypass the Supabase email templates and use our own email template yet
+  
+  // await resend.emails.send({
+  //   from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
+  //   to: email,
+  //   subject: "Confirm your email",
+  //   react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
+  // })
 
   if (error) {
     console.error(error.code + " " + error.message);

@@ -52,13 +52,13 @@ export default function Header() {
           <Logo />
         </Link>
         <div
-          className={`hidden xl:flex gap-1 items-center justify-between ${isScrolled ? "" : "text-gray-400 dark:text-white rounded-sm"}`}
+          className={`hidden md:flex gap-1 items-center justify-between ${isScrolled ? "" : "text-gray-400 dark:text-white rounded-sm"}`}
         >
           <ModeToggle />
           <DesktopNav navItems={navItems} isScrolled={isScrolled} />
         </div>
         <div
-          className={`flex items-center xl:hidden ${isScrolled ? "" : "text-gray-400 dark:text-white"}`}
+          className={`flex items-center md:hidden ${isScrolled ? "" : "text-gray-400 dark:text-white"}`}
         >
           <ModeToggle />
           <MobileNav navItems={navItems} />
