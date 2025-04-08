@@ -30,20 +30,20 @@ export default function DesktopNav({
       if ("action" in navItem && navItem.action === "signOut") {
         return (
           <DropdownMenuItem
+            key={navItem.label}
+            onSelect={(e) => e.preventDefault()}
             className={clsx(
               `px-2 w-30 p-1 m-1.5 text-right rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800`
             )}
-            key={navItem.label}
           >
-            <button
-              type="button"
-              onClick={async () => {
-                await signOutAction();
-              }}
-              className="block w-full text-right text-sm text-foreground/90 hover:text-foreground/80 transition-colors"
-            >
-              {navItem.label}
-            </button>
+            <form action={signOutAction} className="">
+              <button
+                type="submit"
+                className="block w-full text-right text-sm text-foreground/90 hover:text-foreground/80 transition-colors"
+              >
+                {navItem.label}
+              </button>
+            </form>
           </DropdownMenuItem>
         );
       } else if ("href" in navItem) {
