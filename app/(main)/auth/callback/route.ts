@@ -1,5 +1,6 @@
-import { createMiddlewareClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
   // The `/auth/callback` route is required for the server-side auth flow implemented
@@ -12,8 +13,11 @@ export async function GET(request: Request) {
 
   // console.log(requestUrl)
 
+
+
   if (code) {
-    const supabase = await createMiddlewareClient();
+    const cookieStore = await cookies()
+    const supabase = await createSupabaseServerClient(cookieStore);
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) console.error("❌ exchange error:", error);

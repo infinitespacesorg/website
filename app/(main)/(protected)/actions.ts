@@ -1,14 +1,15 @@
 "use server"
-import { createMiddlewareClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
+import { cookies } from "next/headers";
 
 export const resetPasswordAction = async (formData: FormData) => {
-    const supabase = await createMiddlewareClient();
 
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
+
 
     if (!password || !confirmPassword) {
         encodedRedirect(
@@ -25,6 +26,10 @@ export const resetPasswordAction = async (formData: FormData) => {
             "Passwords do not match",
         );
     }
+
+    const cookieStore = await cookies()
+
+    const supabase = await createSupabaseServerClient(cookieStore);
 
     const { error } = await supabase.auth.updateUser({
         password: password,
@@ -43,21 +48,23 @@ export const resetPasswordAction = async (formData: FormData) => {
 
 export async function upsertUsername(
     formData: FormData
-): Promise<void>{
+): Promise<void> {
 
     const username = formData.get("username")
     const usernameFormSchema = z.object({
         username: z.string().min(1, { message: "Please enter your username" }),
-      });
+    });
 
     const result = usernameFormSchema.safeParse({ username })
 
-      if (!result.success) {
+    if (!result.success) {
         const errorMessage = result.error.format().username?._errors?.[0]
         throw new Error(errorMessage)
-      }
+    }
 
-    const supabase = await createMiddlewareClient()
+    const cookieStore = await cookies()
+
+    const supabase = await createSupabaseServerClient(cookieStore);
 
     const {
         data: { user },
@@ -79,11 +86,11 @@ export async function upsertUsername(
 
 export async function upsertFullName(
     formData: FormData
-): Promise<void>{
+): Promise<void> {
 
     const fullNameFormSchema = z.object({
         full_name: z.string().min(1, { message: "Please enter your full name" }),
-      });
+    });
 
     const full_name = formData.get("full_name")
 
@@ -92,9 +99,11 @@ export async function upsertFullName(
     if (!result.success) {
         const errorMessage = result.error.format().full_name?._errors?.[0] || "Invalid input";
         throw new Error(errorMessage);
-      }
+    }
 
-    const supabase = await createMiddlewareClient()
+    const cookieStore = await cookies()
+
+    const supabase = await createSupabaseServerClient(cookieStore);
 
     const {
         data: { user },

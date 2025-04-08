@@ -1,17 +1,19 @@
 "use server";
 
 import { encodedRedirect } from "@/lib/utils";
-import { createMiddlewareClient } from "@/lib/supabase/server";
-import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from '@/lib/supabase/admin'
+import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { resend } from "@/lib/utils"
 import { ResendEmailConfirmationTemplate } from "@/emails/ConfirmEmail";
 
-export const signUpAction = async (formData: FormData) => {
+export async function signUpAction(formData: FormData) {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
-  const supabase = await createMiddlewareClient();
   const origin = (await headers()).get("origin");
+  const cookieStore = await cookies()
 
   if (!email || !password) {
     return encodedRedirect(
@@ -20,6 +22,8 @@ export const signUpAction = async (formData: FormData) => {
       "Email and password are required",
     );
   }
+
+  const supabase = await createSupabaseServerClient(cookieStore);
 
   const { data: userData, error: error } = await supabase.auth.signUp({
     email,
@@ -30,7 +34,7 @@ export const signUpAction = async (formData: FormData) => {
   });
 
   // this doesn't work yet, not sure how to bypass the Supabase email templates and use our own email template yet
-  
+
   // await resend.emails.send({
   //   from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
   //   to: email,
@@ -42,6 +46,7 @@ export const signUpAction = async (formData: FormData) => {
     console.error(error.code + " " + error.message);
     return encodedRedirect("error", "/sign-up", error.message);
   } else {
+    revalidatePath('/', 'layout')
     return encodedRedirect(
       "success",
       "/sign-up",
@@ -50,32 +55,38 @@ export const signUpAction = async (formData: FormData) => {
   }
 }
 
-export const signInAction = async (formData: FormData) => {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const supabase = await createMiddlewareClient();
+export async function signInAction(formData: FormData) {
+  const cookieStore = await cookies()
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const data = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  }
+
+  const supabase = await createSupabaseServerClient(cookieStore);
+
+  const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
     return encodedRedirect("error", "/sign-in", error.message);
   }
+  console.log('check 2')
 
+  revalidatePath('/', 'layout')
   return redirect("/auth/sync?next=/account");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
-  const supabase = await createMiddlewareClient();
   const origin = (await headers()).get("origin");
   const callbackUrl = formData.get("callbackUrl")?.toString();
+  const cookieStore = await cookies()
 
   if (!email) {
     return encodedRedirect("error", "/forgot-password", "Email is required");
   }
+
+  const supabase = await createSupabaseServerClient(cookieStore);
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${origin}/auth/callback?redirect_to=/protected/reset-password`,
@@ -101,8 +112,14 @@ export const forgotPasswordAction = async (formData: FormData) => {
   );
 };
 
-export const signOutAction = async () => {
-  const supabase = await createMiddlewareClient();
+export async function signOutAction () {
+  const cookieStore = await cookies()
+  const supabase = await createSupabaseServerClient(cookieStore);
   await supabase.auth.signOut();
   return redirect("/auth/sync?next=/login");
 };
+
+export const deleteAccountAction = async (user_id: string) => {
+  await supabaseAdmin.auth.admin.deleteUser(user_id)
+  return redirect("/auth/sync?next=/login");
+}

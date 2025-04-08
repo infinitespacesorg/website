@@ -6,6 +6,7 @@ import FullNameForm from "./fullNameForm";
 import UsernameForm from "./usernameForm";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { deleteAccountAction } from "../../(auth-pages)/actions";
 
 export default function Account() {
   const [hasFullName, setHasFullName] = useState(false);
@@ -25,7 +26,7 @@ export default function Account() {
     if (account?.full_name) setHasFullName(true);
   }, [account]);
 
-  console.log(authUser, account)
+  console.log(authUser, account);
 
   return (
     <section className="py-15 max-w-[800px] m-auto">
@@ -58,6 +59,11 @@ export default function Account() {
               <a onClick={() => setShowUpsertUsername(true)}>Edit Username</a>
             </div>
           )}
+          <div className="w-fit m-auto my-5">
+            <Button onClick={() => deleteAccountAction(account.id)}>
+              Delete Account
+            </Button>
+          </div>
         </div>
       )}
     </section>

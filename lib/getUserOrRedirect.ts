@@ -1,8 +1,11 @@
 import { redirect } from "next/navigation";
-import { createMiddlewareClient } from "./supabase/server";
+import { createSupabaseServerClient } from "./supabase/server";
+import { cookies } from "next/headers";
 
 export async function getUserOrRedirect() {
-    const supabase = await createMiddlewareClient()
+    const cookieStore = await cookies()
+      
+    const supabase = await createSupabaseServerClient(cookieStore)
 
     const {
         data: { user },
