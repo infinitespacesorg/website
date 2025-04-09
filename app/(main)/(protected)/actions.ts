@@ -7,45 +7,6 @@ import * as z from "zod";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-// export const resetPasswordAction = async (formData: FormData) => {
-
-//     const password = formData.get("password") as string;
-//     const confirmPassword = formData.get("confirmPassword") as string;
-
-//     if (!password || !confirmPassword) {
-//         encodedRedirect(
-//             "error",
-//             "/protected/reset-password",
-//             "Password and confirm password are required",
-//         );
-//     }
-
-//     if (password !== confirmPassword) {
-//         encodedRedirect(
-//             "error",
-//             "/protected/reset-password",
-//             "Passwords do not match",
-//         );
-//     }
-
-//     const cookieStore = await cookies()
-//     const supabase = await createSupabaseServerClient(cookieStore);
-
-//     const { error } = await supabase.auth.updateUser({
-//         password: password,
-//     });
-
-//     if (error) {
-//         encodedRedirect(
-//             "error",
-//             "/protected/reset-password",
-//             "Password update failed",
-//         );
-//     }
-
-//     encodedRedirect("success", "/protected/reset-password", "Password updated");
-// };
-
 export const resetPasswordAction = async (formData: FormData) => {
 
     const email = formData.get("accountEmail") as string;
@@ -53,15 +14,12 @@ export const resetPasswordAction = async (formData: FormData) => {
 
     if (!email) throw new Error('No account email provided')
 
-    console.log(email, origin)
-
     const cookieStore = await cookies()
     const supabase = await createSupabaseServerClient(cookieStore);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${origin}/auth/callback?redirect_to=/account/update-password`
     })
-
 
     if (error) {
         throw new Error("Failed to update password", error)

@@ -27,7 +27,6 @@ export const updatePasswordAction = async (formData: FormData) => {
     return { error: error.message };
   }
 
-  // Optionally redirect or confirm update
   revalidatePath('/', 'layout')
   redirect('/account?message=password-updated');
 }
