@@ -64,11 +64,21 @@ export const extractPlainText = (blocks: BlockContent): string | null => {
 };
 
 export function encodedRedirect(
-  type: "error" | "success",
+  status: "error" | "success",
   path: string,
   message: string,
+  extraParams?: Record<string, string>
 ) {
-  return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
+  const base = path.split("?")[0];
+  const existingParams = new URLSearchParams(path.split("?")[1]);
+  const newParams = new URLSearchParams({
+    ...Object.fromEntries(existingParams),
+    status,
+    message: encodeURIComponent(message),
+    ...(extraParams || {}),
+  });
+
+  return redirect(`${base}?${newParams.toString()}`);
 }
 
 export function parseMessageFromSearchParams(params: URLSearchParams): Message | null {
@@ -77,7 +87,7 @@ export function parseMessageFromSearchParams(params: URLSearchParams): Message |
 
   if (!msg || !status) return null;
 
-  if (status === "success") return { success: msg };
-  if (status === "error") return { error: msg };
-  return { message: msg };
+  if (status === "success") return { success: decodeURIComponent(msg) };
+  if (status === "error") return { error: decodeURIComponent(msg) };
+  return { message: decodeURIComponent(msg) };
 }

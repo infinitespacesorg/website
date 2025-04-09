@@ -1,12 +1,14 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import FullNameForm from "./fullNameForm";
 import UsernameForm from "./usernameForm";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { deleteAccountAction } from "../../(auth-pages)/actions";
+import { Input } from "@/components/ui/input";
+import { useRouter, useSearchParams } from "next/navigation";
+import { deleteAccountAction, resetPasswordAction } from "../actions";
+import { FormMessage, Message } from "@/components/ui/form-message";
 
 export default function Account() {
   const [hasFullName, setHasFullName] = useState(false);
@@ -14,7 +16,12 @@ export default function Account() {
   const [showUpsertUsername, setShowUpsertUsername] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const status = searchParams.get("status");
+  const message = searchParams.get("message");
+
   const { authUser, account, loading } = useUser();
+  
 
   useEffect(() => {
     if (!loading && !authUser) {
@@ -33,11 +40,11 @@ export default function Account() {
       {!loading && account && (
         <div>
           <h1 className="text-center">Account</h1>
-
+          {message && <FormMessage message={{message: message}} />}
           <div className="text-center">
             <h2>Hello, {hasFullName ? account?.full_name : "new user"}!</h2>
           </div>
-          <div className="w-fit max-w-[600px] my-5 m-auto flex flex-row justify-center align-baseline gap-5">
+          <div className="w-fit max-w-[800px] my-5 m-auto flex flex-row justify-center align-baseline gap-5">
             {showUpsertFullName && <FullNameForm />}
             {showUpsertUsername && <UsernameForm />}
             {(showUpsertFullName || showUpsertUsername) && (
@@ -54,15 +61,30 @@ export default function Account() {
             )}
           </div>
           {!showUpsertUsername && !showUpsertFullName && (
-            <div className="w-80 m-auto flex flex-row justify-between align-baseline">
-              <a onClick={() => setShowUpsertFullName(true)}>Edit Full Name</a>
-              <a onClick={() => setShowUpsertUsername(true)}>Edit Username</a>
+            <div className="w-fit m-auto flex flex-row justify-between align-baseline gap-5">
+              <Button onClick={() => setShowUpsertFullName(true)}>
+                Edit Full Name
+              </Button>
+              <Button onClick={() => setShowUpsertUsername(true)}>
+                Edit Username
+              </Button>
             </div>
           )}
           <div className="w-fit m-auto my-5">
-            <Button onClick={() => deleteAccountAction(account.id)}>
-              Delete Account
-            </Button>
+            <form action={resetPasswordAction}>
+              <Input
+                type="hidden"
+                name="accountEmail"
+                value={authUser?.email}
+              />
+              <Button type="submit">Reset Password</Button>
+            </form>
+          </div>
+          <div className="w-fit m-auto my-5">
+            <form action={deleteAccountAction}>
+              <Input type="hidden" name="accountId" value={account.id} />
+              <Button type="submit">Delete Account</Button>
+            </form>
           </div>
         </div>
       )}

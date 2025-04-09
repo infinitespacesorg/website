@@ -17,11 +17,12 @@ const signupFormSchema = z.object({
     .min(8, { message: "Password must be 8 or more characters " }),
 });
 
-export default function SignUpForm({
-  searchParams,
-}: {
-  searchParams: Message;
-}) {
+type SignUpProps = {
+  message: Message | null;
+}
+
+export default function SignIn({ message }: SignUpProps ) {
+
   const {
     register,
     handleSubmit,
@@ -50,43 +51,59 @@ export default function SignUpForm({
       <h1 className="text-2xl font-medium">Sign up</h1>
       <p className="text-sm text text-foreground">
         Already have an account?{" "}
-        <Link className="text-primary font-medium underline" href="/sign-in">
+        <Link className="text-primary font-medium underline" href="/login?view=signin">
           Sign in
         </Link>
       </p>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
+        <div>
         <Label htmlFor="email">Email</Label>
-        {/* <Input name="email" placeholder="you@example.com" required /> */}
         <Input
           {...register("email")}
           placeholder="you@example.com"
           autoComplete="email"
+          required
         />
         {errors.email && (
-          <p className="text-red-500 text-sm">{errors.email.message}</p>
+          <p className="text-destructive text-sm my-1">{errors.email.message}</p>
         )}
+        </div>
+        <div>
         <Label htmlFor="password">Password</Label>
-        {/* <Input
-            type="password"
-            name="password"
-            placeholder="Your password"
-            minLength={8}
-            required
-          /> */}
         <Input
           {...register("password")}
           type="password"
           placeholder="Your password"
           autoComplete="new-password"
+          required
         />
         {errors.password && (
-          <p className="text-red-500 text-sm">{errors.password.message}</p>
+          <p className="text-destructive text-sm my-3">{errors.password.message}</p>
         )}
-        <SubmitButton type="submit" pendingText="Signing up...">
+        </div>
+        <SubmitButton className="my-3" type="submit" pendingText="Signing up...">
           Sign up
         </SubmitButton>
-        <FormMessage message={searchParams} />
+        {message && <FormMessage message={message} />}
       </div>
     </form>
   );
 }
+
+// import { FormMessage, Message } from "@/components/ui/form-message";
+// import SignUpForm from "./SignUpForm"
+
+// export default async function Signup(props: {
+//   searchParams: Promise<Message>;
+// }) {
+//   const searchParams = await props.searchParams;
+//   if ("message" in searchParams) {
+//     return (
+//       <div className="w-full flex-1 flex items-center h-screen sm:max-w-md justify-center gap-2 p-4">
+//         <FormMessage message={searchParams} />
+//       </div>
+//     );
+//   }
+
+//   return <SignUpForm searchParams={searchParams} />
+// }

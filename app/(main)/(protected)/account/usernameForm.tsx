@@ -15,7 +15,6 @@ import { Loader2 } from "lucide-react";
 import { upsertUsername } from "../actions";
 import { useTransition } from "react";
 import { useUser } from "@/context/UserContext";
-import { upsertFullName } from "../actions";
 
 const usernameFormSchema = z.object({
   username: z.string().min(1, { message: "Please enter your display name" }),

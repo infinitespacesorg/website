@@ -3,7 +3,6 @@
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { supabaseAdmin } from '@/lib/supabase/admin'
 import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { resend } from "@/lib/utils"
@@ -18,7 +17,7 @@ export async function signUpAction(formData: FormData) {
   if (!email || !password) {
     return encodedRedirect(
       "error",
-      "/sign-up",
+      "/login?view=signup",
       "Email and password are required",
     );
   }
@@ -29,7 +28,7 @@ export async function signUpAction(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/auth/callback?redirect_to=/account`,
     },
   });
 
@@ -44,12 +43,12 @@ export async function signUpAction(formData: FormData) {
 
   if (error) {
     console.error(error.code + " " + error.message);
-    return encodedRedirect("error", "/sign-up", error.message);
+    return encodedRedirect("error", "/login", error.message, { view: 'signup' });
   } else {
     revalidatePath('/', 'layout')
     return encodedRedirect(
       "success",
-      "/sign-up",
+      "/login",
       "Thanks for signing up! Please check your email for a verification link.",
     );
   }
@@ -68,9 +67,8 @@ export async function signInAction(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    return encodedRedirect("error", "/sign-in", error.message);
+    return encodedRedirect("error", "/login", error.message, { view: 'signin' });
   }
-  console.log('check 2')
 
   revalidatePath('/', 'layout')
   return redirect("/auth/sync?next=/account");
@@ -79,47 +77,40 @@ export async function signInAction(formData: FormData) {
 export const forgotPasswordAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const origin = (await headers()).get("origin");
-  const callbackUrl = formData.get("callbackUrl")?.toString();
-  const cookieStore = await cookies()
 
   if (!email) {
-    return encodedRedirect("error", "/forgot-password", "Email is required");
+    return encodedRedirect("error", "/login", "Email is required", { view: "forgot" });
   }
 
+  const cookieStore = await cookies()
   const supabase = await createSupabaseServerClient(cookieStore);
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?redirect_to=/protected/reset-password`,
-  });
+    redirectTo: `${origin}/auth/callback?redirect_to=/account/update-password`
+  })
 
   if (error) {
     console.error(error.message);
     return encodedRedirect(
       "error",
-      "/forgot-password",
+      "/login",
       "Could not reset password",
+      { view: 'forgot' }
     );
-  }
-
-  if (callbackUrl) {
-    return redirect(callbackUrl);
   }
 
   return encodedRedirect(
     "success",
-    "/forgot-password",
+    "/login",
     "Check your email for a link to reset your password.",
+    {view: 'forgot'}
   );
 };
 
-export async function signOutAction () {
+export async function signOutAction() {
   const cookieStore = await cookies()
   const supabase = await createSupabaseServerClient(cookieStore);
   await supabase.auth.signOut();
   return redirect("/auth/sync?next=/login");
 };
 
-export const deleteAccountAction = async (user_id: string) => {
-  await supabaseAdmin.auth.admin.deleteUser(user_id)
-  return redirect("/auth/sync?next=/login");
-}
