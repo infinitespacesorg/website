@@ -12,7 +12,6 @@ type SignInProps = {
 };
 
 export default function SignIn({ message }: SignInProps) {
-  console.log(message);
 
   return (
     <form className="flex-1 flex flex-col m-auto w-80">

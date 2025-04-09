@@ -21,13 +21,11 @@ export default function Login() {
 
   if (loading || authUser) return null;
 
-  // if there isn't a user, then show the sign in page
   const rawMessage = parseMessageFromSearchParams(searchParams);
   const message = rawMessage ?? null;
   const view = searchParams.get("view") || "signin";
 
-  console.log(rawMessage, message, view)
-
+  // if there isn't a user, then show the sign in page
   return (
     <main className="w-80 m-auto py-16">
       {view === "forgot" ? (

@@ -2,11 +2,12 @@
 // added by Mason, taken from https://github.com/vercel/next.js/tree/canary/examples/with-supabase/utils/supabase
 
 import { createServerClient } from "@supabase/ssr";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
-export async function createSupabaseServerClient() {
-  const cookieStore = await cookies()
+export async function createSupabaseServerClient(cookieStore : ReadonlyRequestCookies) {
+
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
