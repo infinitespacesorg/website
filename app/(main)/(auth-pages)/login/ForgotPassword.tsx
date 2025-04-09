@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
-export default async function ForgotPassword(props: {
-  searchParams: Promise<Message>;
-}) {
-  const searchParams = await props.searchParams;
+type ForgotPasswordProps = {
+  message: Message | null;
+}
+
+export default function ForgotPassword({ message }: ForgotPasswordProps ) {
   return (
     <>
       <form className="flex-1 flex flex-col w-80 gap-2 text-foreground [&>input]:mb-6 mx-auto">
@@ -16,7 +17,7 @@ export default async function ForgotPassword(props: {
           <h1 className="text-2xl font-medium">Reset Password</h1>
           <p className="text-sm text-secondary-foreground">
             Already have an account?{" "}
-            <Link className="text-primary underline" href="/sign-in">
+            <Link className="text-primary underline" href="/login?view=signin">
               Sign in
             </Link>
           </p>
@@ -27,7 +28,7 @@ export default async function ForgotPassword(props: {
           <SubmitButton formAction={forgotPasswordAction}>
             Reset Password
           </SubmitButton>
-          <FormMessage message={searchParams} />
+          {message && <FormMessage message={message} />}
         </div>
       </form>
     </>

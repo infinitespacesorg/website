@@ -1,6 +1,8 @@
 "use client";
 import { useUser } from "@/context/UserContext";
-import SignIn from "../sign-in/page";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import ForgotPassword from "./ForgotPassword";
 import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { parseMessageFromSearchParams } from "@/lib/utils";
@@ -19,14 +21,22 @@ export default function Login() {
 
   if (loading || authUser) return null;
 
-  console.log(loading, authUser)
-
   // if there isn't a user, then show the sign in page
-  const message = parseMessageFromSearchParams(searchParams);
+  const rawMessage = parseMessageFromSearchParams(searchParams);
+  const message = rawMessage ?? null;
+  const view = searchParams.get("view") || "signin";
+
+  console.log(rawMessage, message, view)
 
   return (
-    <main className="w-80 m-auto">
-      <SignIn message={message} />
+    <main className="w-80 m-auto py-16">
+      {view === "forgot" ? (
+        <ForgotPassword message={message}/>
+      ) : view === "signup" ? (
+        <SignUp message={message} />
+      ) : (
+        <SignIn message={message} />
+      )}
     </main>
   );
 }

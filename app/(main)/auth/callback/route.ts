@@ -2,6 +2,8 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+// this one handles email verification from account creation
+
 export async function GET(request: Request) {
   // The `/auth/callback` route is required for the server-side auth flow implemented
   // by the SSR package. It exchanges an auth code for the user's session.
@@ -11,9 +13,7 @@ export async function GET(request: Request) {
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString() || "/account";
 
-  // console.log(requestUrl)
-
-
+  console.log(redirectTo)
 
   if (code) {
     const cookieStore = await cookies()

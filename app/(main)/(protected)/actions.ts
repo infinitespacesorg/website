@@ -1,49 +1,80 @@
 "use server"
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from '@/lib/supabase/admin'
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
+
+// export const resetPasswordAction = async (formData: FormData) => {
+
+//     const password = formData.get("password") as string;
+//     const confirmPassword = formData.get("confirmPassword") as string;
+
+//     if (!password || !confirmPassword) {
+//         encodedRedirect(
+//             "error",
+//             "/protected/reset-password",
+//             "Password and confirm password are required",
+//         );
+//     }
+
+//     if (password !== confirmPassword) {
+//         encodedRedirect(
+//             "error",
+//             "/protected/reset-password",
+//             "Passwords do not match",
+//         );
+//     }
+
+//     const cookieStore = await cookies()
+//     const supabase = await createSupabaseServerClient(cookieStore);
+
+//     const { error } = await supabase.auth.updateUser({
+//         password: password,
+//     });
+
+//     if (error) {
+//         encodedRedirect(
+//             "error",
+//             "/protected/reset-password",
+//             "Password update failed",
+//         );
+//     }
+
+//     encodedRedirect("success", "/protected/reset-password", "Password updated");
+// };
 
 export const resetPasswordAction = async (formData: FormData) => {
 
-    const password = formData.get("password") as string;
-    const confirmPassword = formData.get("confirmPassword") as string;
+    const email = formData.get("accountEmail") as string;
+    const origin = (await headers()).get("origin");
 
+    if (!email) throw new Error('No account email provided')
 
-    if (!password || !confirmPassword) {
-        encodedRedirect(
-            "error",
-            "/protected/reset-password",
-            "Password and confirm password are required",
-        );
-    }
-
-    if (password !== confirmPassword) {
-        encodedRedirect(
-            "error",
-            "/protected/reset-password",
-            "Passwords do not match",
-        );
-    }
+    console.log(email, origin)
 
     const cookieStore = await cookies()
-
     const supabase = await createSupabaseServerClient(cookieStore);
 
-    const { error } = await supabase.auth.updateUser({
-        password: password,
-    });
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${origin}/auth/callback?redirect_to=/account/update-password`
+    })
+
 
     if (error) {
-        encodedRedirect(
-            "error",
-            "/protected/reset-password",
-            "Password update failed",
-        );
+        throw new Error("Failed to update password", error)
     }
-
-    encodedRedirect("success", "/protected/reset-password", "Password updated");
+    else {
+        console.log('yup it is here')
+        revalidatePath('/', 'layout')
+        return encodedRedirect(
+          "success",
+          "/account",
+          "Please check your email for a password reset link.",
+        );
+      }
 };
 
 export async function upsertUsername(
@@ -63,7 +94,6 @@ export async function upsertUsername(
     }
 
     const cookieStore = await cookies()
-
     const supabase = await createSupabaseServerClient(cookieStore);
 
     const {
@@ -91,9 +121,8 @@ export async function upsertFullName(
     const fullNameFormSchema = z.object({
         full_name: z.string().min(1, { message: "Please enter your full name" }),
     });
-
     const full_name = formData.get("full_name")
-
+    
     const result = fullNameFormSchema.safeParse({ full_name })
 
     if (!result.success) {
@@ -102,7 +131,6 @@ export async function upsertFullName(
     }
 
     const cookieStore = await cookies()
-
     const supabase = await createSupabaseServerClient(cookieStore);
 
     const {
@@ -114,8 +142,6 @@ export async function upsertFullName(
         throw new Error("Not authenticated");
     }
 
-    console.log(user)
-
     const { error } = await supabase.from('accounts').update({ full_name: result.data.full_name }).eq("id", user.id)
 
     if (error) {
@@ -123,6 +149,22 @@ export async function upsertFullName(
     }
     revalidatePath('/account')
 }
+
+export const deleteAccountAction = async (formData: FormData) => {
+    const accountId = formData.get('accountId')?.toString()
+    if (!accountId) throw new Error('No account ID provided')
+
+    const { error } = await supabaseAdmin.auth.admin.deleteUser(accountId)
+
+    if (error) {
+        return encodedRedirect(
+            "error",
+            "/account",
+            "Failed to delete account",
+          );
+    }
+    else return redirect("/auth/sync?next=/login");
+  }
 
 
 
