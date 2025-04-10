@@ -10,6 +10,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { deleteAccountAction, resetPasswordAction } from "../actions";
 import { FormMessage, Message } from "@/components/ui/form-message";
 
+function MessageBanner() {
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
+
+  if (!message) return null;
+
+  return <FormMessage message={{ message }} />;
+}
+
 export default function Account() {
   const [hasFullName, setHasFullName] = useState(false);
   const [showUpsertFullName, setShowUpsertFullName] = useState(false);
@@ -40,7 +49,7 @@ export default function Account() {
         <div>
           <h1 className="text-center">Account</h1>
           <Suspense>
-            {message && <FormMessage message={{ message: message }} />}
+            <MessageBanner />
           </Suspense>
           <div className="text-center">
             <h2>Hello, {hasFullName ? account?.full_name : "new user"}!</h2>

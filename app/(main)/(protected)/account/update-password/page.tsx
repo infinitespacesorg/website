@@ -28,6 +28,15 @@ const formSchema = z.object({
     .min(8, { message: "Password must be 8 or more characters " }),
 });
 
+function ErrorMessage() {
+  const searchParams = useSearchParams();
+  const message = parseMessageFromSearchParams(searchParams);
+
+  if (!message || !("error" in message)) return null;
+
+  return <p className="text-sm text-destructive">{message.error}</p>;
+}
+
 export default function UpdatePasswordPage() {
   const [isPending, startTransition] = useTransition();
 
@@ -106,9 +115,7 @@ export default function UpdatePasswordPage() {
           Reset Password
         </Button>
         <Suspense>
-          {message && "error" in message && (
-            <p className="text-sm text-destructive">{message.error}</p>
-          )}
+          <ErrorMessage />
         </Suspense>
       </form>
     </Form>
