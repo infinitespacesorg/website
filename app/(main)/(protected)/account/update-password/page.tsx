@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { useTransition } from "react";
+import { Suspense, useTransition } from "react";
 import { updatePasswordAction } from "./actions";
 import { useSearchParams } from "next/navigation";
 import { parseMessageFromSearchParams } from "@/lib/utils";
@@ -105,9 +105,11 @@ export default function UpdatePasswordPage() {
           {isPending && <Loader2 className="w-6 h-6 mr-2 animate-spin" />}
           Reset Password
         </Button>
-        {message && "error" in message && (
-          <p className="text-sm text-destructive">{message.error}</p>
-        )}
+        <Suspense>
+          {message && "error" in message && (
+            <p className="text-sm text-destructive">{message.error}</p>
+          )}
+        </Suspense>
       </form>
     </Form>
   );
