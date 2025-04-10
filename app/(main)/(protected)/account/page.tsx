@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import FullNameForm from "./fullNameForm";
 import UsernameForm from "./usernameForm";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,6 @@ export default function Account() {
   const message = searchParams.get("message");
 
   const { authUser, account, loading } = useUser();
-  
 
   useEffect(() => {
     if (!loading && !authUser) {
@@ -40,7 +39,9 @@ export default function Account() {
       {!loading && account && (
         <div>
           <h1 className="text-center">Account</h1>
-          {message && <FormMessage message={{message: message}} />}
+          <Suspense>
+            {message && <FormMessage message={{ message: message }} />}
+          </Suspense>
           <div className="text-center">
             <h2>Hello, {hasFullName ? account?.full_name : "new user"}!</h2>
           </div>
