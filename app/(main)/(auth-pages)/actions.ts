@@ -3,6 +3,7 @@
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { resend } from "@/lib/utils"
@@ -34,12 +35,60 @@ export async function signUpAction(formData: FormData) {
 
   // this doesn't work yet, not sure how to bypass the Supabase email templates and use our own email template yet
 
-  // await resend.emails.send({
-  //   from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
-  //   to: email,
-  //   subject: "Confirm your email",
-  //   react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
-  // })
+  // I think we'll need to use the Send Email Auth Hook here:
+  // https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook?queryGroups=language&language=http
+
+  // const { data: userData, error: signUpError } = await supabaseAdmin.auth.admin.createUser({
+  //   email,
+  //   password,
+  //   email_confirm: false,
+  // });
+
+  // if (signUpError || !userData.user?.id) {
+  //   console.error(signUpError?.code + " " + signUpError?.message);
+  //   return encodedRedirect(
+  //     "error",
+  //     "/login?view=signup",
+  //     "Could not sign up.",
+  //   );
+  // }
+
+  // const { data: linkData, error: linkError } =
+  //   await supabaseAdmin.auth.admin.generateLink({
+  //     type: "signup",
+  //     email,
+  //     password,
+  //   });
+
+  // if (linkError || !linkData?.properties?.action_link) return encodedRedirect(
+  //   "error",
+  //   "/login?view=signup",
+  //   "Email link could not be generated.",
+  // );
+
+  // console.log(linkData)
+
+  // // manually build your own link:
+  // const token = linkData.properties.hashed_token;
+  // const type = linkData.properties.verification_type
+
+  // const confirmUrl = `${origin}/auth/callback?token=${token}&type=${type}&redirect_to=/account`;
+
+  // if (userData) {
+  //   await resend.emails.send({
+  //     from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
+  //     to: email,
+  //     subject: "Confirm your email",
+  //     react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
+  //   })
+  // }
+
+  // revalidatePath('/', 'layout')
+  // return encodedRedirect(
+  //   "success",
+  //   "/login",
+  //   "Thanks for signing up! Please check your email for a verification link.",
+  // );
 
   if (error) {
     console.error(error.code + " " + error.message);
@@ -103,7 +152,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     "success",
     "/login",
     "Check your email for a link to reset your password.",
-    {view: 'forgot'}
+    { view: 'forgot' }
   );
 };
 
