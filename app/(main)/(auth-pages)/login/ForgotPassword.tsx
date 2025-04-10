@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { forgotPasswordAction } from "@/app/(main)/(auth-pages)/actions";
 import { FormMessage, Message } from "@/components/ui/form-message";
 import { SubmitButton } from "@/components/ui/submit-button";
