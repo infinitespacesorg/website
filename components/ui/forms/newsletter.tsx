@@ -90,7 +90,7 @@ export default function FormNewsletter({
     <SectionContainer color={color} padding={padding}>
       <Form {...form}>
         <form className="pt-8" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex gap-4">
+          <div className="flex flex-col gap-4">
             <FormField
               control={form.control}
               name="email"
