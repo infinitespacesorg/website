@@ -39,12 +39,16 @@ export async function upsertUsername(
     formData: FormData
 ): Promise<void> {
 
+    console.log(formData)
+
     const username = formData.get("username")
     const usernameFormSchema = z.object({
         username: z.string().min(1, { message: "Please enter your username" }),
     });
 
     const result = usernameFormSchema.safeParse({ username })
+
+    console.log(result)
 
     if (!result.success) {
         const errorMessage = result.error.format().username?._errors?.[0]
@@ -58,6 +62,8 @@ export async function upsertUsername(
         data: { user },
         error: userError,
     } = await supabase.auth.getUser();
+
+    console.log(user)
 
     if (!user || userError) {
         throw new Error("Not authenticated");
