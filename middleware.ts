@@ -16,8 +16,10 @@ export const config = {
      */
     // '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
 
-    '/account/:path*',
-    '/forum/:path*',
-    '/reset-password/:path*'
+    // '/account/:path*',
+    // '/forum/:path*',
+    // '/reset-password/:path*'
+
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|ico)$).*)'
   ],
 }
