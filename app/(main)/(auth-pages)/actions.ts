@@ -37,6 +37,8 @@ export async function signUpAction(formData: FormData) {
 
 //   Check to see if adding options.auth.flowType: PKCE will get all of the Resend stuff to work
 // https://supabase.com/docs/reference/javascript/initializing
+// https://supabase.com/docs/guides/auth/sessions/pkce-flow
+
 
 
   // I think we'll need to use the Send Email Auth Hook here:
@@ -79,15 +81,17 @@ export async function signUpAction(formData: FormData) {
   const token = linkData.properties.hashed_token;
   const type = linkData.properties.verification_type
 
-  const confirmUrl = `${origin}/auth/callback?token=${token}&type=${type}&redirect_to=/account`;
+  // const confirmUrl = `${origin}/auth/callback?token=${token}&type=${type}&redirect_to=/account`;
+
+  const confirmUrl = `${origin}/auth/confirm?token_hash=${token}&type=${type}&redirect_to=/account`;
 
   if (userData) {
     await resend.emails.send({
       from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
       to: email,
       subject: "Confirm your email",
-      // react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
-      react: ResendEmailConfirmationTemplate({ confirmationUrl: linkData.properties.action_link })
+      react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
+      // react: ResendEmailConfirmationTemplate({ confirmationUrl: linkData.properties.action_link })
     })
   }
 

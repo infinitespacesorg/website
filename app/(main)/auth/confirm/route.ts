@@ -5,6 +5,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
 // this one handles password resets, only that for now I think?
+// JUST KIDDING IT ALSO HANDLES THE RESEND EMAIL TEMPLATE NOW
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
