@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString() || "/account";
 
-  console.log(redirectTo)
+  console.log(requestUrl.searchParams)
 
   if (code) {
     const cookieStore = await cookies()

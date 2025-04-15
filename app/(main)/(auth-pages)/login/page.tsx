@@ -19,7 +19,7 @@ function LoginView() {
 }
 
 export default function Login() {
-  const { authUser, loading } = useUser();
+  const { authUser, account, loading } = useUser();
   const router = useRouter();
   
 
@@ -32,7 +32,7 @@ export default function Login() {
 
   if (loading || authUser) return null;
 
-  
+  console.log(authUser, account)
 
   // if there isn't a user, then show the sign in page
   return (

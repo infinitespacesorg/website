@@ -118,7 +118,7 @@ export async function upsertFullName(
 
     const { data: fullName, error } = await supabase.from('accounts').update({ full_name: result.data.full_name }).eq("id", user.id)
 
-    if (fullName) console.log(fullName)
+    if (fullName) console.log('fullname', fullName)
 
     if (error) {
         throw new Error("Failed to update full name", { cause: error })

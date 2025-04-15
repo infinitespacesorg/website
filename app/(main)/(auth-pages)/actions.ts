@@ -23,84 +23,92 @@ export async function signUpAction(formData: FormData) {
     );
   }
 
-  const supabase = await createSupabaseServerClient(cookieStore);
+  // const supabase = await createSupabaseServerClient(cookieStore);
 
-  const { data: userData, error: error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback?redirect_to=/account`,
-    },
-  });
+  // const { data: userData, error: error } = await supabase.auth.signUp({
+  //   email,
+  //   password,
+  //   options: {
+  //     emailRedirectTo: `${origin}/auth/callback?redirect_to=/account`,
+  //   },
+  // });
 
   // this doesn't work yet, not sure how to bypass the Supabase email templates and use our own email template yet
+
+//   Check to see if adding options.auth.flowType: PKCE will get all of the Resend stuff to work
+// https://supabase.com/docs/reference/javascript/initializing
+
 
   // I think we'll need to use the Send Email Auth Hook here:
   // https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook?queryGroups=language&language=http
 
-  // const { data: userData, error: signUpError } = await supabaseAdmin.auth.admin.createUser({
-  //   email,
-  //   password,
-  //   email_confirm: false,
-  // });
+  const { data: userData, error: signUpError } = await supabaseAdmin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: false,
+  });
 
-  // if (signUpError || !userData.user?.id) {
-  //   console.error(signUpError?.code + " " + signUpError?.message);
-  //   return encodedRedirect(
-  //     "error",
-  //     "/login?view=signup",
-  //     "Could not sign up.",
-  //   );
-  // }
-
-  // const { data: linkData, error: linkError } =
-  //   await supabaseAdmin.auth.admin.generateLink({
-  //     type: "signup",
-  //     email,
-  //     password,
-  //   });
-
-  // if (linkError || !linkData?.properties?.action_link) return encodedRedirect(
-  //   "error",
-  //   "/login?view=signup",
-  //   "Email link could not be generated.",
-  // );
-
-  // console.log(linkData)
-
-  // // manually build your own link:
-  // const token = linkData.properties.hashed_token;
-  // const type = linkData.properties.verification_type
-
-  // const confirmUrl = `${origin}/auth/callback?token=${token}&type=${type}&redirect_to=/account`;
-
-  // if (userData) {
-  //   await resend.emails.send({
-  //     from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
-  //     to: email,
-  //     subject: "Confirm your email",
-  //     react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
-  //   })
-  // }
-
-  // revalidatePath('/', 'layout')
-  // return encodedRedirect(
-  //   "success",
-  //   "/login",
-  //   "Thanks for signing up! Please check your email for a verification link.",
-  // );
-
-  if (error) {
-    console.error(error.code + " " + error.message);
-    return encodedRedirect("error", "/login", error.message, { view: 'signup' });
-  } else {
-    revalidatePath('/', 'layout')
+  if (signUpError || !userData.user?.id) {
+    console.error(signUpError?.code + " " + signUpError?.message);
     return encodedRedirect(
-      "success",
-      "/login",
-      "Thanks for signing up! Please check your email for a verification link.",
+      "error",
+      "/login?view=signup",
+      "Could not sign up.",
     );
   }
+
+  const { data: linkData, error: linkError } =
+    await supabaseAdmin.auth.admin.generateLink({
+      type: "signup",
+      email,
+      password,
+      options: {
+        redirectTo: `${origin}/auth/callback`
+      }
+    });
+
+  if (linkError || !linkData?.properties?.action_link) return encodedRedirect(
+    "error",
+    "/login?view=signup",
+    "Email link could not be generated.",
+  );
+
+  console.log(linkData)
+
+  // manually build your own link:
+  const token = linkData.properties.hashed_token;
+  const type = linkData.properties.verification_type
+
+  const confirmUrl = `${origin}/auth/callback?token=${token}&type=${type}&redirect_to=/account`;
+
+  if (userData) {
+    await resend.emails.send({
+      from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
+      to: email,
+      subject: "Confirm your email",
+      // react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
+      react: ResendEmailConfirmationTemplate({ confirmationUrl: linkData.properties.action_link })
+    })
+  }
+
+  revalidatePath('/', 'layout')
+  return encodedRedirect(
+    "success",
+    "/login",
+    "Thanks for signing up! Please check your email for a verification link.",
+  );
+
+  // if (error) {
+  //   console.error(error.code + " " + error.message);
+  //   return encodedRedirect("error", "/login", error.message, { view: 'signup' });
+  // } else {
+  //   revalidatePath('/', 'layout')
+  //   return encodedRedirect(
+  //     "success",
+  //     "/login",
+  //     "Thanks for signing up! Please check your email for a verification link.",
+  //   );
+  // }
 }
 
 export async function signInAction(formData: FormData) {
