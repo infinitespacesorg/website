@@ -9,6 +9,8 @@ import { redirect } from "next/navigation";
 
 export const resetPasswordAction = async (formData: FormData) => {
 
+    console.log(formData)
+
     const email = formData.get("accountEmail") as string;
     const origin = (await headers()).get("origin");
 
@@ -22,17 +24,17 @@ export const resetPasswordAction = async (formData: FormData) => {
     })
 
     if (error) {
-        throw new Error("Failed to update password", error)
+        throw new Error("Failed to update password", { cause: error })
     }
     else {
         console.log('yup it is here')
         revalidatePath('/', 'layout')
         return encodedRedirect(
-          "success",
-          "/account",
-          "Please check your email for a password reset link.",
+            "success",
+            "/account",
+            "Please check your email for a password reset link.",
         );
-      }
+    }
 };
 
 export async function upsertUsername(
@@ -82,12 +84,16 @@ export async function upsertFullName(
     formData: FormData
 ): Promise<void> {
 
+    console.log(formData)
+
     const fullNameFormSchema = z.object({
         full_name: z.string().min(1, { message: "Please enter your full name" }),
     });
     const full_name = formData.get("full_name")
-    
+
     const result = fullNameFormSchema.safeParse({ full_name })
+
+    console.log(result)
 
     if (!result.success) {
         const errorMessage = result.error.format().full_name?._errors?.[0] || "Invalid input";
@@ -102,6 +108,8 @@ export async function upsertFullName(
         error: userError,
     } = await supabase.auth.getUser();
 
+    console.log(user)
+
     if (!user || userError) {
         throw new Error("Not authenticated");
     }
@@ -109,7 +117,7 @@ export async function upsertFullName(
     const { error } = await supabase.from('accounts').update({ full_name: result.data.full_name }).eq("id", user.id)
 
     if (error) {
-        throw new Error("Failed to update full name", error)
+        throw new Error("Failed to update full name", { cause: error })
     }
     revalidatePath('/account')
 }
@@ -125,10 +133,10 @@ export const deleteAccountAction = async (formData: FormData) => {
             "error",
             "/account",
             "Failed to delete account",
-          );
+        );
     }
     else return redirect("/auth/sync?next=/login");
-  }
+}
 
 
 
