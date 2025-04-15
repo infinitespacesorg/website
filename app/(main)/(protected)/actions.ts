@@ -71,7 +71,9 @@ export async function upsertUsername(
         throw new Error("Not authenticated");
     }
 
-    const { error } = await supabase.from('accounts').update({ username: result.data.username }).eq("id", user.id)
+    const { data: userName, error } = await supabase.from('accounts').update({ username: result.data.username }).eq("id", user.id)
+
+    if (userName) console.log(userName)
 
     if (error) {
         throw new Error("Failed to update username")
@@ -114,7 +116,9 @@ export async function upsertFullName(
         throw new Error("Not authenticated");
     }
 
-    const { error } = await supabase.from('accounts').update({ full_name: result.data.full_name }).eq("id", user.id)
+    const { data: fullName, error } = await supabase.from('accounts').update({ full_name: result.data.full_name }).eq("id", user.id)
+
+    if (fullName) console.log(fullName)
 
     if (error) {
         throw new Error("Failed to update full name", { cause: error })
