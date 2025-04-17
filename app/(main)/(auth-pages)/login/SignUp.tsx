@@ -14,7 +14,19 @@ const signupFormSchema = z.object({
   email: z.string().email({ message: "Please enter your email address" }),
   password: z
     .string()
-    .min(8, { message: "Password must be 8 or more characters " }),
+    .min(8, { message: "Password must be 8 or more characters " })
+    .refine((val) => /[a-z]/.test(val), {
+      message: "Must include at least one lowercase letter",
+    })
+    .refine((val) => /[A-Z]/.test(val), {
+      message: "Must include at least one uppercase letter",
+    })
+    .refine((val) => /\d/.test(val), {
+      message: "Must include at least one number",
+    })
+    .refine((val) => /[^A-Za-z0-9]/.test(val), {
+      message: "Must include at least one special character",
+    })
 });
 
 type SignUpProps = {

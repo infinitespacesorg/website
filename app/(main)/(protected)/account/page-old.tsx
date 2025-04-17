@@ -2,8 +2,8 @@
 
 import { useUser } from "@/context/UserContext";
 import { Suspense, useEffect, useState } from "react";
-import FullNameForm from "./fullNameForm";
-import UsernameForm from "./usernameForm";
+import FullNameForm from "./profile/fullNameForm";
+import UsernameForm from "./profile/usernameForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -29,7 +29,7 @@ export default function Account() {
   const status = searchParams.get("status");
   const message = searchParams.get("message");
 
-  const { authUser, account, loading } = useUser();
+  const { authUser, account, teamAccounts, teams, loading } = useUser();
 
   useEffect(() => {
     if (!loading && !authUser) {
@@ -41,7 +41,7 @@ export default function Account() {
     if (account?.full_name) setHasFullName(true);
   }, [account]);
 
-  console.log(authUser, account);
+  console.log(authUser, account, teamAccounts, teams);
 
   return (
     <section className="py-15 max-w-[800px] m-auto">
@@ -54,12 +54,12 @@ export default function Account() {
           <div className="text-center">
             <h2>Hello, {hasFullName ? account?.full_name : "new user"}!</h2>
           </div>
-          <div className="w-fit max-w-[800px] my-5 m-auto flex flex-row justify-center align-baseline gap-5">
+          <div className="w-fit max-w-[800px] my-5 m-auto flex flex-row justify-center align-top gap-5">
             {showUpsertFullName && <FullNameForm />}
             {showUpsertUsername && <UsernameForm />}
             {(showUpsertFullName || showUpsertUsername) && (
               <Button
-                className="block h-9 w-fit m-auto"
+                className="block h-9 w-fit"
                 size="sm"
                 onClick={() => {
                   setShowUpsertFullName(false);

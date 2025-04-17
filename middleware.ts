@@ -1,7 +1,17 @@
-import { type NextRequest } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Handle redirect from /account to /account/profile
+  if (pathname === '/account') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/account/profile'
+    return NextResponse.redirect(url)
+  }
+
+  // Otherwise, continue session update as usual
   return await updateSession(request)
 }
 
@@ -16,10 +26,10 @@ export const config = {
      */
     // '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
 
-    // '/account/:path*',
-    // '/forum/:path*',
-    // '/reset-password/:path*'
+    '/account/:path*',
+    '/forum/:path*',
+    '/reset-password/:path*'
 
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|ico)$).*)'
+    // '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|ico)$).*)'
   ],
 }

@@ -1,3 +1,5 @@
+import { string } from "zod";
+
 export type NavItem =
   | {
     label: string;
@@ -20,4 +22,20 @@ export type Account = {
   username: string | null;
   website: string | null;
   created_at: string;
+  profile_image: string;
 };
+
+export type TeamAccount = {
+  id: string;
+  created_at: string;
+  account_id: string;
+  team_id: string;
+  role: string;
+  joined_at: string;
+}
+
+export type Team = {
+  id: string;
+  created_at: string;
+  name: string;
+}

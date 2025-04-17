@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { useTransition } from "react";
-import { upsertFullName } from "../actions";
+import { upsertFullName } from "../../actions";
 import { useUser } from "@/context/UserContext";
 
 const fullNameFormSchema = z.object({
@@ -31,19 +31,24 @@ export default function FullNameForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof fullNameFormSchema>) => {
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.append("full_name", values.full_name);
+  const onSubmit = async (values: z.infer<typeof fullNameFormSchema>) => {
+    const formData = new FormData();
+    formData.append("full_name", values.full_name);
 
+    try {
       await upsertFullName(formData);
-
-      setAccount((prev) =>
-        prev ? { ...prev, full_name: values.full_name } : prev
-      );
+      startTransition(async () => {
+        setAccount((prev) =>
+          prev ? { ...prev, full_name: values.full_name } : prev
+        );
+      });
 
       toast.success("Full name updated!");
-    });
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Something went wrong";
+      toast.error(errorMessage);
+    }
   };
 
   return (
