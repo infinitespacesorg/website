@@ -6,6 +6,8 @@ import ForgotPassword from "./ForgotPassword";
 import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { parseMessageFromSearchParams } from "@/lib/utils";
+import OneTapComponent from "./GoogleOneTap";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 function LoginView() {
   const searchParams = useSearchParams();
@@ -21,7 +23,6 @@ function LoginView() {
 export default function Login() {
   const { authUser, account, loading } = useUser();
   const router = useRouter();
-  
 
   // if there's a user, redirect to /account
   useEffect(() => {
@@ -32,14 +33,18 @@ export default function Login() {
 
   if (loading || authUser) return null;
 
-  console.log(authUser, account)
-
   // if there isn't a user, then show the sign in page
   return (
     <main className="w-80 m-auto py-16">
       <Suspense>
-        <LoginView/>
+        <LoginView />
       </Suspense>
+      <hr className="my-10 w-50 m-auto" />
+      <p className="m-auto my-5 text-sm w-fit">
+        or sign in / create an account with Google:
+      </p>
+      {/* <OneTapComponent /> */}
+      <GoogleSignInButton />
     </main>
   );
 }

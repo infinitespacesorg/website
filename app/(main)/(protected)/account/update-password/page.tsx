@@ -22,10 +22,34 @@ import { parseMessageFromSearchParams } from "@/lib/utils";
 const formSchema = z.object({
   password: z
     .string()
-    .min(8, { message: "Password must be 8 or more characters " }),
+    .min(8, { message: "Password must be 8 or more characters " })
+    .refine((val) => /[a-z]/.test(val), {
+      message: "Must include at least one lowercase letter",
+    })
+    .refine((val) => /[A-Z]/.test(val), {
+      message: "Must include at least one uppercase letter",
+    })
+    .refine((val) => /\d/.test(val), {
+      message: "Must include at least one number",
+    })
+    .refine((val) => /[^A-Za-z0-9]/.test(val), {
+      message: "Must include at least one special character",
+    }),
   confirmPassword: z
     .string()
-    .min(8, { message: "Password must be 8 or more characters " }),
+    .min(8, { message: "Password must be 8 or more characters " })
+    .refine((val) => /[a-z]/.test(val), {
+      message: "Must include at least one lowercase letter",
+    })
+    .refine((val) => /[A-Z]/.test(val), {
+      message: "Must include at least one uppercase letter",
+    })
+    .refine((val) => /\d/.test(val), {
+      message: "Must include at least one number",
+    })
+    .refine((val) => /[^A-Za-z0-9]/.test(val), {
+      message: "Must include at least one special character",
+    }),
 });
 
 function ErrorMessage() {

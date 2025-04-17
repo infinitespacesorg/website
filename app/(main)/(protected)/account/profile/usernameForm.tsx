@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { upsertUsername } from "../actions";
+import { upsertUsername } from "../../actions";
 import { useTransition } from "react";
 import { useUser } from "@/context/UserContext";
 
@@ -31,26 +31,31 @@ export default function UsernameForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof usernameFormSchema>) => {
-    startTransition(async () => {
-      const formData = new FormData();
-      formData.append("username", values.username);
+  const onSubmit = async (values: z.infer<typeof usernameFormSchema>) => {
+    const formData = new FormData();
+    formData.append("username", values.username);
 
-      console.log(formData)
-
+    try {
       await upsertUsername(formData);
-
-      setAccount((prev) =>
-        prev ? { ...prev, username: values.username } : prev
-      );
-
+      startTransition(async () => {
+        setAccount((prev) =>
+          prev ? { ...prev, username: values.username } : prev
+        );
+      });
       toast.success("Username updated!");
-    });
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Something went wrong";
+      toast.error(errorMessage);
+    }
   };
 
   return (
     <Form {...usernameForm}>
-      <form onSubmit={usernameForm.handleSubmit(onSubmit)} className="flex gap-4">
+      <form
+        onSubmit={usernameForm.handleSubmit(onSubmit)}
+        className="flex gap-4"
+      >
         <FormField
           control={usernameForm.control}
           name="username"
