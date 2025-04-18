@@ -32,7 +32,7 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
       <SheetContent className={clsx('width: 100vw')}>
         <SheetHeader>
           <div className="mx-auto">
-            <Logo />
+            <Logo mobile={true}/>
           </div>
           <div className="sr-only">
             <SheetTitle>Main Navigation</SheetTitle>
