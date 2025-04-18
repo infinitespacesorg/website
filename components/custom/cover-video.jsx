@@ -164,7 +164,7 @@ export default function CoverVideo() {
       </div>
       <motion.div className="h-full">
         <Button
-          className={`h-6 text-xs ${showImage ? "hidden": ''} z-[500] absolute bottom-5 left-1/2 -translate-x-1/2 hover:bg-primary/20`}
+          className={`h-6 text-xs ${showImage ? "hidden": ''} z-[49] absolute bottom-5 left-1/2 -translate-x-1/2 hover:bg-primary/20`}
           size="sm"
           type="button"
           onClick={() => handleVideoEnd()}

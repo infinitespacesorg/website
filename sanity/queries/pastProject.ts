@@ -4,7 +4,29 @@ export const pastProjectQuery = groq`*[_type == "pastProject" && slug.current ==
     _type,
     name, 
     slug,
-    teamMember,
+    teamMember->{
+        name,
+        slug,
+        jobTitle,
+        bio,
+        associatedLink,
+        showOnAboutPage,
+        image{
+        asset->{
+            _id,
+            url,
+            mimeType,
+            metadata {
+            lqip,
+            dimensions {
+                width,
+                height
+            }
+            }
+        },
+        alt
+        },
+    },
     impact,
     description,
     associatedLink,

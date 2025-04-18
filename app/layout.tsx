@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { UserProvider } from "@/context/UserContext";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
@@ -34,17 +35,17 @@ const fontSans = FontSans({
 });
 
 const roboto = Roboto({
-  subsets: ['latin'],
+  subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
-  variable: '--font-roboto',
-  display: 'swap'
-})
+  variable: "--font-roboto",
+  display: "swap",
+});
 
 const nm = Nanum_Myeongjo({
-  subsets: ['latin'],
+  subsets: ["latin"],
   weight: ["400", "700", "800"],
-  variable: '--font-nm'
-})
+  variable: "--font-nm",
+});
 
 export default function RootLayout({
   children,
@@ -68,7 +69,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <UserProvider>{children}</UserProvider>
         </ThemeProvider>
         <Toaster position="top-center" richColors />
       </body>

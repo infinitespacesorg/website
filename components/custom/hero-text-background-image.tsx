@@ -7,16 +7,16 @@ type HeroTextBackgroundImageProps = Extract<
 >;
 
 export default function HeroTextBackgroundImage({
-  text, image
+  text, image, size
 }: HeroTextBackgroundImageProps) {
 
   return (
     <section
       className={`py-20 text-left gap-2/10`}
     >
-      {text && image && image.asset?._id && (
+      {text && size && image && image.asset?._id && (
         <h1
-        className="text-6xl font-extrabold bg-cover bg-center text-clip w-fit m-auto"
+        className={`${size} font-extrabold bg-cover bg-center text-clip w-fit m-auto`}
         style={{ backgroundImage: `url(${urlFor(image).url()})`}}
         >
           {text}

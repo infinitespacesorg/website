@@ -6,6 +6,7 @@ export const heroTextBackgroundImageQuery = groq`
     _type,
     _key,
     text,
+    size,
     image{
       ...,
       asset->{
