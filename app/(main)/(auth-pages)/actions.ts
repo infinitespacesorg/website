@@ -116,14 +116,13 @@ export async function signUpAction(formData: FormData) {
 }
 
 export async function signInAction(formData: FormData) {
-  const cookieStore = await cookies()
 
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   }
 
-  const supabase = await createSupabaseServerClient(cookieStore);
+  const supabase = await createSupabaseServerClient();
 
   const { error } = await supabase.auth.signInWithPassword(data);
 
@@ -143,8 +142,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     return encodedRedirect("error", "/login", "Email is required", { view: "forgot" });
   }
 
-  const cookieStore = await cookies()
-  const supabase = await createSupabaseServerClient(cookieStore);
+  const supabase = await createSupabaseServerClient();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${origin}/auth/callback?redirect_to=/account/update-password`
@@ -169,8 +167,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
 };
 
 export async function signOutAction() {
-  const cookieStore = await cookies()
-  const supabase = await createSupabaseServerClient(cookieStore);
+  const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
   return redirect("/auth/sync?next=/login");
 };
