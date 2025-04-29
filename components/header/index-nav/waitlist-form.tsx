@@ -39,7 +39,7 @@ export default function WaitlistForm({
     padding: { bottom: false, top: false, _type: "section-padding" },
     colorVariant: "background",
     consentText:
-      "By submitting this form, you agree to the terms and conditions.",
+      "",
     buttonText: "Submit",
     successMessage: "Thanks for your submission! We'll be in touch soon.",
     _key: "contact-dialog-form",
