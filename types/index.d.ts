@@ -32,10 +32,13 @@ export type TeamAccount = {
   team_id: string;
   role: string;
   joined_at: string;
+  team_username: string;
 }
 
 export type Team = {
   id: string;
   created_at: string;
   name: string;
+  created_by: string;
+  team_profile_image: string;
 }
