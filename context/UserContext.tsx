@@ -13,6 +13,7 @@ type UserContextType = {
   loading: boolean;
   setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
   setTeams: React.Dispatch<React.SetStateAction<Team[] | null>>;
+  setTeamAccounts: React.Dispatch<React.SetStateAction<TeamAccount[] | null>>;
 };
 
 const UserContext = createContext<UserContextType>({
@@ -22,7 +23,8 @@ const UserContext = createContext<UserContextType>({
   teamAccounts: null,
   teams: null,
   setAccount: () => {},
-  setTeams: () => {}
+  setTeams: () => {},
+  setTeamAccounts: () => {}
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -114,7 +116,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ authUser, account, setAccount, teams, setTeams, teamAccounts, loading }}>
+    <UserContext.Provider value={{ authUser, account, setAccount, teams, setTeams, teamAccounts, setTeamAccounts, loading }}>
       {children}
     </UserContext.Provider>
   );
