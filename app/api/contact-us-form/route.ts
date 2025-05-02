@@ -30,7 +30,7 @@ export const POST = async (request: Request) => {
 
         // console.log(submission)
 
-        const { data, error } = await supabase.from('contact-us-submissions').insert(submission).select()
+        const { data, error } = await supabase.from('contact_us_submissions').insert(submission).select()
 
         if (error) throw error
 
