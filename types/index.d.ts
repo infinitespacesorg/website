@@ -25,20 +25,20 @@ export type Account = {
   profile_image: string;
 };
 
-export type TeamAccount = {
+export type ProjectProfile = {
   id: string;
   created_at: string;
   account_id: string;
-  team_id: string;
+  project_id: string;
   role: string;
   joined_at: string;
-  team_username: string;
+  project_username: string;
 }
 
-export type Team = {
+export type Project = {
   id: string;
   created_at: string;
   name: string;
   created_by: string;
-  team_profile_image: string;
+  project_profile_image: string;
 }

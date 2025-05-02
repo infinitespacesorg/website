@@ -3,19 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
 import { Send, SquarePen, X } from "lucide-react";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
-import { uploadProfileImageAction, upsertUsername } from "../../actions";
+import { uploadProfileImageAction } from "./actions";
 import { useState, useTransition, useRef } from "react";
 import UsernameForm from "./usernameForm";
 import FullNameForm from "./fullNameForm";
@@ -23,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Account } from "@/types";
 
 export default function ProfilePage() {
-  const { authUser, account, setAccount, teamAccounts, teams, loading } =
+  const { authUser, account, setAccount, loading } =
     useUser();
   const [updateUsername, setUpdateUsername] = useState(false);
   const [updateFullName, setUpdateFullName] = useState(false);

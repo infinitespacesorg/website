@@ -5,14 +5,14 @@ import {
   resetPasswordAction,
   deleteAccountAction,
   updateEmailAddress,
-} from "../../actions";
+} from "./actions";
 import { useUser } from "@/context/UserContext";
 import { signOutAction } from "@/app/(main)/(auth-pages)/actions";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function SettingsPage() {
-  const { authUser, account, setAccount, teamAccounts, teams, loading } =
+  const { authUser, account, setAccount, projectProfiles, projects, loading } =
     useUser();
 
   console.log(authUser);
