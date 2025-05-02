@@ -10,40 +10,40 @@ import { resend } from "@/lib/utils"
 import { ResendResetPasswordTemplate } from "@/emails/ResetPassword";
 import { randomUUID } from 'crypto'
 
-export const getAllTeamAccountsAction = async (teamId: string) => {
+export const getAllProjectProfilesAction = async (projectId: string) => {
 
     const supabase = await createSupabaseServerClient();
 
-    const { data: allTeamAccounts, error: allTeamAccountsError } = await supabase.from('team_accounts').select('*').eq('team_id', teamId)
+    const { data: allProjectProfiles, error: allProjectProfilesError } = await supabase.from('project_profiles').select('*').eq('project_id', projectId)
 
-    console.log(allTeamAccounts)
+    console.log(allProjectProfiles)
 
-    if (allTeamAccountsError || !allTeamAccounts) {
-        console.error(allTeamAccountsError)
-        throw new Error('Failed to fetch team accounts')
+    if (allProjectProfilesError || !allProjectProfiles) {
+        console.error(allProjectProfilesError)
+        throw new Error('Failed to fetch project accounts')
     }
 
-    const allIDs = allTeamAccounts.map((acc) => acc.account_id)
+    const allIDs = allProjectProfiles.map((acc) => acc.account_id)
 
-    const { data: allTeamUsers, error: allTeamUsersError } = await supabase.from('accounts').select('*').in('id', allIDs)
+    const { data: allProjectUsers, error: allProjectUsersError } = await supabase.from('accounts').select('*').in('id', allIDs)
 
-    if (allTeamUsersError || !allTeamUsers) {
-        console.error(allTeamUsersError)
-        throw new Error('Failed to fetch team accounts')
+    if (allProjectUsersError || !allProjectUsers) {
+        console.error(allProjectUsersError)
+        throw new Error('Failed to fetch project profiles')
     }
 
-    return [allTeamAccounts, allTeamUsers]
+    return [allProjectProfiles, allProjectUsers]
 
 }
 
-export async function updateTeamUsernameAction(
+export async function updateProjectUsernameAction(
     formData: FormData
 ): Promise<void> {
 
     console.log(formData)
 
-    const teamID = formData.get('teamID')
-    const yourTeamAccountID = formData.get('team_account_id')
+    const projectID = formData.get('project_ID')
+    const yourProjectProfileID = formData.get('project_profile_id')
     const username = formData.get("username")
     const usernameFormSchema = z.object({
         username: z.string().min(1, { message: "Please enter your username" }),
@@ -71,7 +71,7 @@ export async function updateTeamUsernameAction(
         throw new Error("Not authenticated");
     }
 
-    const { data: userName, error } = await supabase.from('team_accounts').update({ team_username: result.data.username }).eq("id", yourTeamAccountID)
+    const { data: userName, error } = await supabase.from('project_profiles').update({ project_username: result.data.username }).eq("id", yourProjectProfileID)
 
     if (userName) console.log(userName)
 
@@ -85,20 +85,20 @@ export async function updateTeamUsernameAction(
         throw new Error("Failed to update project username", { cause: error })
     }
 
-    revalidatePath(`/account/teams/${teamID}`)
+    revalidatePath(`/account/projects/${projectID}`)
 }
 
-export async function updateTeamNameAction(
+export async function updateProjectNameAction(
     formData: FormData
 ): Promise<void> {
 
-    const teamNameFormSchema = z.object({
-        name: z.string().min(1, { message: "Please enter your team name" }),
+    const projectNameFormSchema = z.object({
+        name: z.string().min(1, { message: "Please enter your project name" }),
     });
     const name = formData.get("name")
-    const teamID = formData.get('teamID')
+    const projectID = formData.get('project_ID')
 
-    const result = teamNameFormSchema.safeParse({ name })
+    const result = projectNameFormSchema.safeParse({ name })
 
     if (!result.success) {
         const errorMessage = result.error.format().name?._errors?.[0] || "Invalid input";
@@ -117,26 +117,26 @@ export async function updateTeamNameAction(
         throw new Error("Not authenticated");
     }
 
-    const { data: teamName, error } = await supabase.from('teams').update({ name: result.data.name }).eq("id", teamID)
+    const { data: projectName, error } = await supabase.from('projects').update({ name: result.data.name }).eq("id", projectID)
 
     if (error) {
-        throw new Error("Failed to update team name", { cause: error })
+        throw new Error("Failed to update project name", { cause: error })
     }
-    revalidatePath(`/account/teams/${teamID}`)
+    revalidatePath(`/account/projects/${projectID}`)
 }
 
-export async function deleteTeamAccountAction (formData: FormData
+export async function deleteProjectProfileAction (formData: FormData
 ): Promise<void> { 
 
-    const teamAccountID = formData.get('teamAccountID')?.toString()
-    if (!teamAccountID) throw new Error('No account ID provided')
+    const projectProfileID = formData.get('projectProfileID')?.toString()
+    if (!projectProfileID) throw new Error('No account ID provided')
 
     const supabase = await createSupabaseServerClient();
 
-    const { error } = await supabase.from('team-accounts').delete().eq('id', teamAccountID)
+    const { error } = await supabase.from('project_profiles').delete().eq('id', projectProfileID)
 
     if (error) {
-        throw new Error("Failed to leave team", { cause: error })
+        throw new Error("Failed to leave project", { cause: error })
     }
     else return revalidatePath(`/account/profile`);
 }

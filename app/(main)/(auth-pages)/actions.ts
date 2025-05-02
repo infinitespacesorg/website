@@ -23,27 +23,6 @@ export async function signUpAction(formData: FormData) {
     );
   }
 
-  // const supabase = await createSupabaseServerClient(cookieStore);
-
-  // const { data: userData, error: error } = await supabase.auth.signUp({
-  //   email,
-  //   password,
-  //   options: {
-  //     emailRedirectTo: `${origin}/auth/callback?redirect_to=/account`,
-  //   },
-  // });
-
-  // this doesn't work yet, not sure how to bypass the Supabase email templates and use our own email template yet
-
-//   Check to see if adding options.auth.flowType: PKCE will get all of the Resend stuff to work
-// https://supabase.com/docs/reference/javascript/initializing
-// https://supabase.com/docs/guides/auth/sessions/pkce-flow
-
-
-
-  // I think we'll need to use the Send Email Auth Hook here:
-  // https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook?queryGroups=language&language=http
-
   const { data: userData, error: signUpError } = await supabaseAdmin.auth.admin.createUser({
     email,
     password,
@@ -77,11 +56,8 @@ export async function signUpAction(formData: FormData) {
 
   console.log(linkData)
 
-  // manually build your own link:
   const token = linkData.properties.hashed_token;
   const type = linkData.properties.verification_type
-
-  // const confirmUrl = `${origin}/auth/callback?token=${token}&type=${type}&redirect_to=/account`;
 
   const confirmUrl = `${origin}/auth/confirm?token_hash=${token}&type=${type}&redirect_to=/account`;
 
@@ -91,7 +67,6 @@ export async function signUpAction(formData: FormData) {
       to: email,
       subject: "Confirm your email",
       react: ResendEmailConfirmationTemplate({ confirmationUrl: confirmUrl })
-      // react: ResendEmailConfirmationTemplate({ confirmationUrl: linkData.properties.action_link })
     })
   }
 
@@ -101,18 +76,6 @@ export async function signUpAction(formData: FormData) {
     "/login",
     "Thanks for signing up! Please check your email for a verification link.",
   );
-
-  // if (error) {
-  //   console.error(error.code + " " + error.message);
-  //   return encodedRedirect("error", "/login", error.message, { view: 'signup' });
-  // } else {
-  //   revalidatePath('/', 'layout')
-  //   return encodedRedirect(
-  //     "success",
-  //     "/login",
-  //     "Thanks for signing up! Please check your email for a verification link.",
-  //   );
-  // }
 }
 
 export async function signInAction(formData: FormData) {

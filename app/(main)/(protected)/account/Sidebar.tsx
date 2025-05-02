@@ -26,116 +26,122 @@ const navItems = [
   { name: "Settings", path: "/account/settings" },
 ];
 
-const teamNameFormSchema = z.object({
-  teamName: z.string().min(1, { message: "Please enter your team name" }),
+const projectNameFormSchema = z.object({
+  projectName: z.string().min(1, { message: "Please enter your project name" }),
 });
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { teams, setTeams, setAccount } = useUser();
+  const { projects, setProjects, setAccount } = useUser();
 
   const [open, setOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const [showTeamForm, setShowTeamForm] = useState(false);
+  const [showProjectForm, setShowProjectForm] = useState(false);
 
-  const form = useForm<z.infer<typeof teamNameFormSchema>>({
-    resolver: zodResolver(teamNameFormSchema),
+  const form = useForm<z.infer<typeof projectNameFormSchema>>({
+    resolver: zodResolver(projectNameFormSchema),
     defaultValues: {
-      teamName: "",
+      projectName: "",
     },
   });
 
-  async function handleCreateTeam(values: z.infer<typeof teamNameFormSchema>) {
+  async function handleCreateTeam(values: z.infer<typeof projectNameFormSchema>) {
     const formData = new FormData();
-    formData.append("teamName", values.teamName);
+    formData.append("projectName", values.projectName);
 
     setIsCreating(true);
 
     try {
       const { data } = await createTeamAction(formData);
-      if (data) setTeams((prev) => (prev ? [...prev, data] : [data]));
+      if (data) setProjects((prev) => (prev ? [...prev, data] : [data]));
       console.log("Team created ", data);
     } catch (err: any) {
       console.error(err.message);
     }
 
-    setShowTeamForm(false);
+    setShowProjectForm(false);
     setIsCreating(false);
     router.refresh();
   }
 
   function SidebarContent() {
     return (
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold mb-4">Account</h2>
-        <ul className="space-y-2">
-          {navItems.map((item) => (
-            <li key={item.path}>
-              <Link
-                href={item.path}
-                className={`block px-3 py-2 rounded ${pathname === item.path ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
+      <div className="space-y-4 h-[70vh] flex flex-col justify-between items-baseline">
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Projects</h2>
+          {projects && projects.length > 0 ? (
+            <ul className="space-y-2">
+              {projects.map((project) => (
+                <li key={project.id}>
+                  <Link
+                    href={`/account/projects/${project.id}` || "/account/settings"}
+                    className={`block px-3 py-2 rounded ${pathname === `/account/projects/${project.id}` ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
+                  >
+                    {project.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleCreateTeam)}
+              className={`mt-2 space-y-2 ${showProjectForm ? "block" : "hidden"}`}
+            >
+              <FormField
+                control={form.control}
+                name="projectName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Enter your new project name"
+                        autoComplete="off"
+                        data-1p-ignore
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                className="block h-9 w-fit m-auto"
+                size="sm"
+                type="submit"
+                disabled={isCreating}
               >
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <h2 className="text-lg font-semibold mb-4">Teams</h2>
-        {teams && teams.length > 0 ? (
+                {isCreating && (
+                  <Loader2 className="w-6 h-6 mr-2 animate-spin" />
+                )}
+                Create a new project
+              </Button>
+            </form>
+          </Form>
+          <Button
+            onClick={() => setShowProjectForm(!showProjectForm)}
+            className="block px-3 py-2 m-auto rounded"
+          >
+            {showProjectForm ? "Cancel" : "Create a Project"}
+          </Button>
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Account</h2>
           <ul className="space-y-2">
-            {teams.map((team) => (
-              <li key={team.id}>
+            {navItems.map((item) => (
+              <li key={item.path}>
                 <Link
-                  href={`/account/teams/${team.id}` || '/account/settings'}
-                  className={`block px-3 py-2 rounded ${pathname === `/account/teams/${team.id}` ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
+                  href={item.path}
+                  className={`block px-3 py-2 rounded ${pathname === item.path ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
                 >
-                  {team.name}
+                  {item.name}
                 </Link>
               </li>
             ))}
           </ul>
-        ) : null}
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleCreateTeam)}
-            className={`mt-2 space-y-2 ${showTeamForm ? "block" : "hidden"}`}
-          >
-            <FormField
-              control={form.control}
-              name="teamName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Enter your new team name"
-                      autoComplete="off"
-                      data-1p-ignore
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              className="block h-9 w-fit m-auto"
-              size="sm"
-              type="submit"
-              disabled={isCreating}
-            >
-              {isCreating && <Loader2 className="w-6 h-6 mr-2 animate-spin" />}
-              Create a new team
-            </Button>
-          </form>
-        </Form>
-        <Button
-          onClick={() => setShowTeamForm(!showTeamForm)}
-          className="block px-3 py-2 m-auto rounded"
-        >
-          {showTeamForm ? "Cancel" : "Create a Team"}
-        </Button>
+        </div>
       </div>
     );
   }

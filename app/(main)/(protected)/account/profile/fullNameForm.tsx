@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { useTransition } from "react";
-import { upsertFullName } from "../../actions";
+import { upsertFullName } from "./actions";
 import { useUser } from "@/context/UserContext";
 
 const fullNameFormSchema = z.object({

@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
-import { upsertUsername } from "../../actions";
+import { upsertUsername } from "./actions";
 import { useTransition } from "react";
 import { useUser } from "@/context/UserContext";
 

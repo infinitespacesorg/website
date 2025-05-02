@@ -3,35 +3,35 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/browser";
 import type { User } from "@supabase/supabase-js";
-import type { Account, TeamAccount, Team } from "@/types";
+import type { Account, Project, ProjectProfile } from "@/types";
 
 type UserContextType = {
   authUser: User | null;
   account: Account | null;
-  teamAccounts: TeamAccount[] | null;
-  teams: Team[] | null
+  projectProfiles: ProjectProfile[] | null;
+  projects: Project[] | null
   loading: boolean;
   setAccount: React.Dispatch<React.SetStateAction<Account | null>>;
-  setTeams: React.Dispatch<React.SetStateAction<Team[] | null>>;
-  setTeamAccounts: React.Dispatch<React.SetStateAction<TeamAccount[] | null>>;
+  setProjects: React.Dispatch<React.SetStateAction<Project[] | null>>;
+  setProjectProfiles: React.Dispatch<React.SetStateAction<ProjectProfile[] | null>>;
 };
 
 const UserContext = createContext<UserContextType>({
   authUser: null,
   account: null,
   loading: true,
-  teamAccounts: null,
-  teams: null,
+  projectProfiles: null,
+  projects: null,
   setAccount: () => {},
-  setTeams: () => {},
-  setTeamAccounts: () => {}
+  setProjects: () => {},
+  setProjectProfiles: () => {}
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [account, setAccount] = useState<Account | null>(null);
-  const [teamAccounts, setTeamAccounts] = useState<TeamAccount[] | null>(null);
-  const [teams, setTeams] = useState<Team[] | null>(null)
+  const [projectProfiles, setProjectProfiles] = useState<ProjectProfile[] | null>(null);
+  const [projects, setProjects] = useState<Project[] | null>(null)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       if (userError || !user) {
         setAuthUser(null);
         setAccount(null);
-        setTeamAccounts(null)
+        setProjectProfiles(null)
         setLoading(false);
         return;
       }
@@ -59,31 +59,31 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         .single();
       if (accountError || !accountData) {
         setAccount(null)
-        setTeamAccounts(null)
+        setProjectProfiles(null)
         setLoading(false)
         return;
       } else {
         setAccount(accountData);
       }
 
-      const { data: teamAccountsData, error: teamAccountsError} = await supabase.from('team_accounts').select('*').eq('account_id', user.id);
-      if (teamAccountsError || !teamAccountsData) {
-        setTeamAccounts(null)
+      const { data: projectProfilesData, error: projectProfilesError} = await supabase.from('project_profiles').select('*').eq('account_id', user.id);
+      if (projectProfilesError || !projectProfilesData) {
+        setProjectProfiles(null)
         setLoading(false)
         return;
       } else {
-        setTeamAccounts(teamAccountsData)
+        setProjectProfiles(projectProfilesData)
       }
 
-      const teamIds = teamAccountsData.map((t) => t.team_id)
+      const projectIds = projectProfilesData.map((t) => t.project_id)
 
-      const { data: teamsData, error: teamsError} = await supabase.from('teams').select('*').in('id', teamIds)
+      const { data: projectsData, error: projectsError} = await supabase.from('projects').select('*').in('id', projectIds)
 
-      if (teamsError || !teamsData) {
+      if (projectsError || !projectsData) {
         setLoading(false)
         return
       } else {
-        setTeams(teamsData)
+        setProjects(projectsData)
       }
 
       setLoading(false);
@@ -116,7 +116,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ authUser, account, setAccount, teams, setTeams, teamAccounts, setTeamAccounts, loading }}>
+    <UserContext.Provider value={{ authUser, account, setAccount, projectProfiles, setProjectProfiles, projects, setProjects, loading }}>
       {children}
     </UserContext.Provider>
   );

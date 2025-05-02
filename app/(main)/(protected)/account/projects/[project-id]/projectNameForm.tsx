@@ -13,38 +13,38 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { useTransition } from "react";
-import { updateTeamNameAction } from "./actions";
+import { updateProjectNameAction } from "./actions";
 import { useUser } from "@/context/UserContext";
-import { Team } from "@/types";
+import { Project } from "@/types";
 
-type TeamNameFormProps = {
-    team: Team;
+type ProjectNameFormProps = {
+  project: Project;
 }
 
-const teamNameFormSchema = z.object({
-  name: z.string().min(1, { message: "Please enter your full name" }),
+const projectNameFormSchema = z.object({
+  name: z.string().min(1, { message: "Please enter a name for your project" }),
 });
 
-export default function TeamNameForm({team}: TeamNameFormProps) {
+export default function ProjectNameForm({project}: ProjectNameFormProps) {
   const { account, setAccount } = useUser();
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof teamNameFormSchema>>({
-    resolver: zodResolver(teamNameFormSchema),
+  const form = useForm<z.infer<typeof projectNameFormSchema>>({
+    resolver: zodResolver(projectNameFormSchema),
     defaultValues: {
-      name: team?.name ?? "",
+      name: project?.name ?? "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof teamNameFormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof projectNameFormSchema>) => {
     const formData = new FormData();
     formData.append("name", values.name);
-    formData.append('teamID', team.id)
+    formData.append('project_ID', project.id)
 
     try {
-      await updateTeamNameAction(formData);
+      await updateProjectNameAction(formData);
 
-      toast.success("Team name updated!");
+      toast.success("Project name updated!");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Something went wrong";
@@ -64,7 +64,7 @@ export default function TeamNameForm({team}: TeamNameFormProps) {
                 <Input
                   {...field}
                   type="text"
-                  placeholder="Enter your new team display name"
+                  placeholder="Enter your new project display name"
                   autoComplete="off"
                   data-1p-ignore
                 />

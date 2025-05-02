@@ -7,7 +7,7 @@ import UsernameForm from "./profile/usernameForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
-import { deleteAccountAction, resetPasswordAction } from "../actions";
+import { deleteAccountAction, resetPasswordAction } from "./settings/actions";
 import { FormMessage, Message } from "@/components/ui/form-message";
 
 function MessageBanner() {
@@ -29,7 +29,7 @@ export default function Account() {
   const status = searchParams.get("status");
   const message = searchParams.get("message");
 
-  const { authUser, account, teamAccounts, teams, loading } = useUser();
+  const { authUser, account, projectProfiles, projects, loading } = useUser();
 
   useEffect(() => {
     if (!loading && !authUser) {
@@ -40,8 +40,6 @@ export default function Account() {
   useEffect(() => {
     if (account?.full_name) setHasFullName(true);
   }, [account]);
-
-  console.log(authUser, account, teamAccounts, teams);
 
   return (
     <section className="py-15 max-w-[800px] m-auto">
