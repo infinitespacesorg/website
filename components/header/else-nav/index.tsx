@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Logo from "@/components/logo";
-import MobileNav from "@/components/header/mobile-nav";
-import DesktopNav from "@/components/header/desktop-nav";
+import MobileNav from "@/components/header/index-nav/mobile-nav";
+import DesktopNav from "@/components/header/index-nav/desktop-nav";
 import { ModeToggle } from "@/components/menu-toggle";
 import { useEffect, useState } from "react";
 
@@ -25,7 +25,7 @@ const navItems = [
   },
 ];
 
-export default function Header() {
+export default function ElseHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -45,15 +45,15 @@ export default function Header() {
     >
       <div className="flex items-center justify-between h-14">
         <Link href="/" aria-label="Home page">
-          <Logo />
+          <Logo mobile={false}/>
         </Link>
         <div
-          className={`hidden xl:flex gap-1 items-center justify-between ${isScrolled ? "" : "text-gray-400 dark:text-white rounded-sm"}`}
+          className={`hidden md:flex gap-1 items-center justify-between ${isScrolled ? "" : "text-gray-400 dark:text-white rounded-sm"}`}
         >
           <ModeToggle />
           <DesktopNav navItems={navItems} isScrolled={isScrolled} />
         </div>
-        <div className={`flex items-center xl:hidden ${isScrolled ? "" : "text-gray-400 dark:text-white"}`}>
+        <div className={`flex items-center md:hidden ${isScrolled ? "" : "text-gray-400 dark:text-white"}`}>
           <ModeToggle />
           <MobileNav navItems={navItems} />
         </div>

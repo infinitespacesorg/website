@@ -16,6 +16,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import ElseHeader from "@/components/header/else-nav";
+import FooterWithContactUs from "@/components/footer/footer-with-contact-us";
 
 export async function generateStaticParams() {
   const events = await fetchSanityEventsStaticParams();
@@ -84,6 +86,8 @@ export default async function EventPage(props: {
   const location = `${event.address} - ${event.city}, ${event.state}`;
 
   return (
+    <main>
+      <ElseHeader/>
     <section>
       <div className="container py-15 px-0 md:py-20 w-[90vw] md:w-[80vw] md:max-w-[1000px]">
         <div className="flex flex-col md:flex-row justify-start align-baseline gap-10">
@@ -169,5 +173,7 @@ export default async function EventPage(props: {
         </Accordion>
       </div> */}
     </section>
+    <FooterWithContactUs />
+    </main>
   );
 }

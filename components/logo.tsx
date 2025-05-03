@@ -1,6 +1,19 @@
-export default function Logo() {
+type LogoProps = {
+  mobile: boolean
+}
+
+export default function Logo({mobile = false}: LogoProps) {
+
+  let width = 187
+  let height = 42
+
+  if (mobile) {
+    width = 136
+    height = 32
+  }
+
   return (
-    <svg width="187" height="42" viewBox="0 0 187 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width} height={height} viewBox="0 0 187 51" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M41.9251 10.981L26.5898 0L0.000827518 35.0786L15.3361 46.0596L41.9251 10.981Z" fill="#CCCCCC" />
       <path d="M38.5857 48C45.4417 48 50.9995 42.598 50.9995 35.9344C50.9995 29.2707 45.4417 23.8687 38.5857 23.8687C31.7297 23.8687 26.1719 29.2707 26.1719 35.9344C26.1719 42.598 31.7297 48 38.5857 48Z" fill="#789BDE" />
       <g clipPath="url(#clip0_0_1)">
