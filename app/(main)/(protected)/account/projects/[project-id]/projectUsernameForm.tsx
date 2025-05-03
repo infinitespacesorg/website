@@ -19,20 +19,21 @@ import { ProjectProfile } from "@/types";
 
 type ProjectUsernameFormProps = {
     yourProjectProfile: ProjectProfile;
+    setUpdateProjectUsername: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const projectUsernameFormSchema = z.object({
   project_username: z.string().min(1, { message: "Please enter your project username" }),
 });
 
-export default function ProjectUsernameForm({yourProjectProfile}: ProjectUsernameFormProps) {
-  const { account, setAccount, setProjectProfiles } = useUser();
+export default function ProjectUsernameForm({yourProjectProfile, setUpdateProjectUsername }: ProjectUsernameFormProps) {
+  const { account, setAccount, setProjectProfiles, refreshUserContext } = useUser();
   const [isPending, startTransition] = useTransition();
 
   const usernameForm = useForm<z.infer<typeof projectUsernameFormSchema>>({
     resolver: zodResolver(projectUsernameFormSchema),
     defaultValues: {
-      project_username: account?.username ?? "",
+      project_username: yourProjectProfile.project_username ?? "",
     },
   });
 
@@ -44,11 +45,15 @@ export default function ProjectUsernameForm({yourProjectProfile}: ProjectUsernam
 
     try {
       await updateProjectUsernameAction(formData);
-      startTransition(async () => {
-        setProjectProfiles((prev) =>
-          prev ? { ...prev, username: values.project_username } : prev
-        );
-      });
+      // await refreshUserContext()
+      setProjectProfiles((prev) =>
+        prev.map((profile) =>
+          profile.id === yourProjectProfile.id
+            ? { ...profile, project_username: values.project_username }
+            : profile
+        )
+      );      
+      setUpdateProjectUsername(false)
       toast.success("Project username updated!");
     } catch (err) {
       const errorMessage =

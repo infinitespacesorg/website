@@ -20,8 +20,12 @@ const usernameFormSchema = z.object({
   username: z.string().min(1, { message: "Please enter your display name" }),
 });
 
-export default function UsernameForm() {
-  const { account, setAccount } = useUser();
+type UsernameFormProps = {
+  setUpdateUsername: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function FullNameForm({setUpdateUsername}: UsernameFormProps) {
+  const { account, setAccount, refreshUserContext } = useUser();
   const [isPending, startTransition] = useTransition();
 
   const usernameForm = useForm<z.infer<typeof usernameFormSchema>>({
@@ -37,11 +41,11 @@ export default function UsernameForm() {
 
     try {
       await upsertUsername(formData);
-      startTransition(async () => {
-        setAccount((prev) =>
-          prev ? { ...prev, username: values.username } : prev
-        );
-      });
+      // await refreshUserContext()
+      setAccount((prev) =>
+        prev ? { ...prev, username: values.username } : prev
+      );
+      setUpdateUsername(false)
       toast.success("Username updated!");
     } catch (err) {
       const errorMessage =

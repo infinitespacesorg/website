@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { redirect } from "next/navigation";
 import type { Message } from "@/components/ui/form-message";
 import { Resend } from "resend"
+import Favicon from "@/public/favicon.png"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,6 +20,8 @@ export const formatDate = (date: string): string => {
 };
 
 export const resend = new Resend(`${process.env.RESEND_API_KEY}`)
+
+export const ISLogo = Favicon
 
 export const creatorCategories = [
   'AI',

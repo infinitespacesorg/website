@@ -20,8 +20,12 @@ const fullNameFormSchema = z.object({
   full_name: z.string().min(1, { message: "Please enter your full name" }),
 });
 
-export default function FullNameForm() {
-  const { account, setAccount } = useUser();
+type FullNameFormProps = {
+  setUpdateFullName: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function FullNameForm({ setUpdateFullName }: FullNameFormProps) {
+  const { account, setAccount, refreshUserContext } = useUser();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof fullNameFormSchema>>({
@@ -37,12 +41,11 @@ export default function FullNameForm() {
 
     try {
       await upsertFullName(formData);
-      startTransition(async () => {
-        setAccount((prev) =>
-          prev ? { ...prev, full_name: values.full_name } : prev
-        );
-      });
-
+      // await refreshUserContext()
+      setAccount((prev) =>
+        prev ? { ...prev, full_name: values.full_name } : prev
+      );
+      setUpdateFullName(false);
       toast.success("Full name updated!");
     } catch (err) {
       const errorMessage =

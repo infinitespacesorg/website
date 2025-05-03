@@ -40,24 +40,20 @@ export async function updateProjectUsernameAction(
     formData: FormData
 ): Promise<void> {
 
-    console.log(formData)
-
     const projectID = formData.get('project_ID')
     const yourProjectProfileID = formData.get('project_profile_id')
-    const username = formData.get("username")
+    const username = formData.get("project_username")
     const usernameFormSchema = z.object({
         username: z.string().min(1, { message: "Please enter your username" }),
     });
 
     const result = usernameFormSchema.safeParse({ username })
 
-
     if (!result.success) {
         const errorMessage = result.error.format().username?._errors?.[0]
         throw new Error(errorMessage)
     }
 
-    const cookieStore = await cookies()
     const supabase = await createSupabaseServerClient();
 
     const {
@@ -65,15 +61,11 @@ export async function updateProjectUsernameAction(
         error: userError,
     } = await supabase.auth.getUser();
 
-    console.log(user)
-
     if (!user || userError) {
         throw new Error("Not authenticated");
     }
 
-    const { data: userName, error } = await supabase.from('project_profiles').update({ project_username: result.data.username }).eq("id", yourProjectProfileID)
-
-    if (userName) console.log(userName)
+    const { data: userName, error } = await supabase.from('project_profiles').update({ project_username: result.data.username }).eq("id", yourProjectProfileID).select()
 
     if (error && error.code === '23505') {
         console.error(error)
@@ -105,7 +97,6 @@ export async function updateProjectNameAction(
         throw new Error(errorMessage);
     }
 
-    const cookieStore = await cookies()
     const supabase = await createSupabaseServerClient();
 
     const {
@@ -139,4 +130,48 @@ export async function deleteProjectProfileAction (formData: FormData
         throw new Error("Failed to leave project", { cause: error })
     }
     else return revalidatePath(`/account/profile`);
+}
+
+export async function uploadProjectImageAction(formData: FormData) {
+    const file = formData.get('project-image') as File | null
+    const projectID = formData.get('project-id')?.toString()
+    if (!file) throw new Error('No file provided')
+    if (!projectID) throw new Error('No project associated with this file.')
+
+    console.log(file)
+
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${randomUUID()}.${fileExt}`
+
+    const supabase = await createSupabaseServerClient();
+
+    console.log(file)
+
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
+
+    if (!user || userError) {
+        throw new Error("Not authenticated");
+    }
+    console.log(user)
+
+    const { error: uploadError } = await supabase.storage.from('project-images').upload(`public/${projectID}/${fileName}`, file, {
+        contentType: file.type,
+        upsert: false
+    })
+
+    if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`)
+
+    const { data: urlData } = supabase.storage
+        .from('project-images')
+        .getPublicUrl(`public/${projectID}/${fileName}`)
+
+    await supabase
+        .from('projects')
+        .update({ project_profile_image: urlData.publicUrl })
+        .eq('id', projectID)
+
+    return { url: urlData.publicUrl }
 }
