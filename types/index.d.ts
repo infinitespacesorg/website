@@ -28,6 +28,7 @@ export type Account = {
 export type ProjectProfile = {
   id: string;
   created_at: string;
+  updated_at: string;
   account_id: string;
   project_id: string;
   role: string;
@@ -38,6 +39,7 @@ export type ProjectProfile = {
 export type Project = {
   id: string;
   created_at: string;
+  updated_at: string;
   name: string;
   created_by: string;
   project_profile_image: string;
