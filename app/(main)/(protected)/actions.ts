@@ -8,6 +8,7 @@ import { cookies, headers } from "next/headers";
 
 export async function createTeamAction(formData: FormData) {
     const projectName = formData.get("projectName")
+    const defaultUsername = formData.get('username')
 
     if (!projectName) throw new Error('No project name provided')
 
@@ -33,7 +34,8 @@ export async function createTeamAction(formData: FormData) {
     const { data: newProjectProfile, error: projectProfileError } = await supabase.from('project_profiles').insert({
         project_id: newProject[0].id,
         account_id: user.id,
-        role: 'owner'
+        role: 'owner',
+        project_username: defaultUsername,
     }).select()
 
     if (projectProfileError || !newProjectProfile) {
@@ -41,7 +43,10 @@ export async function createTeamAction(formData: FormData) {
         throw new Error('Failed to create project account')
     }
 
-    return newProject[0]
+    console.log(newProject[0])
+    console.log(newProjectProfile[0])
+
+    return [newProject[0], newProjectProfile[0]]
 }
 
 

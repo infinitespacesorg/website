@@ -77,7 +77,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     } = await supabase
       .from("project_profiles")
       .select("*")
-      .eq("account_id", user.id);
+      .eq("account_id", user.id).order('updated_at', {ascending: false} );
     if (projectProfilesError || !projectProfilesData) {
       setProjectProfiles([]);
       setProjects([]);
@@ -91,7 +91,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: projectsData, error: projectsError } = await supabase
       .from("projects")
       .select("*")
-      .in("id", projectIds);
+      .in("id", projectIds).order('updated_at', {ascending: false} );
   
     if (projectsError || !projectsData) {
       setProjects([]);

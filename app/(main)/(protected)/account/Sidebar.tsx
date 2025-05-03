@@ -22,6 +22,8 @@ import {
 import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import ISLogo from "@/public/favicon.png";
+import Image from "next/image";
+import { useProjectImages } from "./useProjectImages";
 
 const navItems = [
   { name: "My Profile", path: "/account/profile" },
@@ -35,11 +37,12 @@ const projectNameFormSchema = z.object({
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { projects, setProjects, setAccount } = useUser();
+  const { projects, setProjects, account, setAccount, setProjectProfiles } = useUser();
 
   const [open, setOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const signedUrls = useProjectImages(projects)
 
   const form = useForm<z.infer<typeof projectNameFormSchema>>({
     resolver: zodResolver(projectNameFormSchema),
@@ -53,13 +56,16 @@ export default function Sidebar() {
   ) {
     const formData = new FormData();
     formData.append("projectName", values.projectName);
+    if (account!.username) formData.append('username', account!.username)
 
     setIsCreating(true);
 
     try {
-      const { data } = await createTeamAction(formData);
-      setProjects((prev) => (prev ? [...prev, data] : [data]));
+      const data = await createTeamAction(formData);
+      setProjects((prev) => (prev ? [data[0], ...prev] : [data[0]]));
+      setProjectProfiles((prev) => (prev ? [data[1], ...prev] : [data[1]]));
       console.log("Team created ", data);
+      router.push(`/account/projects/${data[0].id}`)
     } catch (err: any) {
       console.error(err.message);
     }
@@ -70,16 +76,13 @@ export default function Sidebar() {
 
   function SidebarContent() {
 
-    
-
     return (
       <div className="space-y-4 h-[70vh] flex flex-col justify-between items-baseline">
-        <div className="w-full">
+        <div className="w-full max-h-[50vh] flex flex-col justify-between items-center">
           <h2 className="text-lg font-semibold mb-4">Projects</h2>
           {projects && projects.length > 0 ? (
-            <ul className="space-y-2">
+            <ul className="space-y-2  overflow-scroll">
               {projects.map((project) => (
-
                 <li key={project.id}>
                   <Link
                     href={
@@ -88,12 +91,10 @@ export default function Sidebar() {
                     className={`flex flex-row justify-left items-center px-3 py-2 rounded ${pathname === `/account/projects/${project.id}` ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
                   >
                     <Avatar className="w-7 h-7 mr-3">
-                      {project?.project_profile_image && (
                         <AvatarImage
-                          src={project?.project_profile_image ? project?.project_profile_image : ISLogo }
+                          src={signedUrls[project.id] || ISLogo.src }
                           alt={project?.name ?? ""}
                         />
-                      )}
                     </Avatar>
                     <p>{project.name}</p>
                   </Link>
@@ -104,7 +105,7 @@ export default function Sidebar() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleCreateTeam)}
-              className={`mt-2 space-y-2 ${showProjectForm ? "block" : "hidden"}`}
+              className={`mt-2 pt-2 space-y-2 ${showProjectForm ? "block" : "hidden"}`}
             >
               <FormField
                 control={form.control}

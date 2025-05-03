@@ -12,6 +12,13 @@
 // Invite member - invite a user to your project through email
 // a form to invite the user through their email
 // HOW SHOULD THIS LOGIC WORK?
+// if the target user does already have an account, you should send them an email
+// that makes them a new project_profile AND logs them in,
+// so that when they click the link, they arrive at /account/projects/project-id
+// with a valid project_profile
+
+// if the target user DOES NOT have an account, send them an email that
+// makes them a new account AND makes them a new project profile
 
 // project profile image - upload an image for your project
 // show the image on the right
@@ -28,7 +35,7 @@
 // if they are the project creator / admin and they leave, what should happen?
 
 import { useUser } from "@/context/UserContext";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import {
   getAllProjectProfilesAction,
@@ -43,6 +50,10 @@ import { Input } from "@/components/ui/input";
 import ProjectNameForm from "./projectNameForm";
 import ProjectUsernameForm from "./projectUsernameForm";
 import { toast } from "sonner";
+import ISLogo from "@/public/favicon.png";
+import { form } from "sanity/structure";
+import { useProjectImages } from "../../useProjectImages";
+import InviteTeamMemberForm from "./inviteTeamMemberForm";
 
 export default function ProjectPage() {
   const {
@@ -53,11 +64,14 @@ export default function ProjectPage() {
     projects,
     setProjects,
     loading,
+    refreshUserContext,
   } = useUser();
+  const router = useRouter();
   const [updateProjectUsername, setUpdateProjectUsername] = useState(false);
   const [updateProjectName, setUpdateProjectName] = useState(false);
   const [updateProjectProfileImage, setUpdateProjectProfileImage] =
     useState(false);
+    const [inviteProjectMember, setInviteProjectMember] = useState(false);
   const [allProjectProfiles, setAllProjectProfiles] = useState<
     ProjectProfile[]
   >([]);
@@ -65,10 +79,12 @@ export default function ProjectPage() {
 
   const params = useParams();
   const projectId = params["project-id"];
-  const project = projects?.find((t) => t.id === projectId);
+  const project = projects.find((t) => t.id === projectId);
   const yourProjectProfile = projectProfiles?.find(
     (t) => t.project_id === project?.id
   );
+
+  const signedUrls = useProjectImages(projects)
 
   useEffect(() => {
     if (project) {
@@ -135,6 +151,8 @@ export default function ProjectPage() {
   }
 
   function displayProjectMembers() {
+    console.log(allProjectProfiles, allUserAccounts)
+
     return (
       <div className="border-2 rounded-xl">
         <div className="flex flex-row justify-baseline border-b-2 p-3">
@@ -161,12 +179,10 @@ export default function ProjectPage() {
       <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
         {updateProjectProfileImage && <AvatarUploadInput />}
         <Avatar className="w-10 h-10 mr-3">
-          {project?.project_profile_image && (
-            <AvatarImage
-              src={project?.project_profile_image}
-              alt={project?.name ?? ""}
-            />
-          )}
+          <AvatarImage
+            src={signedUrls[project!.id] || ISLogo.src }
+            alt={project?.name ?? ""}
+          />
           <AvatarFallback>{project?.name?.slice(0, 2) || "IS"}</AvatarFallback>
         </Avatar>
         {updateProjectProfileImage ? (
@@ -248,17 +264,63 @@ export default function ProjectPage() {
     );
   }
 
+  function handleInviteMember() {
+      return inviteProjectMember && project ? (
+        <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
+          <InviteTeamMemberForm
+            project={project}
+            setAllUserAccounts={setAllUserAccounts}
+            setInviteProjectMember={setInviteProjectMember}
+          />
+          <Button
+            className="h-9"
+            size="sm"
+            onClick={() => setInviteProjectMember(false)}
+          >
+            <X />
+          </Button>
+        </div>
+      ) : (
+        <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
+          <Button
+            className="h-9"
+            size="sm"
+            onClick={() => setInviteProjectMember(true)}
+          >
+            Invite User
+          </Button>
+        </div>
+      );
+  }
+
+  async function handleLeaveProject() {
+    const formData = new FormData();
+    formData.append("projectProfileID", yourProjectProfile!.id);
+    formData.append('role', yourProjectProfile!.role)
+    formData.append('projectID', yourProjectProfile!.project_id)
+
+    try {
+      await deleteProjectProfileAction(formData);
+      refreshUserContext();
+      router.push(`/account/profile`);
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  }
+
   return (
     <section>
       <div className="py-3 border-b-2 flex flex-row justify-between items-end">
         <div className="flex flex-row justify-center items-center">
           <Avatar className="w-10 h-10 mr-3">
-            {project?.project_profile_image && (
-              <AvatarImage
-                src={project?.project_profile_image}
-                alt={project?.name ?? ""}
-              />
-            )}
+            <AvatarImage
+              src={
+                project?.project_profile_image
+                  ? project?.project_profile_image
+                  : ISLogo.src
+              }
+              alt={project?.name ?? ""}
+            />
             <AvatarFallback>
               {project?.name?.slice(0, 2) || "IS"}
             </AvatarFallback>
@@ -287,16 +349,7 @@ export default function ProjectPage() {
           <h4>Invite member</h4>
           <p className="text-sm">Invite a user to your project through email</p>
         </div>
-        <form className="flex flex-row justify-between items-center">
-          <input type="email"></input>
-          <Button
-            className="h-9"
-            size="sm"
-            onClick={() => setUpdateProjectProfileImage(true)}
-          >
-            Invite user
-          </Button>
-        </form>
+        <div>{handleInviteMember()}</div>
       </div>
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
         <div>
@@ -322,14 +375,9 @@ export default function ProjectPage() {
           </p>
         </div>
         <div className="w-fit my-auto">
-          <form action={deleteProjectProfileAction}>
-            <Input
-              type="hidden"
-              name="projectProfileID"
-              value={yourProjectProfile?.id}
-            />
-            <Button type="submit">Leave project</Button>
-          </form>
+          <Button type="submit" onClick={() => handleLeaveProject()}>
+            Leave project
+          </Button>
         </div>
       </div>
     </section>

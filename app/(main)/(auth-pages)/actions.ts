@@ -54,8 +54,6 @@ export async function signUpAction(formData: FormData) {
     "Email link could not be generated.",
   );
 
-  console.log(linkData)
-
   const token = linkData.properties.hashed_token;
   const type = linkData.properties.verification_type
 
