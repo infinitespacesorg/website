@@ -19,14 +19,15 @@ import { Project } from "@/types";
 
 type ProjectNameFormProps = {
   project: Project;
+  setUpdateProjectName: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const projectNameFormSchema = z.object({
   name: z.string().min(1, { message: "Please enter a name for your project" }),
 });
 
-export default function ProjectNameForm({project}: ProjectNameFormProps) {
-  const { account, setAccount } = useUser();
+export default function ProjectNameForm({project, setUpdateProjectName}: ProjectNameFormProps) {
+  const { account, setAccount, projects, setProjects, refreshUserContext } = useUser();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof projectNameFormSchema>>({
@@ -43,7 +44,8 @@ export default function ProjectNameForm({project}: ProjectNameFormProps) {
 
     try {
       await updateProjectNameAction(formData);
-
+      setProjects((prev) => prev.map((proj) => proj.id === project.id ? {... proj, name: values.name} : proj))
+      setUpdateProjectName(false)
       toast.success("Project name updated!");
     } catch (err) {
       const errorMessage =

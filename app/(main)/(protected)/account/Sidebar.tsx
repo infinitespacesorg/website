@@ -9,6 +9,7 @@ import { useUser } from "@/context/UserContext";
 import { createTeamAction } from "../actions";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import ISLogo from "@/public/favicon.png";
 
 const navItems = [
   { name: "My Profile", path: "/account/profile" },
@@ -46,7 +48,9 @@ export default function Sidebar() {
     },
   });
 
-  async function handleCreateTeam(values: z.infer<typeof projectNameFormSchema>) {
+  async function handleCreateTeam(
+    values: z.infer<typeof projectNameFormSchema>
+  ) {
     const formData = new FormData();
     formData.append("projectName", values.projectName);
 
@@ -54,7 +58,7 @@ export default function Sidebar() {
 
     try {
       const { data } = await createTeamAction(formData);
-      if (data) setProjects((prev) => (prev ? [...prev, data] : [data]));
+      setProjects((prev) => (prev ? [...prev, data] : [data]));
       console.log("Team created ", data);
     } catch (err: any) {
       console.error(err.message);
@@ -62,23 +66,36 @@ export default function Sidebar() {
 
     setShowProjectForm(false);
     setIsCreating(false);
-    router.refresh();
   }
 
   function SidebarContent() {
+
+    
+
     return (
       <div className="space-y-4 h-[70vh] flex flex-col justify-between items-baseline">
-        <div>
+        <div className="w-full">
           <h2 className="text-lg font-semibold mb-4">Projects</h2>
           {projects && projects.length > 0 ? (
             <ul className="space-y-2">
               {projects.map((project) => (
+
                 <li key={project.id}>
                   <Link
-                    href={`/account/projects/${project.id}` || "/account/settings"}
-                    className={`block px-3 py-2 rounded ${pathname === `/account/projects/${project.id}` ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
+                    href={
+                      `/account/projects/${project.id}` || "/account/settings"
+                    }
+                    className={`flex flex-row justify-left items-center px-3 py-2 rounded ${pathname === `/account/projects/${project.id}` ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
                   >
-                    {project.name}
+                    <Avatar className="w-7 h-7 mr-3">
+                      {project?.project_profile_image && (
+                        <AvatarImage
+                          src={project?.project_profile_image ? project?.project_profile_image : ISLogo }
+                          alt={project?.name ?? ""}
+                        />
+                      )}
+                    </Avatar>
+                    <p>{project.name}</p>
                   </Link>
                 </li>
               ))}
@@ -108,33 +125,33 @@ export default function Sidebar() {
                 )}
               />
               <Button
-                className="block h-9 w-fit m-auto"
+                className="flex items-center h-9 w-fit m-auto"
                 size="sm"
                 type="submit"
                 disabled={isCreating}
               >
+                {isCreating ? "loading..." : "Create a new project"}
                 {isCreating && (
                   <Loader2 className="w-6 h-6 mr-2 animate-spin" />
                 )}
-                Create a new project
               </Button>
             </form>
           </Form>
           <Button
             onClick={() => setShowProjectForm(!showProjectForm)}
-            className="block px-3 py-2 m-auto rounded"
+            className="block px-3 py-2 m-auto my-3 rounded"
           >
             {showProjectForm ? "Cancel" : "Create a Project"}
           </Button>
         </div>
-        <div>
+        <div className="w-full">
           <h2 className="text-lg font-semibold mb-4">Account</h2>
           <ul className="space-y-2">
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link
                   href={item.path}
-                  className={`block px-3 py-2 rounded ${pathname === item.path ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
+                  className={`block px-3 py-2 rounded w-full ${pathname === item.path ? "bg-primary text-background" : "hover:bg-muted-foreground/10"}`}
                 >
                   {item.name}
                 </Link>

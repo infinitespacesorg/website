@@ -12,18 +12,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Account } from "@/types";
 
 export default function ProfilePage() {
-  const { authUser, account, setAccount, loading } =
+  const { authUser, account, setAccount, refreshUserContext, loading } =
     useUser();
   const [updateUsername, setUpdateUsername] = useState(false);
   const [updateFullName, setUpdateFullName] = useState(false);
   const [updateProfileImage, setUpdateProfileImage] = useState(false);
 
-  console.log(authUser)
-
   function UsernameFormOrName() {
     return updateUsername ? (
       <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
-        <UsernameForm />
+        <UsernameForm setUpdateUsername={setUpdateUsername}/>
         <Button
           className="h-9"
           size="sm"
@@ -49,7 +47,7 @@ export default function ProfilePage() {
   function DisplayNameFormOrName() {
     return updateFullName ? (
       <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
-        <FullNameForm />
+        <FullNameForm setUpdateFullName={setUpdateFullName}/>
         <Button
           className="h-9"
           size="sm"
@@ -85,8 +83,9 @@ export default function ProfilePage() {
       try {
         const { url } = await uploadProfileImageAction(formData);
         console.log("Avatar uploaded to: ", url);
+        // await refreshUserContext()
         setAccount((prev) =>
-          prev ? ({ ...prev, profile_image: url } as Account) : prev
+          prev ? { ...prev, profile_image: url } : prev
         );
         setUpdateProfileImage(false)
       } catch (err: any) {

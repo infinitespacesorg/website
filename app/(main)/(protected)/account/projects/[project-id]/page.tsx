@@ -2,64 +2,81 @@
 
 // okay so here we need a UI like this:
 
-// (team profile image) Team display name
+// (project profile image) Project display name
 
-// Team user name - overwrite your user display name in this team
+// Project user name - overwrite your user display name in this project
 
 // Members table (outlined):
 // user (image) - name
 
-// Invite member - invite a user to your team through email
+// Invite member - invite a user to your project through email
 // a form to invite the user through their email
 // HOW SHOULD THIS LOGIC WORK?
 
-// team profile image - upload an image for your team
+// project profile image - upload an image for your project
 // show the image on the right
 // CREATE A NEW BUCKET FOR TEAM IMAGES
 
-// Team display name
-// Change the display name of your team
-// Show the team name, edit button with a pencil
+// Project display name
+// Change the display name of your project
+// Show the project name, edit button with a pencil
 
-// Leave Team
-// leave this team and remove your team profile
-// leave team button
+// Leave Project
+// leave this project and remove your project profile
+// leave project button
 // HOW SHOULD THIS LOGIC WORK??
-// if they are the team creator / admin and they leave, what should happen?
+// if they are the project creator / admin and they leave, what should happen?
 
 import { useUser } from "@/context/UserContext";
 import { useParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-import { getAllTeamAccountsAction, deleteTeamAccountAction } from "./actions";
-import { TeamAccount, Account } from "@/types";
+import {
+  getAllProjectProfilesAction,
+  deleteProjectProfileAction,
+  uploadProjectImageAction,
+} from "./actions";
+import { ProjectProfile, Account } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Send, SquarePen, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import TeamNameForm from "./teamNameForm";
-import TeamUsernameForm from "./teamUsernameForm";
+import ProjectNameForm from "./projectNameForm";
+import ProjectUsernameForm from "./projectUsernameForm";
+import { toast } from "sonner";
 
-export default function TeamPage() {
-  const { authUser, account, setAccount, teamAccounts, teams, loading } =
-    useUser();
-  const [updateTeamUsername, setUpdateTeamUsername] = useState(false);
-  const [updateTeamName, setUpdateTeamName] = useState(false);
-  const [updateTeamProfileImage, setUpdateTeamProfileImage] = useState(false);
-  const [allTeamAccounts, setAllTeamAccounts] = useState<TeamAccount[]>([]);
+export default function ProjectPage() {
+  const {
+    authUser,
+    account,
+    setAccount,
+    projectProfiles,
+    projects,
+    setProjects,
+    loading,
+  } = useUser();
+  const [updateProjectUsername, setUpdateProjectUsername] = useState(false);
+  const [updateProjectName, setUpdateProjectName] = useState(false);
+  const [updateProjectProfileImage, setUpdateProjectProfileImage] =
+    useState(false);
+  const [allProjectProfiles, setAllProjectProfiles] = useState<
+    ProjectProfile[]
+  >([]);
   const [allUserAccounts, setAllUserAccounts] = useState<Account[]>([]);
 
   const params = useParams();
-  const teamId = params["team-id"];
-  const team = teams?.find((t) => t.id === teamId);
-  const yourTeamAccount = teamAccounts?.find((t) => t.team_id === team?.id);
+  const projectId = params["project-id"];
+  const project = projects?.find((t) => t.id === projectId);
+  const yourProjectProfile = projectProfiles?.find(
+    (t) => t.project_id === project?.id
+  );
 
   useEffect(() => {
-    if (team) {
+    if (project) {
       const fetchData = async () => {
         try {
-          const [gotTeamAccounts, gotUserAccounts] =
-            await getAllTeamAccountsAction(team.id);
-          setAllTeamAccounts(gotTeamAccounts);
+          const [gotProjectProfiles, gotUserAccounts] =
+            await getAllProjectProfilesAction(project.id);
+          setAllProjectProfiles(gotProjectProfiles);
           setAllUserAccounts(gotUserAccounts);
         } catch (err: any) {
           console.error(err.message);
@@ -68,9 +85,12 @@ export default function TeamPage() {
 
       fetchData();
     }
-  }, [team]);
+  }, [project]);
 
-  if (!team) return <p>Team not found</p>;
+  if (loading)
+    return <p className="m-auto my-20 text-center">loading project...</p>;
+  if (!project)
+    return <p className="m-auto my-20 text-center">Project not found</p>;
 
   function AvatarUploadInput() {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -78,17 +98,24 @@ export default function TeamPage() {
     async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
       const file = e.target.files?.[0];
       if (!file) return;
+      if (file.size > 999999)
+        toast.error("Uploaded profile images must be < 1 MB");
 
       const formData = new FormData();
-      formData.append("profile-image", file);
+      formData.append("project-image", file);
+      formData.append("project-id", project!.id.toString());
 
       try {
-        const { url } = await uploadProfileImageAction(formData);
+        const { url } = await uploadProjectImageAction(formData);
         console.log("Avatar uploaded to: ", url);
-        setAccount((prev) =>
-          prev ? ({ ...prev, profile_image: url } as Account) : prev
+        setProjects((prev) =>
+          prev.map((proj) =>
+            proj.id === projectId
+              ? { ...proj, project_profile_image: url }
+              : proj
+          )
         );
-        setUpdateTeamProfileImage(false);
+        setUpdateProjectProfileImage(false);
       } catch (err: any) {
         console.error(err.message);
       }
@@ -107,7 +134,7 @@ export default function TeamPage() {
     );
   }
 
-  function displayTeamMembers() {
+  function displayProjectMembers() {
     return (
       <div className="border-2 rounded-xl">
         <div className="flex flex-row justify-baseline border-b-2 p-3">
@@ -129,24 +156,24 @@ export default function TeamPage() {
     );
   }
 
-  function TeamProfileImage() {
+  function ProjectProfileImage() {
     return (
       <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
-        {updateTeamProfileImage && <AvatarUploadInput />}
+        {updateProjectProfileImage && <AvatarUploadInput />}
         <Avatar className="w-10 h-10 mr-3">
-          {team?.team_profile_image && (
+          {project?.project_profile_image && (
             <AvatarImage
-              src={team?.team_profile_image}
-              alt={team?.name ?? ""}
+              src={project?.project_profile_image}
+              alt={project?.name ?? ""}
             />
           )}
-          <AvatarFallback>{team?.name?.slice(0, 2) || "IS"}</AvatarFallback>
+          <AvatarFallback>{project?.name?.slice(0, 2) || "IS"}</AvatarFallback>
         </Avatar>
-        {updateTeamProfileImage ? (
+        {updateProjectProfileImage ? (
           <Button
             className="h-9"
             size="sm"
-            onClick={() => setUpdateTeamProfileImage(false)}
+            onClick={() => setUpdateProjectProfileImage(false)}
           >
             <X />
           </Button>
@@ -154,7 +181,7 @@ export default function TeamPage() {
           <Button
             className="h-9"
             size="sm"
-            onClick={() => setUpdateTeamProfileImage(true)}
+            onClick={() => setUpdateProjectProfileImage(true)}
           >
             <SquarePen />
           </Button>
@@ -163,25 +190,28 @@ export default function TeamPage() {
     );
   }
 
-  function TeamUsernameFormOrName() {
-    return updateTeamUsername && yourTeamAccount ? (
+  function ProjectUsernameFormOrName() {
+    return updateProjectUsername && yourProjectProfile ? (
       <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-        <TeamUsernameForm yourTeamAccount={yourTeamAccount} />
+        <ProjectUsernameForm
+          yourProjectProfile={yourProjectProfile}
+          setUpdateProjectUsername={setUpdateProjectUsername}
+        />
         <Button
           className="h-9"
           size="sm"
-          onClick={() => setUpdateTeamUsername(false)}
+          onClick={() => setUpdateProjectUsername(false)}
         >
           <X />
         </Button>
       </div>
     ) : (
       <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-        <p className="h-fit m-auto">{yourTeamAccount?.team_username}</p>
+        <p className="h-fit m-auto">{yourProjectProfile?.project_username}</p>
         <Button
           className="h-9"
           size="sm"
-          onClick={() => setUpdateTeamUsername(true)}
+          onClick={() => setUpdateProjectUsername(true)}
         >
           <SquarePen />
         </Button>
@@ -189,25 +219,28 @@ export default function TeamPage() {
     );
   }
 
-  function TeamDisplayNameFormOrName() {
-    return updateTeamName && team ? (
+  function ProjectDisplayNameFormOrName() {
+    return updateProjectName && project ? (
       <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-        <TeamNameForm team={team} />
+        <ProjectNameForm
+          project={project}
+          setUpdateProjectName={setUpdateProjectName}
+        />
         <Button
           className="h-9"
           size="sm"
-          onClick={() => setUpdateTeamName(false)}
+          onClick={() => setUpdateProjectName(false)}
         >
           <X />
         </Button>
       </div>
     ) : (
       <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-        <p className="h-fit m-auto">{team?.name}</p>
+        <p className="h-fit m-auto">{project?.name}</p>
         <Button
           className="h-9"
           size="sm"
-          onClick={() => setUpdateTeamName(true)}
+          onClick={() => setUpdateProjectName(true)}
         >
           <SquarePen />
         </Button>
@@ -218,12 +251,22 @@ export default function TeamPage() {
   return (
     <section>
       <div className="py-3 border-b-2 flex flex-row justify-between items-end">
-        <div>
-          <img className="inline" src={team.team_profile_image} />
-          <h4>{team.name}</h4>
+        <div className="flex flex-row justify-center items-center">
+          <Avatar className="w-10 h-10 mr-3">
+            {project?.project_profile_image && (
+              <AvatarImage
+                src={project?.project_profile_image}
+                alt={project?.name ?? ""}
+              />
+            )}
+            <AvatarFallback>
+              {project?.name?.slice(0, 2) || "IS"}
+            </AvatarFallback>
+          </Avatar>
+          <h4>{project.name}</h4>
         </div>
-        <h5 className="h-fit">
-          {yourTeamAccount?.role === "owner" ? "Team Owner" : ""}
+        <h5 className="h-fit text-base">
+          {yourProjectProfile?.role === "owner" ? "Project Owner" : ""}
         </h5>
       </div>
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
@@ -233,23 +276,23 @@ export default function TeamPage() {
             Change your user display name in this project
           </p>
         </div>
-        <div>{TeamUsernameFormOrName()}</div>
+        <div>{ProjectUsernameFormOrName()}</div>
       </div>
       <div className="py-3 border-b-2">
         <h4 className="py-3">Members</h4>
-        <div className="px-5">{displayTeamMembers()}</div>
+        <div className="px-5">{displayProjectMembers()}</div>
       </div>
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
         <div>
           <h4>Invite member</h4>
-          <p className="text-sm">Invite a user to your team through email</p>
+          <p className="text-sm">Invite a user to your project through email</p>
         </div>
         <form className="flex flex-row justify-between items-center">
           <input type="email"></input>
           <Button
             className="h-9"
             size="sm"
-            onClick={() => setUpdateTeamProfileImage(true)}
+            onClick={() => setUpdateProjectProfileImage(true)}
           >
             Invite user
           </Button>
@@ -257,29 +300,35 @@ export default function TeamPage() {
       </div>
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
         <div>
-          <h4>Team profile image</h4>
-          <p className="text-sm">Upload an image for your team</p>
+          <h4>Project profile image</h4>
+          <p className="text-sm">Upload an image for your project</p>
         </div>
-        <div>{TeamProfileImage()}</div>
+        <div>{ProjectProfileImage()}</div>
       </div>
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
         <div>
-          <h4>Team display name</h4>
-          <p className="text-sm">Change the display name of your team</p>
+          <h4>Project display name</h4>
+          <p className="text-sm">Change the display name of your project</p>
         </div>
-        <div>{TeamDisplayNameFormOrName()}</div>
+        <div>{ProjectDisplayNameFormOrName()}</div>
       </div>
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
         <div>
-          <h4>Leave team</h4>
+          <h4>Leave project</h4>
           <p className="text-sm">
-            {yourTeamAccount?.role === 'owner' ? 'Since you are the owner, leaving the team will delete the team' : 'Leave this team and remove your team profile'}
+            {yourProjectProfile?.role === "owner"
+              ? "Since you are the owner, leaving the project will delete the project"
+              : "Leave this project and remove your project profile"}
           </p>
         </div>
         <div className="w-fit my-auto">
-          <form action={deleteTeamAccountAction}>
-            <Input type="hidden" name="teamAccountID" value={yourTeamAccount?.id} />
-            <Button type="submit">Leave team</Button>
+          <form action={deleteProjectProfileAction}>
+            <Input
+              type="hidden"
+              name="projectProfileID"
+              value={yourProjectProfile?.id}
+            />
+            <Button type="submit">Leave project</Button>
           </form>
         </div>
       </div>

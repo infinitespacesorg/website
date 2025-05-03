@@ -11,7 +11,6 @@ export async function createTeamAction(formData: FormData) {
 
     if (!projectName) throw new Error('No project name provided')
 
-    const cookieStore = await cookies()
     const supabase = await createSupabaseServerClient();
 
     const {
@@ -21,33 +20,28 @@ export async function createTeamAction(formData: FormData) {
 
     if (!user || userError) throw new Error("Not authenticated")
 
-    console.log(projectName)
-
     const { data: newProject, error: projectError } = await supabase
         .from('projects')
         .insert({ name: projectName, created_by: user.id })
         .select()
-        .single()
 
     if (projectError || !newProject) {
         console.error(projectError)
         throw new Error('Failed to create project')
     }
 
-    console.log(user)
-
     const { data: newProjectProfile, error: projectProfileError } = await supabase.from('project_profiles').insert({
-        project_id: newProject.id,
+        project_id: newProject[0].id,
         account_id: user.id,
         role: 'owner'
-    }).select().single()
+    }).select()
 
     if (projectProfileError || !newProjectProfile) {
         console.error(projectProfileError)
         throw new Error('Failed to create project account')
     }
 
-    return newProject
+    return newProject[0]
 }
 
 

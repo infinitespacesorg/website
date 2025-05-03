@@ -12,10 +12,8 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function SettingsPage() {
-  const { authUser, account, setAccount, projectProfiles, projects, loading } =
+  const { authUser, account, setAccount, projectProfiles, projects, loading, refreshUserContext } =
     useUser();
-
-  console.log(authUser);
 
   const [googleAuth, setGoogleAuth] = useState(false);
 
