@@ -42,18 +42,18 @@ import {
   deleteProjectProfileAction,
   uploadProjectImageAction,
 } from "./actions";
-import { ProjectProfile, Account } from "@/types";
+import { ProjectProfile, Account, ProjectProfileWithAccount } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Send, SquarePen, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import ProjectNameForm from "./projectNameForm";
-import ProjectUsernameForm from "./projectUsernameForm";
+import ProjectNameForm from "./ProjectNameForm";
+import ProjectUsernameForm from "./ProjectUsernameForm";
 import { toast } from "sonner";
 import ISLogo from "@/public/favicon.png";
-import { form } from "sanity/structure";
 import { useProjectImages } from "../../useProjectImages";
-import InviteTeamMemberForm from "./inviteTeamMemberForm";
+import InviteTeamMemberForm from "./InviteTeamMemberForm";
+import OneProjectMember from "./OneProjectMember";
 
 export default function ProjectPage() {
   const {
@@ -67,15 +67,15 @@ export default function ProjectPage() {
     refreshUserContext,
   } = useUser();
   const router = useRouter();
+
   const [updateProjectUsername, setUpdateProjectUsername] = useState(false);
   const [updateProjectName, setUpdateProjectName] = useState(false);
   const [updateProjectProfileImage, setUpdateProjectProfileImage] =
     useState(false);
-    const [inviteProjectMember, setInviteProjectMember] = useState(false);
+  const [inviteProjectMember, setInviteProjectMember] = useState(false);
   const [allProjectProfiles, setAllProjectProfiles] = useState<
-    ProjectProfile[]
+    ProjectProfileWithAccount[]
   >([]);
-  const [allUserAccounts, setAllUserAccounts] = useState<Account[]>([]);
 
   const params = useParams();
   const projectId = params["project-id"];
@@ -84,16 +84,16 @@ export default function ProjectPage() {
     (t) => t.project_id === project?.id
   );
 
-  const signedUrls = useProjectImages(projects)
+  const signedUrls = useProjectImages(projects);
 
   useEffect(() => {
     if (project) {
       const fetchData = async () => {
         try {
-          const [gotProjectProfiles, gotUserAccounts] =
-            await getAllProjectProfilesAction(project.id);
+          const gotProjectProfiles = await getAllProjectProfilesAction(
+            project.id
+          );
           setAllProjectProfiles(gotProjectProfiles);
-          setAllUserAccounts(gotUserAccounts);
         } catch (err: any) {
           console.error(err.message);
         }
@@ -151,27 +151,22 @@ export default function ProjectPage() {
   }
 
   function displayProjectMembers() {
-    console.log(allProjectProfiles, allUserAccounts)
-
-    return (
-      <div className="border-2 rounded-xl">
-        <div className="flex flex-row justify-baseline border-b-2 p-3">
-          <p className="w-[150px]">User</p>
-          <p className="w-[200px]">Name</p>
-        </div>
-        {allUserAccounts.map((mem) => {
-          return (
-            <div
-              key={mem.id}
-              className=" flex flex-row gap-[100px] justify-baseline align-middle p-3"
-            >
-              <img className="w-[50px] h-[50px]" src={mem.profile_image} />
-              <p className="w-[200px] my-auto">{mem.username}</p>
+    if (allProjectProfiles.length > 1) {
+      return (
+        <div className="border-2 rounded-xl">
+          <div className="flex flex-row justify-between border-b-2 p-3 lg:px-5">
+            <div className="flex flex-row justify-baseline align-middle">
+              <p className="w-[100px]">User</p>
+              <p className="w-[200px]">Name</p>
             </div>
-          );
-        })}
-      </div>
-    );
+            <p className="role">Role</p>
+          </div>
+          {allProjectProfiles.map((mem) => (
+            <OneProjectMember member={mem} key={mem.id} />
+          ))}
+        </div>
+      );
+    } else return null;
   }
 
   function ProjectProfileImage() {
@@ -180,7 +175,7 @@ export default function ProjectPage() {
         {updateProjectProfileImage && <AvatarUploadInput />}
         <Avatar className="w-10 h-10 mr-3">
           <AvatarImage
-            src={signedUrls[project!.id] || ISLogo.src }
+            src={signedUrls[project!.id] || ISLogo.src}
             alt={project?.name ?? ""}
           />
           <AvatarFallback>{project?.name?.slice(0, 2) || "IS"}</AvatarFallback>
@@ -265,39 +260,39 @@ export default function ProjectPage() {
   }
 
   function handleInviteMember() {
-      return inviteProjectMember && project ? (
-        <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-          <InviteTeamMemberForm
-            project={project}
-            setAllUserAccounts={setAllUserAccounts}
-            setInviteProjectMember={setInviteProjectMember}
-          />
-          <Button
-            className="h-9"
-            size="sm"
-            onClick={() => setInviteProjectMember(false)}
-          >
-            <X />
-          </Button>
-        </div>
-      ) : (
-        <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-          <Button
-            className="h-9"
-            size="sm"
-            onClick={() => setInviteProjectMember(true)}
-          >
-            Invite User
-          </Button>
-        </div>
-      );
+    return inviteProjectMember && project ? (
+      <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
+        <InviteTeamMemberForm
+          project={project}
+          setAllProjectProfiles={setAllProjectProfiles}
+          setInviteProjectMember={setInviteProjectMember}
+        />
+        <Button
+          className="h-9"
+          size="sm"
+          onClick={() => setInviteProjectMember(false)}
+        >
+          <X />
+        </Button>
+      </div>
+    ) : (
+      <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
+        <Button
+          className="h-9"
+          size="sm"
+          onClick={() => setInviteProjectMember(true)}
+        >
+          Invite User
+        </Button>
+      </div>
+    );
   }
 
   async function handleLeaveProject() {
     const formData = new FormData();
     formData.append("projectProfileID", yourProjectProfile!.id);
-    formData.append('role', yourProjectProfile!.role)
-    formData.append('projectID', yourProjectProfile!.project_id)
+    formData.append("role", yourProjectProfile!.role);
+    formData.append("projectID", yourProjectProfile!.project_id);
 
     try {
       await deleteProjectProfileAction(formData);
@@ -329,6 +324,7 @@ export default function ProjectPage() {
         </div>
         <h5 className="h-fit text-base">
           {yourProjectProfile?.role === "owner" ? "Project Owner" : ""}
+          {/* {yourProjectProfile?.role} */}
         </h5>
       </div>
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
@@ -344,27 +340,35 @@ export default function ProjectPage() {
         <h4 className="py-3">Members</h4>
         <div className="px-5">{displayProjectMembers()}</div>
       </div>
-      <div className="flex flex-row justify-between items-center py-3 border-b-2">
-        <div>
-          <h4>Invite member</h4>
-          <p className="text-sm">Invite a user to your project through email</p>
+      {yourProjectProfile?.role === "owner" && (
+        <div className="flex flex-row justify-between items-center py-3 border-b-2">
+          <div>
+            <h4>Invite member</h4>
+            <p className="text-sm">
+              Invite a user to your project through email
+            </p>
+          </div>
+          <div>{handleInviteMember()}</div>
         </div>
-        <div>{handleInviteMember()}</div>
-      </div>
-      <div className="flex flex-row justify-between items-center py-3 border-b-2">
-        <div>
-          <h4>Project profile image</h4>
-          <p className="text-sm">Upload an image for your project</p>
+      )}
+      {yourProjectProfile?.role === "owner" && (
+        <div className="flex flex-row justify-between items-center py-3 border-b-2">
+          <div>
+            <h4>Project profile image</h4>
+            <p className="text-sm">Upload an image for your project</p>
+          </div>
+          <div>{ProjectProfileImage()}</div>
         </div>
-        <div>{ProjectProfileImage()}</div>
-      </div>
-      <div className="flex flex-row justify-between items-center py-3 border-b-2">
-        <div>
-          <h4>Project display name</h4>
-          <p className="text-sm">Change the display name of your project</p>
+      )}
+      {yourProjectProfile?.role === "owner" && (
+        <div className="flex flex-row justify-between items-center py-3 border-b-2">
+          <div>
+            <h4>Project display name</h4>
+            <p className="text-sm">Change the display name of your project</p>
+          </div>
+          <div>{ProjectDisplayNameFormOrName()}</div>
         </div>
-        <div>{ProjectDisplayNameFormOrName()}</div>
-      </div>
+      )}
       <div className="flex flex-row justify-between items-center py-3 border-b-2">
         <div>
           <h4>Leave project</h4>

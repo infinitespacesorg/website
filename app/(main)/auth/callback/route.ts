@@ -13,11 +13,8 @@ export async function GET(request: Request) {
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString() || "/account";
 
-  console.log(requestUrl.searchParams)
-
   if (code) {
-    const cookieStore = await cookies()
-    const supabase = await createSupabaseServerClient(cookieStore);
+    const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) console.error("❌ exchange error:", error);
