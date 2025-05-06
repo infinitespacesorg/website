@@ -15,11 +15,11 @@ import { Loader2 } from "lucide-react";
 import React, { useTransition } from "react";
 import { inviteProjectMemberAction } from "./actions";
 import { useUser } from "@/context/UserContext";
-import { Account, Project } from "@/types";
+import { Account, Project, ProjectProfileWithAccount } from "@/types";
 
 type InviteTeamMemberFormProps = {
   project: Project;
-  setAllUserAccounts: React.Dispatch<React.SetStateAction<Account[]>>;
+  setAllProjectProfiles: React.Dispatch<React.SetStateAction<ProjectProfileWithAccount[]>>;
   setInviteProjectMember: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -27,7 +27,7 @@ const inviteTeamMemberFormSchema = z.object({
   email: z.string().email().min(1, { message: "Please enter an email address for your invited project member" }),
 });
 
-export default function InviteTeamMemberForm({project, setInviteProjectMember, setAllUserAccounts}: InviteTeamMemberFormProps) {
+export default function InviteTeamMemberForm({project, setInviteProjectMember, setAllProjectProfiles}: InviteTeamMemberFormProps) {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof inviteTeamMemberFormSchema>>({
@@ -44,7 +44,7 @@ export default function InviteTeamMemberForm({project, setInviteProjectMember, s
 
     try {
       const result = await inviteProjectMemberAction(formData);
-      setAllUserAccounts((prev) => (prev ? [result, ...prev] : [result]));
+      setAllProjectProfiles((prev) => (prev ? [result, ...prev] : [result]));
       setInviteProjectMember(false)
       toast.success("Invite sent!");
     } catch (err) {

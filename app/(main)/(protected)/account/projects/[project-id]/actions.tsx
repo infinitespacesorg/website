@@ -10,28 +10,33 @@ import { resend } from "@/lib/utils";
 import { ResendResetPasswordTemplate } from "@/emails/ResetPassword";
 import { randomUUID } from "crypto";
 import { ResendInvitedUserTemplate } from "@/emails/InvitedUser";
+import { ProjectProfileWithAccount, Account } from "@/types";
 
 export const getAllProjectProfilesAction = async (projectId: string) => {
-  const supabase = await createSupabaseServerClient();
 
-  const { data: allProjectProfiles, error: allProjectProfilesError } =
-    await supabase
-      .from("project_profiles")
-      .select(`*, "accounts" (
-        *)`)
-      .eq("project_id", projectId);
+  const response = (await supabaseAdmin
+    .from("project_profiles")
+    .select(`*, accounts (*)`)
+    .eq("project_id", projectId)) as {
+    data: ProjectProfileWithAccount[];
+    error: any;
+  };
+
+  const allProjectProfiles = response.data as ProjectProfileWithAccount[];
+  const allProjectProfilesError = response.error;
 
   if (allProjectProfilesError || !allProjectProfiles) {
     console.error(allProjectProfilesError);
     throw new Error("Failed to fetch project accounts");
   }
 
-  return allProjectProfiles
+  return allProjectProfiles;
 };
 
 export async function inviteProjectMemberAction(formData: FormData) {
   const projectID = formData.get("project_ID");
   const email = formData.get("email")?.toString();
+  const origin = (await headers()).get("origin");
 
   if (!email) {
     throw new Error("please enter an email address");
@@ -48,22 +53,31 @@ export async function inviteProjectMemberAction(formData: FormData) {
     throw new Error("Not authenticated");
   }
 
-  const { data: targetUserID, error: targetUserIDError } = await supabase.rpc('get_user_id_by_email', {
-    p_email: email
-  });
+  const { data: targetUserID, error: targetUserIDError } = await supabase.rpc(
+    "get_user_id_by_email",
+    {
+      p_email: email,
+    }
+  );
 
-  const { data: existingUsers, error: userQueryError } = await supabaseAdmin
-    .from("accounts")
-    .select("id, username")
-    .eq("id", targetUserID);
+  let existingUsers = null
 
-  if (userQueryError)
-    throw new Error("User query error", { cause: userQueryError });
+  if (targetUserID) {
+    const { data: targetAccounts, error: userQueryError } = await supabaseAdmin
+      .from("accounts")
+      .select("id, username")
+      .eq("id", targetUserID);
+
+    if (userQueryError) {
+      console.log(userQueryError);
+      throw new Error("User query error", { cause: userQueryError });
+    }
+    else existingUsers = targetAccounts
+  }
 
   let userId: string;
 
   if (existingUsers && existingUsers.length > 0) {
-    console.log(existingUsers)
     userId = existingUsers[0].id;
 
     const { data: project_profile } = await supabase
@@ -73,7 +87,7 @@ export async function inviteProjectMemberAction(formData: FormData) {
       .eq("project_id", projectID)
       .maybeSingle();
 
-      console.log(project_profile)
+    console.log(project_profile);
 
     if (project_profile)
       throw new Error("This user is already a project member!");
@@ -86,14 +100,21 @@ export async function inviteProjectMemberAction(formData: FormData) {
           role: "collaborator",
           project_username: existingUsers[0].username,
         })
-        .select();
+        .select()
+        .single();
 
       if (nPPError || !newProjectProfile)
-        throw new Error("error creating project profile", {cause: nPPError.message});
+        throw new Error("error creating project profile", {
+          cause: nPPError?.message,
+        });
+
+      newProjectProfile.account = existingUsers[0];
 
       return newProjectProfile[0];
     }
   }
+
+  console.log("got here");
 
   const { data: inviteData, error: inviteError } =
     await supabaseAdmin.auth.admin.generateLink({
@@ -108,29 +129,45 @@ export async function inviteProjectMemberAction(formData: FormData) {
     throw new Error("failed to generate invite link", { cause: inviteError });
 
   const token = inviteData.properties.hashed_token;
-  const type = inviteData.properties.verification_type
+  const type = inviteData.properties.verification_type;
 
-  const confirmUrl = `${origin}/auth/confirm?token_hash=${token}&type=${type}&redirect_to=/account/projects/${projectID}}`;
+  const confirmUrl = `${origin}/auth/invite-confirm?token_hash=${token}&type=${type}&redirect_to=/account/projects/${projectID}}`;
 
   userId = inviteData.user.id;
 
-  await supabase.from('accounts').insert({
-    id: userId,
-    full_name: 'New User',
-  })
+  console.log(inviteData)
 
-  await supabase.from('project_profiles').insert({
+  const {data: newPP, error: NPPError} = await supabaseAdmin.from("project_profiles").insert({
     account_id: userId,
     project_id: projectID,
-    role: 'collaborator'
-  })
+    role: "collaborator",
+  }).select();
+
+  if (!newPP) {
+    console.error(NPPError)
+    throw new Error ('PP not created')
+  }
+
+  console.log(newPP)
+
+  const mockAccount: Account = {
+    created_at: newPP[0].created_at,
+    id: userId,
+    full_name: email,
+    profile_image: "",
+    username: ""
+  }
+
+  newPP[0]['accounts'] = mockAccount
 
   await resend.emails.send({
     to: email,
     from: "Steve at Infinite Spaces <steve@infinitespaces.org>",
     subject: `You've been invited to join an Infinite Spaces project`,
-    react: ResendInvitedUserTemplate({ confirmationUrl: confirmUrl })
-  })
+    react: ResendInvitedUserTemplate({ confirmationUrl: confirmUrl }),
+  });
+
+  return newPP
 }
 
 export async function updateProjectUsernameAction(

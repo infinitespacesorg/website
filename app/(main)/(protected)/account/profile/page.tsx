@@ -2,17 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
-import { Send, SquarePen, X } from "lucide-react";
+import { SquarePen, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { uploadProfileImageAction } from "./actions";
-import { useState, useTransition, useRef } from "react";
+import { useState, useRef } from "react";
 import UsernameForm from "./usernameForm";
 import FullNameForm from "./fullNameForm";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Account } from "@/types";
 
 export default function ProfilePage() {
-  const { authUser, account, setAccount, refreshUserContext, loading } =
+  const { account, setAccount } =
     useUser();
   const [updateUsername, setUpdateUsername] = useState(false);
   const [updateFullName, setUpdateFullName] = useState(false);
@@ -151,7 +150,6 @@ export default function ProfilePage() {
             This username is not used for authentication
           </p>
         </div>
-
         <div>{UsernameFormOrName()}</div>
       </div>
       <hr className="my-3" />

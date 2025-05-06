@@ -20,7 +20,7 @@ export type Account = {
   id: string;
   full_name: string | null;
   username: string | null;
-  website: string | null;
+  // website: string | null;
   created_at: string;
   profile_image: string;
 };
@@ -44,3 +44,7 @@ export type Project = {
   created_by: string;
   project_profile_image: string;
 }
+
+type ProjectProfileWithAccount = ProjectProfile & {
+  accounts: Account
+};

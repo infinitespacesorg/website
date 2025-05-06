@@ -13,7 +13,6 @@ export async function signUpAction(formData: FormData) {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const origin = (await headers()).get("origin");
-  const cookieStore = await cookies()
 
   if (!email || !password) {
     return encodedRedirect(

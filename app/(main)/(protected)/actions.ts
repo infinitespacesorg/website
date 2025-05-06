@@ -31,7 +31,7 @@ export async function createTeamAction(formData: FormData) {
         throw new Error('Failed to create project')
     }
 
-    const { data: newProjectProfile, error: projectProfileError } = await supabase.from('project_profiles').insert({
+    const { data: newProjectProfile, error: projectProfileError } = await supabaseAdmin.from('project_profiles').insert({
         project_id: newProject[0].id,
         account_id: user.id,
         role: 'owner',

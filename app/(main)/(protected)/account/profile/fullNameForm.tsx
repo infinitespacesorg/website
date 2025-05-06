@@ -41,7 +41,6 @@ export default function FullNameForm({ setUpdateFullName }: FullNameFormProps) {
 
     try {
       await upsertFullName(formData);
-      // await refreshUserContext()
       setAccount((prev) =>
         prev ? { ...prev, full_name: values.full_name } : prev
       );
