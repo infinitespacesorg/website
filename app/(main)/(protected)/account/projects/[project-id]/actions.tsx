@@ -167,7 +167,7 @@ export async function inviteProjectMemberAction(formData: FormData) {
     react: ResendInvitedUserTemplate({ confirmationUrl: confirmUrl }),
   });
 
-  return newPP
+  return newPP[0]
 }
 
 export async function updateProjectUsernameAction(
@@ -215,6 +215,7 @@ export async function updateProjectUsernameAction(
   }
 
   revalidatePath(`/account/projects/${projectID}`);
+  return userName[0]
 }
 
 export async function updateProjectNameAction(

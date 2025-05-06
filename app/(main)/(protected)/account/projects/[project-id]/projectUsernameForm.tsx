@@ -15,19 +15,29 @@ import { Loader2 } from "lucide-react";
 import { updateProjectUsernameAction } from "./actions";
 import { useTransition } from "react";
 import { useUser } from "@/context/UserContext";
-import { ProjectProfile } from "@/types";
+import { ProjectProfile, ProjectProfileWithAccount } from "@/types";
 
 type ProjectUsernameFormProps = {
-    yourProjectProfile: ProjectProfile;
-    setUpdateProjectUsername: React.Dispatch<React.SetStateAction<boolean>>
-}
+  yourProjectProfile: ProjectProfile;
+  setUpdateProjectUsername: React.Dispatch<React.SetStateAction<boolean>>;
+  setAllProjectProfiles: React.Dispatch<
+    React.SetStateAction<ProjectProfileWithAccount[]>
+  >;
+};
 
 const projectUsernameFormSchema = z.object({
-  project_username: z.string().min(1, { message: "Please enter your project username" }),
+  project_username: z
+    .string()
+    .min(1, { message: "Please enter your project username" }),
 });
 
-export default function ProjectUsernameForm({yourProjectProfile, setUpdateProjectUsername }: ProjectUsernameFormProps) {
-  const { account, setAccount, setProjectProfiles, refreshUserContext } = useUser();
+export default function ProjectUsernameForm({
+  yourProjectProfile,
+  setUpdateProjectUsername,
+  setAllProjectProfiles,
+}: ProjectUsernameFormProps) {
+  const { account, setAccount, setProjectProfiles, refreshUserContext } =
+    useUser();
   const [isPending, startTransition] = useTransition();
 
   const usernameForm = useForm<z.infer<typeof projectUsernameFormSchema>>({
@@ -37,11 +47,13 @@ export default function ProjectUsernameForm({yourProjectProfile, setUpdateProjec
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof projectUsernameFormSchema>) => {
+  const onSubmit = async (
+    values: z.infer<typeof projectUsernameFormSchema>
+  ) => {
     const formData = new FormData();
     formData.append("project_username", values.project_username);
-    formData.append('project_ID', yourProjectProfile.project_id);
-    formData.append('project_profile_id', yourProjectProfile.id);
+    formData.append("project_ID", yourProjectProfile.project_id);
+    formData.append("project_profile_id", yourProjectProfile.id);
 
     try {
       await updateProjectUsernameAction(formData);
@@ -52,8 +64,15 @@ export default function ProjectUsernameForm({yourProjectProfile, setUpdateProjec
             ? { ...profile, project_username: values.project_username }
             : profile
         )
-      );      
-      setUpdateProjectUsername(false)
+      );
+      setAllProjectProfiles((prev) =>
+        prev.map((pp) =>
+          pp.account_id === yourProjectProfile.account_id
+            ? { ...pp, project_username: values.project_username }
+            : pp
+        )
+      );
+      setUpdateProjectUsername(false);
       toast.success("Project username updated!");
     } catch (err) {
       const errorMessage =
