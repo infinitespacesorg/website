@@ -14,6 +14,7 @@ type OneProjectMemberProps = {
   };
 
 export default function OneProjectMember ({member}: OneProjectMemberProps) {
+
     return (
         <div
           className="flex flex-row justify-between align-middle p-3 lg:px-5"

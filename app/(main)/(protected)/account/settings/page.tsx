@@ -52,8 +52,10 @@ export default function SettingsPage() {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (authUser?.app_metadata.provider === "google") {
-      setGoogleAuth(!googleAuth);
+    console.log(authUser?.app_metadata.providers.filter((pro: string) => pro === "google").length > 0)
+    if (authUser?.app_metadata.providers.filter((pro: string) => pro === "google").length > 0) {
+      
+      setGoogleAuth(true);
     }
   }, [authUser]);
 
@@ -121,9 +123,6 @@ export default function SettingsPage() {
   function deleteDialog() {
     return (
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <DialogTrigger asChild>
-          <Button>Delete Account</Button>
-        </DialogTrigger>
         <DialogPortal>
           <DialogOverlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
           <DialogContent className="fixed z-50 w-[90vw] sm:max-w-[400px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-xl shadow-xl">
@@ -245,7 +244,6 @@ export default function SettingsPage() {
           <div className="w-fit my-auto">
             <Button
               onClick={() => {
-                console.log("clicked that");
                 setShowDeleteDialog(true);
               }}
             >

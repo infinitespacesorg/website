@@ -24,6 +24,8 @@ export default function Login() {
   const { authUser, account, loading } = useUser();
   const router = useRouter();
 
+  console.log(authUser, loading)
+
   const [signInLoading, setSignInLoading] = useState(false);
 
   // if there's a user, redirect to /account

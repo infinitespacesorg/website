@@ -152,6 +152,7 @@ export default function ProjectPage() {
 
   function displayProjectMembers() {
     if (allProjectProfiles.length > 1) {
+      const sortedPPs = allProjectProfiles.sort((a,b) => b.role.localeCompare(a.role))
       return (
         <div className="border-2 rounded-xl">
           <div className="flex flex-row justify-between border-b-2 p-3 lg:px-5">
@@ -161,7 +162,7 @@ export default function ProjectPage() {
             </div>
             <p className="role">Role</p>
           </div>
-          {allProjectProfiles.map((mem) => (
+          {sortedPPs.map((mem) => (
             <OneProjectMember member={mem} key={mem.id} />
           ))}
         </div>
@@ -207,6 +208,7 @@ export default function ProjectPage() {
         <ProjectUsernameForm
           yourProjectProfile={yourProjectProfile}
           setUpdateProjectUsername={setUpdateProjectUsername}
+          setAllProjectProfiles={setAllProjectProfiles}
         />
         <Button
           className="h-9"
@@ -309,11 +311,7 @@ export default function ProjectPage() {
         <div className="flex flex-row justify-center items-center">
           <Avatar className="w-10 h-10 mr-3">
             <AvatarImage
-              src={
-                project?.project_profile_image
-                  ? project?.project_profile_image
-                  : ISLogo.src
-              }
+              src={signedUrls[project!.id] || ISLogo.src}
               alt={project?.name ?? ""}
             />
             <AvatarFallback>
