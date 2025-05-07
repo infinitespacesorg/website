@@ -20,6 +20,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { parseMessageFromSearchParams } from "@/lib/utils";
+import { InviteGoogleSignInAction } from './actions'
 
 const passwordSchema = z.object({
   password: z
@@ -59,10 +60,7 @@ export default function ConfirmInvitePage() {
   const redirectTo = searchParams.get("redirect_to");
 
   const [emailVerified, setEmailVerified] = useState(false);
-  // const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-
-  console.log(authUser);
 
   useEffect(() => {
     const verifyInvite = async () => {
@@ -93,97 +91,47 @@ export default function ConfirmInvitePage() {
 
   async function onSupaAuthSubmit(values: z.infer<typeof passwordSchema>) {
     try {
-      console.log('what about this')
+      console.log("what about this");
 
-      const { data: newUsername, error: usernameError } = await supabase
-        .from("accounts")
-        .update({ username: username })
-        .eq("id", authUser!.id);
-
-      if (usernameError) {
-        console.error("Username update error", usernameError);
-        toast.error("Could not update username.");
+      const user = authUser;
+      if (!user) {
+        console.error("No authUser available");
+        toast.error("You're not logged in.");
         return;
       }
 
-      console.log('got here?')
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("user_id", user.id);
+      formData.append('password', values.password)
 
-      const { data: newPPUsername, error: PPUsernameError } = await supabase
-        .from("project-profiles")
-        .update({ project_username: username })
-        .eq("account_id", authUser!.id);
+      await InviteGoogleSignInAction(formData);
 
-      if (PPUsernameError) {
-        console.error("Username update error", usernameError);
-        toast.error("Could not update username.");
-        return;
-      }
+      refreshUserContext();
 
-      console.log('newPP set')
-
-      const { data, error } = await supabase.auth.updateUser({
-        password: values.password,
-      });
-
-      if (error) {
-        console.error("Set password error:", error.message);
-        toast.error("Could not update password.");
-      } else {
-        console.log("Updated user", data);
-        refreshUserContext();
-        router.push(redirectTo || "/account/profile");
-      }
+      router.push(redirectTo || "/account/profile");
     } catch (err) {
       console.error("Unhandled error", err);
       toast.error("Something went wrong.");
     }
   }
 
-  // const handleSetPassword = async () => {
-  //   console.log("clicked lol");
-  //   const { data, error } = await supabase.auth.updateUser({ password });
-
-  //   if (error) {
-  //     console.error("Set password error:", error.message);
-  //   } else {
-  //     console.log(data);
-  //     router.push(redirectTo || "/account");
-  //   }
-  // };
-
   const handleGoogleSignIn = async () => {
     try {
       console.log("clicked that");
 
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-
-      if (!user || userError) {
-        throw new Error("Not authenticated");
-      }
-
-      const { data: newUsername, error: usernameError } = await supabase
-        .from("accounts")
-        .update({ username: username })
-        .eq("id", user.id);
-
-      if (usernameError) {
-        console.error(usernameError);
-        throw new Error("username update error", { cause: usernameError });
-      }
-
-      const { data: newPPUsername, error: PPUsernameError } = await supabase
-        .from("project-profiles")
-        .update({ project_username: username })
-        .eq("account_id", user.id);
-
-      if (PPUsernameError) {
-        console.error("Username update error", usernameError);
-        toast.error("Could not update username.");
+      const user = authUser;
+      if (!user) {
+        console.error("No authUser available");
+        toast.error("You're not logged in.");
         return;
       }
+
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("user_id", user.id);
+
+      await InviteGoogleSignInAction(formData);
 
       refreshUserContext();
 
