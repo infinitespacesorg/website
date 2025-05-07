@@ -28,7 +28,7 @@ export default function GoogleSignInButton({setSignInLoading}: GoogleSignInButto
         token: response.credential,
       });
       if (error) throw error;
-
+      console.log('what the heck')
       await refreshUserContext();
       router.push("/account");
       setSignInLoading(false)

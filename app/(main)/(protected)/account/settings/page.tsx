@@ -31,7 +31,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-const deleteFormSchema = z.object({
+const settingsFormsSchema = z.object({
   email: z.string().email({ message: "Please enter your email address" }),
 });
 
@@ -49,12 +49,17 @@ export default function SettingsPage() {
   const [isPending, startTransition] = useTransition();
   const [googleAuth, setGoogleAuth] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [newEmail, setNewEmail] = useState(authUser?.email ?? '')
   const dialogRef = useRef<HTMLDialogElement>(null);
 
+  console.log(authUser)
+
   useEffect(() => {
-    console.log(authUser?.app_metadata.providers.filter((pro: string) => pro === "google").length > 0)
-    if (authUser?.app_metadata.providers.filter((pro: string) => pro === "google").length > 0) {
-      
+    if (
+      authUser?.app_metadata.providers.filter((pro: string) => pro === "google")
+        .length > 0
+    ) {
       setGoogleAuth(true);
     }
   }, [authUser]);
@@ -65,38 +70,38 @@ export default function SettingsPage() {
     }
   }, [showDeleteDialog]);
 
-  const deleteForm = useForm<z.infer<typeof deleteFormSchema>>({
-    resolver: zodResolver(deleteFormSchema),
+  const deleteForm = useForm<z.infer<typeof settingsFormsSchema>>({
+    resolver: zodResolver(settingsFormsSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  async function handleDeleteAccount(values: z.infer<typeof deleteFormSchema>) {
+  async function handleDeleteAccount(
+    values: z.infer<typeof settingsFormsSchema>
+  ) {
     const formData = new FormData();
     formData.append("email", values.email);
-    formData.append('accountID', authUser!.id)
+    formData.append("accountID", authUser!.id);
 
     try {
       await deleteAccountAction(formData);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Something went wrong";
-      toast.error(errorMessage)
+      toast.error(errorMessage);
     }
-    
   }
 
   async function handleEmailUpdate(e: React.FormEvent<HTMLFormElement>) {
-    // hey this one doesn't work yet
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
 
     try {
-      // await updateEmailAction(formData);
+      await updateEmailAddress(formData);
 
-      toast.success("Email updated!!");
+      toast.success(`Please check your new email address for a confirmation link.`);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Something went wrong";
@@ -136,9 +141,7 @@ export default function SettingsPage() {
               projects will also be deleted.
             </DialogDescription>
             <Form {...deleteForm}>
-              <form
-                onSubmit={deleteForm.handleSubmit(handleDeleteAccount)}
-              >
+              <form onSubmit={deleteForm.handleSubmit(handleDeleteAccount)}>
                 <FormField
                   control={deleteForm.control}
                   name="email"
@@ -181,23 +184,26 @@ export default function SettingsPage() {
       <section>
         <h1 className="text-3xl my-3">Settings</h1>
         <hr className="my-3" />
-
         <div className="flex flex-row justify-between align-baseline">
           <div>
             <h4>Email Address</h4>
             <p className="text-sm">{authUser?.email}</p>
           </div>
-          {/* hey this doesn't work yet, I'm not sure how to update the email address if a user signed in through Google */}
           {!googleAuth ? (
-            <div className="w-fit my-auto">
-              <form onSubmit={handleEmailUpdate}>
-                <Input
-                  type="hidden"
-                  name="accountEmail"
-                  value={authUser?.email}
-                />
-                <Button type="submit">Update Email Address</Button>
-              </form>
+            <div>
+              {showEmailForm ? (
+                <div className="w-fit my-auto">
+                  <form className="flex flex-row justify-between items-center gap-2" onSubmit={handleEmailUpdate}>
+                    <Input type="email" name="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+                    <Button type="submit">Submit</Button>
+                    <Button onClick={() => setShowEmailForm(false)}>X</Button>
+                  </form>
+                </div>
+              ) : (
+                <div className="w-fit my-auto">
+                    <Button onClick={() => setShowEmailForm(true)}>Update Email Address</Button>
+                </div>
+              )}{" "}
             </div>
           ) : (
             <p className="w-fit my-auto">Account created with Google Sign In</p>

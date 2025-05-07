@@ -87,8 +87,6 @@ export async function inviteProjectMemberAction(formData: FormData) {
       .eq("project_id", projectID)
       .maybeSingle();
 
-    console.log(project_profile);
-
     if (project_profile)
       throw new Error("This user is already a project member!");
     if (!project_profile) {
@@ -114,8 +112,6 @@ export async function inviteProjectMemberAction(formData: FormData) {
     }
   }
 
-  console.log("got here");
-
   const { data: inviteData, error: inviteError } =
     await supabaseAdmin.auth.admin.generateLink({
       type: "invite",
@@ -131,11 +127,9 @@ export async function inviteProjectMemberAction(formData: FormData) {
   const token = inviteData.properties.hashed_token;
   const type = inviteData.properties.verification_type;
 
-  const confirmUrl = `${origin}/auth/invite-confirm?token_hash=${token}&type=${type}&redirect_to=/account/projects/${projectID}}`;
+  const confirmUrl = `${origin}/auth/invite-confirm?token_hash=${token}&type=${type}&redirect_to=/account/projects/${projectID}`;
 
   userId = inviteData.user.id;
-
-  console.log(inviteData)
 
   const {data: newPP, error: NPPError} = await supabaseAdmin.from("project_profiles").insert({
     account_id: userId,
@@ -145,10 +139,8 @@ export async function inviteProjectMemberAction(formData: FormData) {
 
   if (!newPP) {
     console.error(NPPError)
-    throw new Error ('PP not created')
+    throw new Error ('Project profile not created')
   }
-
-  console.log(newPP)
 
   const mockAccount: Account = {
     created_at: newPP[0].created_at,

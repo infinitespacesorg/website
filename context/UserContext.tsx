@@ -107,6 +107,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
 
+    console.log('user context')
     refreshUserContext();
 
     const { data: subscription } = supabase.auth.onAuthStateChange(async () => {
