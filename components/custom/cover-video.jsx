@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react"
 
-const MainVideo =
+//const MainVideo =
   "https://dkljmdqtvrkrnjdtdsjw.supabase.co/storage/v1/object/public/website-storage/stage-cut.mp4";
+const MainVideo =
+  "https://dkljmdqtvrkrnjdtdsjw.supabase.co/storage/v1/object/public/website-storage/hero-20s.mp4";
 
 const staticImage = "/images/landscape.jpg";
 
