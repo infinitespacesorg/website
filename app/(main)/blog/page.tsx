@@ -27,7 +27,7 @@ export default async function BlogPage() {
 
   return <>
   <ElseHeader />
-  <div className="pt-15 md:py-0">
+  <div className="pt-15 md:pt-0">
   <Blocks blocks={page?.blocks ?? []} />
   </div>
   <FooterWithContactUs />

@@ -25,5 +25,4 @@ export default async function IndexPage() {
   <Blocks blocks={page?.blocks ?? []} />
   <Footer />
   </>
-  
 }
