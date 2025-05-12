@@ -20,6 +20,8 @@ export default function Header() {
 
   const { authUser, account } = useUser();
 
+  console.log('hello')
+
   useEffect(() => {
     if (authUser) {
       setNavItems((items) => [
