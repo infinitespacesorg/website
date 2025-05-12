@@ -4419,6 +4419,55 @@
             }
           },
           "optional": true
+        },
+        "size": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "text-base"
+              },
+              {
+                "type": "string",
+                "value": "text-lg"
+              },
+              {
+                "type": "string",
+                "value": "text-xl"
+              },
+              {
+                "type": "string",
+                "value": "text-2xl"
+              },
+              {
+                "type": "string",
+                "value": "text-3xl"
+              },
+              {
+                "type": "string",
+                "value": "text-4xl"
+              },
+              {
+                "type": "string",
+                "value": "text-5xl"
+              },
+              {
+                "type": "string",
+                "value": "text-6xl"
+              },
+              {
+                "type": "string",
+                "value": "text-7xl"
+              },
+              {
+                "type": "string",
+                "value": "text-8xl"
+              }
+            ]
+          },
+          "optional": true
         }
       }
     }
