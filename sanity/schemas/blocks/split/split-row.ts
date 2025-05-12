@@ -25,6 +25,12 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: "mobileFlip",
+      type: "boolean",
+      description: "Flip the split content for preferred mobile layout",
+      initialValue: false,
+    }),
+    defineField({
       name: "splitColumns",
       type: "array",
       of: [

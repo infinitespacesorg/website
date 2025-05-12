@@ -11,7 +11,7 @@ type SplitImage = Extract<
 
 export default function SplitImage({ image }: SplitImage) {
   return image && image.asset?._id ? (
-    <div className="relative h-[25rem] sm:h-[30rem] md:h-[25rem] lg:h-full rounded-lg overflow-hidden">
+    <div className="relative h-[25rem] sm:h-[30rem] md:h-[25rem] lg:h-full rounded-lg overflow-hidden w-full">
       <Image
         src={urlFor(image).url()}
         alt={image.alt || ""}

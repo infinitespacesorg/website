@@ -20,7 +20,9 @@ export default async function AboutPage() {
 
   return <>
   <ElseHeader />
+  <div className="pt-15 md:pt-0">
   <Blocks blocks={page?.blocks ?? []} />
+  </div>
   <FooterWithContactUs />
   </>
   

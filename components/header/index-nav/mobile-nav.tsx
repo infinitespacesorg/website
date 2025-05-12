@@ -14,6 +14,7 @@ import Logo from "@/components/logo";
 import { useState } from "react";
 import { AlignRight } from "lucide-react";
 import clsx from "clsx";
+import SocialIcons from "@/components/custom/social-icons";
 
 export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
   const [open, setOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
           <AlignRight className="dark:text-white text-gray-400" />
         </Button>
       </SheetTrigger>
-      <SheetContent className={clsx('width: 100vw')}>
+      <SheetContent className={'w-full z-[500]'}>
         <SheetHeader>
           <div className="mx-auto">
             <Logo mobile={true}/>
@@ -39,7 +40,7 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
             <SheetDescription>Navigate to the website pages</SheetDescription>
           </div>
         </SheetHeader>
-        <div className="pt-10 pb-20">
+        <div className="py-10">
           <div className="container">
             <ul className="list-none text-center space-y-10">
               <>
@@ -58,6 +59,11 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
                 ))}
               </>
             </ul>
+          </div>
+        </div>
+        <div className="py-10">
+          <div className="container">
+            <SocialIcons mobileNav={true} className="flex flex-row justify-between items-center w-[60vw] m-auto"/>
           </div>
         </div>
       </SheetContent>

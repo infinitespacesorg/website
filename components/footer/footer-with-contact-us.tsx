@@ -32,8 +32,7 @@ const navItems = [
 ];
 
 export default function FooterWithContactUs() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
 
@@ -45,10 +44,11 @@ export default function FooterWithContactUs() {
     <div className={`z-50 relative `}>
       <div className="relative z-50">
         <SocialIcons
-          className={`flex flex-col left-3 bottom-3 md:left-5 md:bottom-10 gap-2 fixed`}
+          className={`hidden md:flex flex-col md:left-5 md:bottom-10 gap-2 fixed`}
+          mobileNav={false}
         />
         <Button
-          className={`fixed right-3 bottom-3 md:right-5 md:bottom-10 z-[50]`}
+          className={`hidden md:fixed md:right-5 md:bottom-10 z-[50]`}
           onClick={() => setContactDialogOpen(!contactDialogOpen)}
         >
           Contact Us
@@ -59,17 +59,18 @@ export default function FooterWithContactUs() {
           setContactDialogOpen={setContactDialogOpen}
         />
       </div>
-      <footer className={`z-[100] bg-white ${contactDialogOpen ? 'hidden' : 'relative'}`}>
+      <footer
+        className={`z-[100] bg-white ${contactDialogOpen ? "hidden" : "relative"}`}
+      >
         <div className="relative dark:bg-background py-5 xl:py-5 dark:text-gray-300 z-[100]">
-          <Link
-            className="block w-fit mx-auto"
-            href="/"
-            aria-label="Home page"
-          >
-            <Logo mobile={false}/>
+          <Link className="block w-fit mx-auto" href="/" aria-label="Home page">
+            <Logo mobile={false} />
           </Link>
-          <div className="pt-7 flex flex-col sm:flex-row gap-5 sm:gap-0 justify-between items-center mx-8">
-            <SocialIcons className={'flex flex-row gap-7 sm:gap-3'}/>
+          <div className="pt-5 flex flex-col sm:flex-row gap-5 sm:gap-0 justify-between items-center mx-8">
+            <SocialIcons
+              className={"flex flex-row gap-7 sm:gap-3"}
+              mobileNav={false}
+            />
             <div className=" flex flex-wrap items-center justify-center gap-7 text-primary z-50">
               {navItems.map((navItem) => (
                 <Link
@@ -94,7 +95,7 @@ export default function FooterWithContactUs() {
             </Button>
           </div>
 
-          <div className="mt-8 flex flex-col lg:flex-row gap-6 justify-center text-center lg:mt-5 text-xs border-t pt-8">
+          <div className="mt-5 flex flex-col lg:flex-row gap-6 justify-center text-center text-xs border-t pt-5">
             <p className="text-foreground/60">
               &copy; {getCurrentYear()} Built by Infinite Spaces
             </p>

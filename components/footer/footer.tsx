@@ -46,7 +46,8 @@ export default function Footer() {
       {/* maybe this div should be its own component */}
       <div className="relative z-50">
         <SocialIcons
-          className={`flex flex-col left-3 bottom-3 md:left-5 md:bottom-10 gap-2 fixed`}
+          className={`hidden md:flex flex-col left-3 bottom-3 md:left-5 md:bottom-10 gap-2 fixed`}
+          mobileNav={false}
         />
         {/* <p className={`fixed right-1/36 bottom-20 bg-gray-500 z-[5]`}>Hello!</p> */}
         {/* <Button
@@ -70,8 +71,8 @@ export default function Footer() {
           >
             <Logo mobile={false}/>
           </Link>
-          <div className="pt-7 flex flex-col sm:flex-row gap-5 sm:gap-0 justify-between items-center mx-8">
-            <SocialIcons className={'flex flex-row gap-7 sm:gap-3'}/>
+          <div className="pt-5 flex flex-col sm:flex-row gap-5 sm:gap-0 justify-between items-center mx-8">
+            <SocialIcons mobileNav={false} className={'flex flex-row gap-7 sm:gap-3'}/>
             <div className=" flex flex-wrap items-center justify-center gap-7 text-primary z-50">
               {navItems.map((navItem) => (
                 <Link
@@ -101,7 +102,7 @@ export default function Footer() {
             </Button>
           </div>
 
-          <div className="mt-8 flex flex-col lg:flex-row gap-6 justify-center text-center lg:mt-5 text-xs border-t pt-8">
+          <div className="mt-5 flex flex-col lg:flex-row gap-6 justify-center text-center text-xs border-t pt-5">
             <p className="text-foreground/60">
               &copy; {getCurrentYear()} Built by Infinite Spaces
             </p>
