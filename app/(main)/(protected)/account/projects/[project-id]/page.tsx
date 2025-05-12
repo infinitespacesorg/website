@@ -151,7 +151,7 @@ export default function ProjectPage() {
   }
 
   function displayProjectMembers() {
-    if (allProjectProfiles.length > 1) {
+    if (allProjectProfiles.length > 0) {
       const sortedPPs = allProjectProfiles.sort((a,b) => b.role.localeCompare(a.role))
       return (
         <div className="border-2 rounded-xl">
