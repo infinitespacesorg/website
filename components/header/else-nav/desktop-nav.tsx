@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import { NavItem } from "@/types";
 import {
@@ -7,9 +8,9 @@ import {
   DropdownMenuPortal,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { AlignRight, XIcon } from "lucide-react";
-import { ModeToggle } from "../menu-toggle";
+// import { ModeToggle } from "../menu-toggle";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
@@ -23,10 +24,12 @@ export default function DesktopNav({
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false)
+
+  console.log('rendering else header')
   
 
   return (
-    <div className={clsx("hidden xl:flex items-center gap-1 text-primary")}>
+    <div className={clsx("hidden md:flex items-center gap-1 text-primary")}>
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}
        modal={false} // this allows the scrollbar to remain usable
         >

@@ -4133,6 +4133,13 @@
           },
           "optional": true
         },
+        "mobileFlip": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
         "splitColumns": {
           "type": "objectAttribute",
           "value": {
