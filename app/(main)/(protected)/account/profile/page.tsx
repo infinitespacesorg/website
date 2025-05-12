@@ -19,7 +19,7 @@ export default function ProfilePage() {
 
   function UsernameFormOrName() {
     return updateUsername ? (
-      <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
+      <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
         <UsernameForm setUpdateUsername={setUpdateUsername}/>
         <Button
           className="h-9"
@@ -30,8 +30,8 @@ export default function ProfilePage() {
         </Button>
       </div>
     ) : (
-      <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
-        <p className="h-fit m-auto">{account?.username}</p>
+      <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
+        <p className="h-fit m-auto text-sm md:text-base">{account?.username}</p>
         <Button
           className="h-9"
           size="sm"
@@ -45,7 +45,7 @@ export default function ProfilePage() {
 
   function DisplayNameFormOrName() {
     return updateFullName ? (
-      <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
+      <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
         <FullNameForm setUpdateFullName={setUpdateFullName}/>
         <Button
           className="h-9"
@@ -56,8 +56,8 @@ export default function ProfilePage() {
         </Button>
       </div>
     ) : (
-      <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
-        <p className="h-fit m-auto">{account?.full_name}</p>
+      <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
+        <p className="h-fit m-auto text-sm md:text-base">{account?.full_name}</p>
         <Button
           className="h-9"
           size="sm"
@@ -107,9 +107,9 @@ export default function ProfilePage() {
 
   function ProfileImage() {
     return (
-      <div className="flex flex-row w-fit justify-center align-baseline gap-3 m-auto">
+      <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
         {updateProfileImage && <AvatarUploadInput />}
-        <Avatar className="w-10 h-10 mr-3">
+        <Avatar className="w-8 h-8 md:w-10 md:h-10 mr-2">
           {account?.profile_image && (
             <AvatarImage
               src={account.profile_image}
@@ -141,30 +141,30 @@ export default function ProfilePage() {
 
   return (
     <section>
-      <h1 className="text-3xl my-3">Your Infinite Spaces Profile</h1>
+      <h1 className="text-xl md:text-3xl my-3">Your Infinite Spaces Profile</h1>
       <hr className="my-3" />
-      <div className="flex flex-row justify-between align-baseline">
-        <div className="">
-          <h4>Site Username</h4>
-          <p className="text-sm">
+      <div className="flex flex-row justify-between items-center gap-2">
+        <div>
+          <h4 className="text-lg md:text-base">Site Username</h4>
+          <p className="text-xs md:text-sm">
             This username is not used for authentication
           </p>
         </div>
         <div>{UsernameFormOrName()}</div>
       </div>
       <hr className="my-3" />
-      <div className="flex flex-row justify-between align-baseline">
+      <div className="flex flex-row justify-between items-center gap-2">
         <div>
-          <h4>Profile Image</h4>
-          <p className="text-sm">Upload your own image as your avatar</p>
+          <h4 className="text-lg md:text-base">Profile Image</h4>
+          <p className="text-xs md:text-sm">Upload your own image as your avatar</p>
         </div>
         <div>{ProfileImage()}</div>
       </div>
       <hr className="my-3" />
-      <div className="flex flex-row justify-between align-baseline">
+      <div className="flex flex-row justify-between items-center gap-2">
         <div>
-          <h4 className="">Site Display Name</h4>
-          <p className="text-sm">This is a display name</p>
+          <h4 className="text-lg md:text-base">Site Display Name</h4>
+          <p className="text-xs md:text-sm">This is a display name</p>
         </div>
         <div>{DisplayNameFormOrName()}</div>
       </div>

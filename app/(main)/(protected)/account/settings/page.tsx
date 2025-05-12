@@ -53,8 +53,6 @@ export default function SettingsPage() {
   const [newEmail, setNewEmail] = useState(authUser?.email ?? '')
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  console.log(authUser)
-
   useEffect(() => {
     if (
       authUser?.app_metadata.providers.filter((pro: string) => pro === "google")
@@ -182,12 +180,12 @@ export default function SettingsPage() {
   function loadingOrNot() {
     return authUser ? (
       <section>
-        <h1 className="text-3xl my-3">Settings</h1>
+        <h1 className="text-xl md:text-3xl my-3">Settings</h1>
         <hr className="my-3" />
-        <div className="flex flex-row justify-between align-baseline">
+        <div className="flex flex-row justify-between items-center gap-2">
           <div>
-            <h4>Email Address</h4>
-            <p className="text-sm">{authUser?.email}</p>
+            <h4 className="text-lg md:text-xl">Email Address</h4>
+            <p className="text-xs md:text-sm">{authUser?.email}</p>
           </div>
           {!googleAuth ? (
             <div>
@@ -206,15 +204,15 @@ export default function SettingsPage() {
               )}{" "}
             </div>
           ) : (
-            <p className="w-fit my-auto">Account created with Google Sign In</p>
+            <p className="w-fit my-auto text-xs md:text-sm">Account created with Google Sign In</p>
           )}
         </div>
         <hr className="my-3" />
         {!googleAuth ? (
-          <div className="flex flex-row justify-between align-baseline">
+          <div className="flex flex-row justify-between items-center gap-2">
             <div>
-              <h4>Password</h4>
-              <p className="text-sm">Set or reset password for your account</p>
+              <h4 className="text-lg md:text-xl">Password</h4>
+              <p className="text-xs md:text-sm">Set or reset password for your account</p>
             </div>
             <div className="w-fit my-auto">
               <form onSubmit={handlePasswordSubmit}>
@@ -228,11 +226,11 @@ export default function SettingsPage() {
             </div>
           </div>
         ) : null}
-        <hr className="my-3 mt-30" />
-        <div className="flex flex-row justify-between align-baseline">
+        <hr className="my-3 mt-15 md:mt-30" />
+        <div className="flex flex-row justify-between items-center gap-2">
           <div>
-            <h4>Sign out</h4>
-            <p className="text-sm">End your current session</p>
+            <h4 className="text-lg md:text-xl">Sign out</h4>
+            <p className="text-xs md:text-sm">End your current session</p>
           </div>
           <div className="w-fit my-auto">
             <form action={signOutAction}>
@@ -242,10 +240,10 @@ export default function SettingsPage() {
           </div>
         </div>
         <hr className="my-3" />
-        <div className="flex flex-row justify-between align-baseline">
+        <div className="flex flex-row justify-between items-center gap-2">
           <div>
-            <h4>Delete Account</h4>
-            <p className="text-sm">Remove all user and account information</p>
+            <h4 className="text-lg md:text-xl">Delete Account</h4>
+            <p className="text-xs md:text-sm">Remove all user and account information</p>
           </div>
           <div className="w-fit my-auto">
             <Button

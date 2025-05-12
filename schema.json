@@ -4427,10 +4427,6 @@
             "of": [
               {
                 "type": "string",
-                "value": "text-base"
-              },
-              {
-                "type": "string",
                 "value": "text-lg"
               },
               {
@@ -4464,6 +4460,10 @@
               {
                 "type": "string",
                 "value": "text-8xl"
+              },
+              {
+                "type": "string",
+                "value": "text-9xl"
               }
             ]
           },

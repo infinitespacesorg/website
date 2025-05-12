@@ -47,12 +47,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Send, SquarePen, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import ProjectNameForm from "./ProjectNameForm";
-import ProjectUsernameForm from "./ProjectUsernameForm";
+import ProjectNameForm from "./projectNameForm";
+import ProjectUsernameForm from "./projectUsernameForm";
 import { toast } from "sonner";
 import ISLogo from "@/public/favicon.png";
 import { useProjectImages } from "../../useProjectImages";
-import InviteTeamMemberForm from "./InviteTeamMemberForm";
+import InviteTeamMemberForm from "./inviteTeamMemberForm";
 import OneProjectMember from "./OneProjectMember";
 
 export default function ProjectPage() {
@@ -157,8 +157,8 @@ export default function ProjectPage() {
         <div className="border-2 rounded-xl">
           <div className="flex flex-row justify-between border-b-2 p-3 lg:px-5">
             <div className="flex flex-row justify-baseline align-middle">
-              <p className="w-[100px]">User</p>
-              <p className="w-[200px]">Name</p>
+              <p className="w-[50px] md:w-[100px]"></p>
+              <p className="w-[100px] md:w-[200px]">Name</p>
             </div>
             <p className="role">Role</p>
           </div>
@@ -307,9 +307,9 @@ export default function ProjectPage() {
 
   return (
     <section>
-      <div className="py-3 border-b-2 flex flex-row justify-between items-end">
+      <div className="p-3 border-b-2 flex flex-row justify-between items-end">
         <div className="flex flex-row justify-center items-center">
-          <Avatar className="w-10 h-10 mr-3">
+          <Avatar className="w-8 h-8 md:w-10 md:h-10 mr-3">
             <AvatarImage
               src={signedUrls[project!.id] || ISLogo.src}
               alt={project?.name ?? ""}
@@ -318,31 +318,31 @@ export default function ProjectPage() {
               {project?.name?.slice(0, 2) || "IS"}
             </AvatarFallback>
           </Avatar>
-          <h4>{project.name}</h4>
+          <h4 className="text-lg md:text-xl">{project.name}</h4>
         </div>
-        <h5 className="h-fit text-base">
+        <h5 className="h-fit text-md md:text-xl">
           {yourProjectProfile?.role === "owner" ? "Project Owner" : ""}
           {/* {yourProjectProfile?.role} */}
         </h5>
       </div>
-      <div className="flex flex-row justify-between items-center py-3 border-b-2">
+      <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
         <div>
-          <h4>Project username</h4>
-          <p className="text-sm">
+          <h4 className="text-lg md:text-xl">Project username</h4>
+          <p className="text-xs md:text-sm">
             Change your user display name in this project
           </p>
         </div>
         <div>{ProjectUsernameFormOrName()}</div>
       </div>
       <div className="py-3 border-b-2">
-        <h4 className="py-3">Members</h4>
+        <h4 className="py-3 text-lg md:text-xl">Members</h4>
         <div className="px-5">{displayProjectMembers()}</div>
       </div>
       {yourProjectProfile?.role === "owner" && (
-        <div className="flex flex-row justify-between items-center py-3 border-b-2">
+        <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
           <div>
-            <h4>Invite member</h4>
-            <p className="text-sm">
+            <h4 className="text-lg md:text-xl">Invite member</h4>
+            <p className="text-xs md:text-sm">
               Invite a user to your project through email
             </p>
           </div>
@@ -350,27 +350,27 @@ export default function ProjectPage() {
         </div>
       )}
       {yourProjectProfile?.role === "owner" && (
-        <div className="flex flex-row justify-between items-center py-3 border-b-2">
+        <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
           <div>
             <h4>Project profile image</h4>
-            <p className="text-sm">Upload an image for your project</p>
+            <p className="text-xs md:text-sm">Upload an image for your project</p>
           </div>
           <div>{ProjectProfileImage()}</div>
         </div>
       )}
       {yourProjectProfile?.role === "owner" && (
-        <div className="flex flex-row justify-between items-center py-3 border-b-2">
+        <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
           <div>
-            <h4>Project display name</h4>
-            <p className="text-sm">Change the display name of your project</p>
+            <h4 className="text-lg md:text-xl">Project display name</h4>
+            <p className="text-xs md:text-sm">Change the display name of your project</p>
           </div>
           <div>{ProjectDisplayNameFormOrName()}</div>
         </div>
       )}
-      <div className="flex flex-row justify-between items-center py-3 border-b-2">
+      <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
         <div>
-          <h4>Leave project</h4>
-          <p className="text-sm">
+          <h4 className="text-lg md:text-xl">Leave project</h4>
+          <p className="text-xs md:text-sm">
             {yourProjectProfile?.role === "owner"
               ? "Since you are the owner, leaving the project will delete the project"
               : "Leave this project and remove your project profile"}

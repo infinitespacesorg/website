@@ -37,18 +37,18 @@ export default function Login() {
 
   if (loading || signInLoading)
     return (
-      <main className="w-80 m-auto py-16">
+      <main className="w-80 mx-auto pt-5 md:pt-16">
         <p className="text-center">loading...</p>
       </main>
     );
 
   // if there isn't a user, then show the sign in page
   return (
-    <main className="w-80 m-auto py-16">
+    <main className="w-80 mx-auto pt-5 md:pt-16">
       <Suspense>
         <LoginView />
       </Suspense>
-      <hr className="my-10 w-50 m-auto" />
+      <hr className="my-5 md:my-10 w-50 m-auto" />
       <p className="m-auto my-5 text-sm w-fit">
         or sign in / create an account with Google:
       </p>

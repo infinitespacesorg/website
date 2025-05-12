@@ -68,7 +68,6 @@ export default function SignIn({ message }: SignUpProps ) {
         </Link>
       </p>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-        <div>
         <Label htmlFor="email">Email</Label>
         <Input
           {...register("email")}
@@ -79,8 +78,6 @@ export default function SignIn({ message }: SignUpProps ) {
         {errors.email && (
           <p className="text-destructive text-sm my-1">{errors.email.message}</p>
         )}
-        </div>
-        <div>
         <Label htmlFor="password">Password</Label>
         <Input
           {...register("password")}
@@ -92,8 +89,7 @@ export default function SignIn({ message }: SignUpProps ) {
         {errors.password && (
           <p className="text-destructive text-sm my-3">{errors.password.message}</p>
         )}
-        </div>
-        <SubmitButton className="my-3" type="submit" pendingText="Signing up...">
+        <SubmitButton type="submit" pendingText="Signing up...">
           Sign up
         </SubmitButton>
         {message && <FormMessage message={message} />}
