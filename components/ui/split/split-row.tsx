@@ -27,6 +27,7 @@ export default function SplitRow({
   colorVariant,
   noGap,
   splitColumns,
+  mobileFlip,
 }: SplitRow) {
   const color = stegaClean(colorVariant);
 
@@ -35,8 +36,8 @@ export default function SplitRow({
       {splitColumns && splitColumns?.length > 0 && (
         <div
           className={cn(
-            "grid grid-cols-1 lg:grid-cols-2",
-            noGap ? "gap-0" : "gap-12 lg:gap-20"
+            noGap ? "gap-0" : "gap-12 lg:gap-20",
+            mobileFlip ? 'flex flex-col-reverse justify-center items-center md:grid grid-cols-1 lg:grid-cols-2' : "grid grid-cols-1 lg:grid-cols-2"
           )}
         >
           {splitColumns?.map((column) => {
