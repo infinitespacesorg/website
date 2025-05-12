@@ -15,6 +15,7 @@ import { useState } from "react";
 import { AlignRight } from "lucide-react";
 import clsx from "clsx";
 import { signOutAction } from "@/app/(main)/(auth-pages)/actions";
+import SocialIcons from "@/components/custom/social-icons";
 
 export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
   const [open, setOpen] = useState(false);
@@ -23,18 +24,13 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
     return navItems.map((navItem, i) => {
       if ("action" in navItem && navItem.action === "signOut") {
         return (
-          <li
-            className={clsx(
-              `px-2 w-30 p-1 m-1.5 text-right rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800`
-            )}
-            key={navItem.label}
-          >
+          <li key={navItem.label}>
             <button
               type="button"
               onClick={async () => {
                 await signOutAction();
               }}
-              className="block w-full text-sm text-foreground/90 hover:text-foreground/80 transition-colors"
+              className="block w-full text-3xl text-foreground/90 hover:text-foreground/80 transition-colors"
             >
               {navItem.label}
             </button>
@@ -48,7 +44,7 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
               href={navItem.href}
               target={navItem.target ? "_blank" : undefined}
               rel={navItem.target ? "noopener noreferrer" : undefined}
-              className="hover:text-decoration-none hover:opacity-50 text-3xl"
+              className="text-3xl"
             >
               {navItem.label}
             </Link>
@@ -72,18 +68,24 @@ export default function MobileNav({ navItems }: { navItems: NavItem[] }) {
       <SheetContent className={clsx("width: 100vw")}>
         <SheetHeader>
           <div className="mx-auto">
-            <Logo mobile={true}/>
+            <Logo mobile={true} />
           </div>
           <div className="sr-only">
             <SheetTitle>Main Navigation</SheetTitle>
             <SheetDescription>Navigate to the website pages</SheetDescription>
           </div>
         </SheetHeader>
-        <div className="pt-10 pb-20">
+        <div className="flex flex-col justify-between items-center h-full py-10">
           <div className="container">
             <ul className="list-none text-center space-y-10">
               {allNavItems()}
             </ul>
+          </div>
+          <div className="container">
+            <SocialIcons
+              mobileNav={true}
+              className="flex flex-row justify-between items-center w-[60vw] m-auto"
+            />
           </div>
         </div>
       </SheetContent>

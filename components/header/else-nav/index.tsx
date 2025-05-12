@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Logo from "@/components/logo";
-import MobileNav from "@/components/header/index-nav/mobile-nav";
-import DesktopNav from "@/components/header/index-nav/desktop-nav";
+import MobileNav from "@/components/header/else-nav/mobile-nav";
+import DesktopNav from "@/components/header/else-nav/desktop-nav";
 import { ModeToggle } from "@/components/menu-toggle";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
@@ -19,8 +19,6 @@ export default function ElseHeader() {
   ]);
 
   const { authUser, account } = useUser();
-
-  console.log('hello')
 
   useEffect(() => {
     if (authUser) {
