@@ -10,7 +10,6 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { AlignRight, XIcon } from "lucide-react";
-// import { ModeToggle } from "../menu-toggle";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
@@ -24,9 +23,6 @@ export default function DesktopNav({
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false)
-
-  console.log('rendering else header')
-  
 
   return (
     <div className={clsx("hidden md:flex items-center gap-1 text-primary")}>

@@ -36,8 +36,6 @@ export default function FooterWithContactUs() {
 
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
 
-  console.log('rendering test footer')
-
   const getCurrentYear = () => {
     return new Date().getFullYear();
   };
