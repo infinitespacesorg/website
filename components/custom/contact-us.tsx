@@ -52,7 +52,7 @@ export default function ContactUsForm({
     defaultValues: {
       name: "",
       email: "",
-      website: undefined,
+      website: "",
       message: "",
     },
   });
@@ -70,7 +70,7 @@ export default function ContactUsForm({
           body: JSON.stringify({
             name,
             email,
-            website: website || undefined,
+            website,
             message,
           }),
         });

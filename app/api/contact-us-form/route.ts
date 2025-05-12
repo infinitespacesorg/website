@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase-utils";
+import { supabase } from "@/lib/supabase/browser";
 
 interface FormSubmission {
     name: string;
@@ -6,8 +6,6 @@ interface FormSubmission {
     website: string | null;
     message: string;
 }
-
-const supabase = createClient();
 
 export const POST = async (request: Request) => {
 
@@ -27,8 +25,6 @@ export const POST = async (request: Request) => {
             name, email, website, message,
             created_at: new Date().toISOString(),
         };
-
-        // console.log(submission)
 
         const { data, error } = await supabase.from('contact_us_submissions').insert(submission).select()
 
