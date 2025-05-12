@@ -85,6 +85,8 @@ export default async function EventPage(props: {
 
   const location = `${event.address} - ${event.city}, ${event.state}`;
 
+  console.log('using the event/slug/page')
+
   return (
     <main>
       <ElseHeader/>
