@@ -8,8 +8,15 @@ import {
   fetchSanityPostsStaticParams,
 } from "../actions";
 import { generatePageMetadata } from "@/lib/metadata";
-import ElseHeader from "@/components/header/else-nav";
-import FooterWithContactUs from "@/components/footer/footer-with-contact-us";
+import dynamic from "next/dynamic";
+
+const ElseHeader = dynamic(() => import("@/components/header/else-nav"), {
+  ssr: false,
+});
+
+const FooterWithContactUs = dynamic(() => import("@/components/footer/footer-with-contact-us"), {
+  ssr: false,
+});
 
 export async function generateStaticParams() {
   const posts = await fetchSanityPostsStaticParams();
