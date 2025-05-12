@@ -20,7 +20,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { parseMessageFromSearchParams } from "@/lib/utils";
-import { InviteGoogleSignInAction } from './actions'
+import { InviteGoogleSignInAction } from "./actions";
 
 const passwordSchema = z.object({
   password: z
@@ -46,10 +46,14 @@ function ErrorMessage() {
 
   if (!message || !("error" in message)) return null;
 
-  return <p className="text-sm text-destructive">{message.error}</p>;
+  return (
+    <Suspense>
+      <p className="text-sm text-destructive">{message.error}</p>
+    </Suspense>
+  );
 }
 
-export default function ConfirmInvitePage() {
+function ConfirmInvitePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { refreshUserContext, authUser } = useUser();
@@ -91,7 +95,10 @@ export default function ConfirmInvitePage() {
 
   async function onSupaAuthSubmit(values: z.infer<typeof passwordSchema>) {
     try {
-      console.log("what about this");
+      if (!username) {
+        toast.error("Please set a username.");
+        return;
+      }
 
       const user = authUser;
       if (!user) {
@@ -103,7 +110,7 @@ export default function ConfirmInvitePage() {
       const formData = new FormData();
       formData.append("username", username);
       formData.append("user_id", user.id);
-      formData.append('password', values.password)
+      formData.append("password", values.password);
 
       await InviteGoogleSignInAction(formData);
 
@@ -118,7 +125,10 @@ export default function ConfirmInvitePage() {
 
   const handleGoogleSignIn = async () => {
     try {
-      console.log("clicked that");
+      if (!username) {
+        toast.error("Please set a username.");
+        return;
+      }
 
       const user = authUser;
       if (!user) {
@@ -221,3 +231,13 @@ export default function ConfirmInvitePage() {
     </div>
   );
 }
+
+
+export default function InviteConfirmPage() {
+  return (
+    <Suspense>
+      <ConfirmInvitePage />
+    </Suspense>
+  )
+}
+
