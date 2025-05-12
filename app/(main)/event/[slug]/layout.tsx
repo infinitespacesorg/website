@@ -10,7 +10,7 @@ export default function EventLayout({
   return (
     <>
       <ElseHeaderWrapper />
-      {children}
+      <div className="pt-15 md:pt-0">{children}</div>
       <FooterWithContactWrapper />
     </>
   );
