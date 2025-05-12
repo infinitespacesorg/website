@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Blocks from "@/components/blocks";
 import { fetchSanityPageBySlug } from "../actions";
 import { generatePageMetadata } from "@/lib/metadata";
