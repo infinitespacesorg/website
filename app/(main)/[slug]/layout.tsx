@@ -9,7 +9,7 @@ export default function SlugLayout({
   return (
     <>
       <ElseHeaderWrapper />
-      <div className="pt-15 md:pt-0">{children}</div>
+      <div className="pt-15 md:pt-0 min-h-[80vh]">{children}</div>
       <FooterWithContactWrapper />
     </>
   );
