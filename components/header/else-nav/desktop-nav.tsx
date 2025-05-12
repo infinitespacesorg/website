@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import { NavItem } from "@/types";
 import {
@@ -23,6 +24,8 @@ export default function DesktopNav({
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false)
+
+  console.log('rendering else header')
   
 
   return (
