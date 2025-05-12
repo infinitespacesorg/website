@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 import PortableTextRenderer from "@/components/portable-text-renderer";
 import {
@@ -17,14 +16,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-const ElseHeader = dynamic(() => import("@/components/header/else-nav"), {
-  ssr: false,
-});
-
-const FooterWithContactUs = dynamic(() => import("@/components/footer/footer-with-contact-us"), {
-  ssr: false,
-});
+import ElseHeader from "@/components/header/else-nav";
+import FooterWithContactUs from "@/components/footer/footer-with-contact-us";
 
 export async function generateStaticParams() {
   const events = await fetchSanityEventsStaticParams();
