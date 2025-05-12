@@ -1,11 +1,9 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "./supabase/server";
-import { cookies } from "next/headers";
 
 export async function getUserOrRedirect() {
-    const cookieStore = await cookies()
       
-    const supabase = await createSupabaseServerClient(cookieStore)
+    const supabase = await createSupabaseServerClient()
 
     const {
         data: { user },
