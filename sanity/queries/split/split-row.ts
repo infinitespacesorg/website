@@ -12,6 +12,7 @@ export const splitRowQuery = groq`
     padding,
     colorVariant,
     noGap,
+    mobileFlip,
     splitColumns[]{
       ${splitContentQuery},
       ${splitCardsListQuery},

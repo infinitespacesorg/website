@@ -31,8 +31,8 @@ export default function SplitContent({
     <div
       className={cn(
         !sticky ? "flex flex-col justify-center" : undefined,
-        padding?.top ? "pt-16 xl:pt-20" : undefined,
-        padding?.bottom ? "pb-16 xl:pb-20" : undefined
+        padding?.top ? "md:pt-16 xl:pt-20" : undefined,
+        padding?.bottom ? "md:pb-16 xl:pb-20" : undefined
       )}
     >
       <div
