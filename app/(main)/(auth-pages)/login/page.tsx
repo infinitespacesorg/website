@@ -14,8 +14,8 @@ function LoginView() {
   const message = rawMessage ?? null;
   const view = searchParams.get("view") || "signin";
 
-  if (view === "forgot") return <ForgotPassword message={message} />;
-  if (view === "signup") return <SignUp message={message} />;
+  if (view === "forgot") return <ForgotPassword />;
+  if (view === "signup") return <SignUp />;
   return <SignIn message={message} />;
 }
 
