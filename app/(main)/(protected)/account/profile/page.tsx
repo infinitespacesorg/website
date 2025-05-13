@@ -8,11 +8,11 @@ import { uploadProfileImageAction } from "./actions";
 import { useState, useRef } from "react";
 import UsernameForm from "./usernameForm";
 import FullNameForm from "./fullNameForm";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function ProfilePage() {
-  const { account, setAccount } =
-    useUser();
+  const { account, setAccount, refreshUserContext } = useUser();
   const [updateUsername, setUpdateUsername] = useState(false);
   const [updateFullName, setUpdateFullName] = useState(false);
   const [updateProfileImage, setUpdateProfileImage] = useState(false);
@@ -20,7 +20,7 @@ export default function ProfilePage() {
   function UsernameFormOrName() {
     return updateUsername ? (
       <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-        <UsernameForm setUpdateUsername={setUpdateUsername}/>
+        <UsernameForm setUpdateUsername={setUpdateUsername} />
         <Button
           className="h-9"
           size="sm"
@@ -46,7 +46,7 @@ export default function ProfilePage() {
   function DisplayNameFormOrName() {
     return updateFullName ? (
       <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-        <FullNameForm setUpdateFullName={setUpdateFullName}/>
+        <FullNameForm setUpdateFullName={setUpdateFullName} />
         <Button
           className="h-9"
           size="sm"
@@ -57,7 +57,9 @@ export default function ProfilePage() {
       </div>
     ) : (
       <div className="flex flex-row w-fit justify-center items-center gap-3 m-auto">
-        <p className="h-fit m-auto text-sm md:text-base">{account?.full_name}</p>
+        <p className="h-fit m-auto text-sm md:text-base">
+          {account?.full_name}
+        </p>
         <Button
           className="h-9"
           size="sm"
@@ -82,13 +84,12 @@ export default function ProfilePage() {
       try {
         const { url } = await uploadProfileImageAction(formData);
         // console.log("Avatar uploaded to: ", url);
-        // await refreshUserContext()
-        setAccount((prev) =>
-          prev ? { ...prev, profile_image: url } : prev
-        );
-        setUpdateProfileImage(false)
+        setAccount((prev) => (prev ? { ...prev, profile_image: url } : prev));
+        toast.success('Profile image updated');
+        refreshUserContext();
+        setUpdateProfileImage(false);
       } catch (err: any) {
-        // console.error(err.message);
+        toast.error(err.message);
       }
 
       inputRef.current?.value && (inputRef.current.value = "");
@@ -116,7 +117,9 @@ export default function ProfilePage() {
               alt={account.full_name ?? ""}
             />
           )}
-          <AvatarFallback>{account?.full_name?.slice(0, 2) || 'IS'}</AvatarFallback>
+          <AvatarFallback>
+            {account?.full_name?.slice(0, 2) || "IS"}
+          </AvatarFallback>
         </Avatar>
         {updateProfileImage ? (
           <Button
@@ -156,7 +159,9 @@ export default function ProfilePage() {
       <div className="flex flex-row justify-between items-center gap-2">
         <div>
           <h4 className="text-lg md:text-base">Profile Image</h4>
-          <p className="text-xs md:text-sm">Upload your own image as your avatar</p>
+          <p className="text-xs md:text-sm">
+            Upload your own image as your avatar
+          </p>
         </div>
         <div>{ProfileImage()}</div>
       </div>

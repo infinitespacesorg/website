@@ -15,6 +15,11 @@ type OneProjectMemberProps = {
 
 export default function OneProjectMember ({member}: OneProjectMemberProps) {
 
+    let projectName = member.project_username
+
+    if (projectName === '') projectName = member.accounts.full_name + ' - pending invite'
+    else if (projectName === null) projectName = member.accounts.full_name
+
     return (
         <div
           className="flex flex-row justify-between align-middle p-3 lg:px-5"
@@ -28,7 +33,7 @@ export default function OneProjectMember ({member}: OneProjectMemberProps) {
                 />
               </Avatar>
             </div>
-            <p className="w-[100px] md:w-[200px] text-sm my-auto">{member.project_username != '' ? member.project_username : `${member.accounts.full_name} - pending invite`}</p>
+            <p className="w-[100px] md:w-[200px] text-sm my-auto">{projectName}</p>
           </div>
           <p className="my-auto text-sm">{member.role}</p>
         </div>

@@ -7,10 +7,9 @@ import { headers } from "next/headers";
 import { resend } from "@/lib/utils";
 import { randomUUID } from "crypto";
 import { ResendInvitedUserTemplate } from "@/emails/InvitedUser";
-import { ProjectProfileWithAccount, Account } from "@/types";
+import { ProjectProfileWithAccount, Account, Project } from "@/types";
 
 export const getAllProjectProfilesAction = async (projectId: string) => {
-
   const response = (await supabaseAdmin
     .from("project_profiles")
     .select(`*, accounts (*)`)
@@ -57,21 +56,22 @@ export async function inviteProjectMemberAction(formData: FormData) {
     }
   );
 
-  let existingUsers = null
+  let existingUsers = null;
 
   if (targetUserID) {
     const { data: targetAccounts, error: userQueryError } = await supabaseAdmin
       .from("accounts")
-      .select("id, username")
+      .select("id, username, profile_image")
       .eq("id", targetUserID);
 
     if (userQueryError) {
       throw new Error("User query error", { cause: userQueryError });
-    }
-    else existingUsers = targetAccounts
+    } else existingUsers = targetAccounts;
   }
 
   let userId: string;
+
+  console.log(existingUsers)
 
   if (existingUsers && existingUsers.length > 0) {
     userId = existingUsers[0].id;
@@ -82,6 +82,8 @@ export async function inviteProjectMemberAction(formData: FormData) {
       .eq("account_id", userId)
       .eq("project_id", projectID)
       .maybeSingle();
+
+    console.log(project_profile)
 
     if (project_profile)
       throw new Error("This user is already a project member!");
@@ -102,9 +104,11 @@ export async function inviteProjectMemberAction(formData: FormData) {
           cause: nPPError?.message,
         });
 
-      newProjectProfile.account = existingUsers[0];
+      console.log(newProjectProfile)
 
-      return newProjectProfile[0];
+      newProjectProfile.accounts = existingUsers[0];
+
+      return newProjectProfile;
     }
   }
 
@@ -127,15 +131,18 @@ export async function inviteProjectMemberAction(formData: FormData) {
 
   userId = inviteData.user.id;
 
-  const {data: newPP, error: NPPError} = await supabaseAdmin.from("project_profiles").insert({
-    account_id: userId,
-    project_id: projectID,
-    role: "collaborator",
-  }).select();
+  const { data: newPP, error: NPPError } = await supabaseAdmin
+    .from("project_profiles")
+    .insert({
+      account_id: userId,
+      project_id: projectID,
+      role: "collaborator",
+    })
+    .select();
 
   if (!newPP) {
     // console.error(NPPError)
-    throw new Error ('Project profile not created')
+    throw new Error("Project profile not created");
   }
 
   const mockAccount: Account = {
@@ -143,10 +150,10 @@ export async function inviteProjectMemberAction(formData: FormData) {
     id: userId,
     full_name: email,
     profile_image: "",
-    username: ""
-  }
+    username: "",
+  };
 
-  newPP[0]['accounts'] = mockAccount
+  newPP[0]["accounts"] = mockAccount;
 
   await resend.emails.send({
     to: email,
@@ -155,7 +162,7 @@ export async function inviteProjectMemberAction(formData: FormData) {
     react: ResendInvitedUserTemplate({ confirmationUrl: confirmUrl }),
   });
 
-  return newPP[0]
+  return newPP[0];
 }
 
 export async function updateProjectUsernameAction(
@@ -203,7 +210,7 @@ export async function updateProjectUsernameAction(
   }
 
   revalidatePath(`/account/projects/${projectID}`);
-  return userName[0]
+  return userName[0];
 }
 
 export async function updateProjectNameAction(
@@ -248,8 +255,11 @@ export async function updateProjectNameAction(
 export async function uploadProjectImageAction(formData: FormData) {
   const file = formData.get("project-image") as File | null;
   const projectID = formData.get("project-id")?.toString();
+  const role = formData.get("project-role")?.toString();
   if (!file) throw new Error("No file provided");
   if (!projectID) throw new Error("No project associated with this file.");
+  if (role !== "owner")
+    throw new Error("Only project owners can change project profile images");
 
   const fileExt = file.name.split(".").pop();
   const fileName = `${randomUUID()}.${fileExt}`;
@@ -263,6 +273,24 @@ export async function uploadProjectImageAction(formData: FormData) {
 
   if (!user || userError) {
     throw new Error("Not authenticated");
+  }
+
+  const { data: list, error: listError } = await supabase.storage
+    .from("project-images")
+    .list(`public/${projectID}`, { limit: 100 });
+
+  if (listError)
+    throw new Error("Failed to list project files", { cause: listError });
+  else if (list && list.length > 0) {
+    const filesToDelete = list.map(
+      (file) => `public/${projectID}/${file.name}`
+    );
+
+    const { data: imagesData, error: imagesError } = await supabase.storage
+      .from("project-images")
+      .remove(filesToDelete);
+    if (imagesError)
+      throw new Error("Failed to delete files", { cause: imagesError });
   }
 
   const { error: uploadError } = await supabase.storage
@@ -286,14 +314,11 @@ export async function uploadProjectImageAction(formData: FormData) {
   return { url: urlData.publicUrl };
 }
 
-export async function deleteProjectProfileAction(
-  formData: FormData
-): Promise<void> {
+export async function deleteProjectProfileAction(formData: FormData) {
   const projectProfileID = formData.get("projectProfileID")?.toString();
   const role = formData.get("role")?.toString();
-  const projectID = formData.get("projectID")?.toString();
   if (!projectProfileID) throw new Error("No account ID provided");
-  if (!role) throw new Error("project profile has no role");
+  if (!role) throw new Error("Project profile has no role");
 
   const supabase = await createSupabaseServerClient();
 
@@ -306,42 +331,67 @@ export async function deleteProjectProfileAction(
     throw new Error("Not authenticated");
   }
 
-  if (role === "owner") {
-    const { data: list, error: listError } = await supabase.storage
-      .from("project-images")
-      .list(`public/${projectID}`, { limit: 100 });
+  const { error } = await supabase
+    .from("project_profiles")
+    .delete()
+    .eq("id", projectProfileID);
 
-    if (listError)
-      throw new Error("Failed to list project files", { cause: listError });
-    else if (list && list.length > 0) {
-      const filesToDelete = list.map(
-        (file) => `public/${projectID}/${file.name}`
-      );
-      const { data: imagesData, error: imagesError } = await supabase.storage
-        .from("project-images")
-        .remove(filesToDelete);
-      if (imagesError)
-        throw new Error("Failed to delete files", { cause: imagesError });
-    }
+  if (error) throw new Error("Failed to leave project", { cause: error });
 
-    const { data, error: deleteProjectError } = await supabase
-      .from("projects")
-      .delete()
-      .eq("id", projectID);
+  else return projectProfileID;
+}
 
-    if (deleteProjectError) {
-      throw new Error("Failed to delete project", {
-        cause: deleteProjectError,
-      });
-    }
-  } else {
-    const { error } = await supabase
-      .from("project_profiles")
-      .delete()
-      .eq("id", projectProfileID);
+export async function deleteProjectAction(formData: FormData) {
+  const projectProfileID = formData.get("projectProfileID")?.toString();
+  const role = formData.get("role")?.toString();
+  const projectID = formData.get("projectID")?.toString();
+  const projectName = formData.get("project-name")?.toString();
+  const submittedProjectName = formData
+    .get("submitted-project-name")
+    ?.toString();
+  if (!projectProfileID) throw new Error("No account ID provided");
+  if (!role) throw new Error("Project profile has no role");
+  if (projectName !== submittedProjectName)
+    throw new Error("Project name does not match user input");
 
-    if (error) throw new Error("Failed to leave project", { cause: error });
+  const supabase = await createSupabaseServerClient();
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (!user || userError) {
+    throw new Error("Not authenticated");
   }
 
-  return revalidatePath(`/account/profile`);
+  const { data: list, error: listError } = await supabase.storage
+    .from("project-images")
+    .list(`public/${projectID}`, { limit: 100 });
+
+  if (listError)
+    throw new Error("Failed to list project files", { cause: listError });
+  else if (list && list.length > 0) {
+    const filesToDelete = list.map(
+      (file) => `public/${projectID}/${file.name}`
+    );
+    const { data: imagesData, error: imagesError } = await supabase.storage
+      .from("project-images")
+      .remove(filesToDelete);
+    if (imagesError)
+      throw new Error("Failed to delete files", { cause: imagesError });
+  }
+
+  const { data, error: deleteProjectError } = await supabase
+    .from("projects")
+    .delete()
+    .eq("id", projectID);
+
+  if (deleteProjectError) {
+    throw new Error("Failed to delete project", {
+      cause: deleteProjectError,
+    });
+  }
+
+  else return projectProfileID;
 }

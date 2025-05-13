@@ -100,6 +100,22 @@ export async function uploadProfileImageAction(formData: FormData) {
     throw new Error("Not authenticated");
   }
 
+  const { data: list, error: listError } = await supabase.storage
+    .from("profile-images")
+    .list(`public/${user.id}`, { limit: 100 });
+
+  if (listError)
+    throw new Error("Failed to list user profile images", { cause: listError });
+  else if (list && list.length > 0) {
+    const filesToDelete = list.map((file) => `public/${user.id}/${file.name}`);
+
+    const { data: imagesData, error: imagesError } = await supabase.storage
+      .from("profile-images")
+      .remove(filesToDelete);
+    if (imagesError)
+      throw new Error("Failed to delete files", { cause: imagesError });
+  }
+
   const { error: uploadError } = await supabase.storage
     .from("profile-images")
     .upload(`public/${user.id}/${fileName}`, file, {
