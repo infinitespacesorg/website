@@ -352,7 +352,7 @@ export default function ProjectPage() {
       {yourProjectProfile?.role === "owner" && (
         <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
           <div>
-            <h4>Project profile image</h4>
+            <h4 className="text-lg md:text-xl">Project profile image</h4>
             <p className="text-xs md:text-sm">Upload an image for your project</p>
           </div>
           <div>{ProjectProfileImage()}</div>
