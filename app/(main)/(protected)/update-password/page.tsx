@@ -13,11 +13,13 @@ import * as z from "zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
+import { Loader2, Router } from "lucide-react";
 import { Suspense, useTransition } from "react";
 import { updatePasswordAction } from "./actions";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { parseMessageFromSearchParams } from "@/lib/utils";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   password: z
@@ -63,9 +65,11 @@ function ErrorMessage() {
 
 export default function UpdatePasswordPage() {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const searchParams = useSearchParams();
   const message = parseMessageFromSearchParams(searchParams);
+  const { refreshUserContext } = useUser()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,11 +87,14 @@ export default function UpdatePasswordPage() {
 
       await updatePasswordAction(formData);
 
+      refreshUserContext()
       toast.success("Password updated!");
+      router.push('/account/profile')
     });
   };
 
   return (
+    <section className="min-h-[80vh] pt-15">
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
@@ -141,5 +148,6 @@ export default function UpdatePasswordPage() {
         </Suspense>
       </form>
     </Form>
+    </section>
   );
 }
