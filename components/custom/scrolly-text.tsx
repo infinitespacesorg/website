@@ -1,5 +1,4 @@
 import { PAGE_QUERYResult } from "@/sanity.types";
-import SectionContainer from "../ui/section-container";
 
 type ScrollyTextProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -37,5 +36,3 @@ export default function ScrollyText({
     </section>
   );
 }
-
-//   className={`w-3/10 mt-6 font-bold leading-[1.1] text-3xl md:text-4xl lg:text-5xl animate-fade-up [animation-delay:200ms] opacity-0`}

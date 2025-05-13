@@ -20,7 +20,7 @@ export default function IndexHeader() {
     { label: "Login", href: "/login", target: false },
   ]);
 
-  const { authUser, account } = useUser();
+  const { authUser } = useUser();
 
   useEffect(() => {
     if (authUser) {

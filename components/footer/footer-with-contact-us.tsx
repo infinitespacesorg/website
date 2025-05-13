@@ -4,9 +4,7 @@ import Logo from "@/components/logo";
 import { useState } from "react";
 import ContactDialog from "../custom/contact-dialog";
 import { Button } from "../ui/button";
-import clsx from "clsx";
 import SocialIcons from "../custom/social-icons";
-import { useRouter } from "next/navigation";
 
 const navItems = [
   {
@@ -24,15 +22,9 @@ const navItems = [
     href: "/about",
     target: false,
   },
-  // {
-  //   label: "Careers",
-  //   href: "/careers",
-  //   target: false,
-  // },
 ];
 
 export default function FooterWithContactUs() {
-  const router = useRouter();
 
   const [contactDialogOpen, setContactDialogOpen] = useState(false);
 
