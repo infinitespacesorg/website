@@ -9,8 +9,6 @@ function AuthSyncHandler () {
 
   const {authUser, refreshUserContext} = useUser()
 
-  console.log(authUser)
-
   useEffect(() => {
     refreshUserContext()
     window.location.replace(next);

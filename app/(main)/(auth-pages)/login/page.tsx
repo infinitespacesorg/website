@@ -6,7 +6,6 @@ import ForgotPassword from "./ForgotPassword";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { parseMessageFromSearchParams } from "@/lib/utils";
-import OneTapComponent from "./GoogleOneTap";
 import GoogleSignInButton from "./GoogleSignInButton";
 
 function LoginView() {
@@ -23,8 +22,6 @@ function LoginView() {
 export default function Login() {
   const { authUser, account, loading } = useUser();
   const router = useRouter();
-
-  console.log(authUser, loading)
 
   const [signInLoading, setSignInLoading] = useState(false);
 
@@ -52,7 +49,6 @@ export default function Login() {
       <p className="m-auto my-5 text-sm w-fit">
         or sign in / create an account with Google:
       </p>
-      {/* <OneTapComponent /> */}
       {typeof setSignInLoading === "function" && (
         <GoogleSignInButton setSignInLoading={setSignInLoading} />
       )}

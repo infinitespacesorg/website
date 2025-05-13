@@ -8,8 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { AlignRight, XIcon } from "lucide-react";
-// import { ModeToggle } from "../menu-toggle";
+import { AlignRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
@@ -69,7 +68,6 @@ export default function DesktopNav({
                 rel={navItem.target ? "noopener noreferrer" : undefined}
                 className={clsx(
                   "block w-full transition-colors hover:text-foreground/80 text-foreground/90 text-sm"
-                  // isScrolled ? "text-black" : "text-white"
                 )}
               >
                 {navItem.label}

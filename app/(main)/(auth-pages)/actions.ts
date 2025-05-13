@@ -4,7 +4,7 @@ import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { headers, cookies } from "next/headers";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { resend } from "@/lib/utils"
 import { ResendEmailConfirmationTemplate } from "@/emails/ConfirmEmail";
@@ -29,7 +29,7 @@ export async function signUpAction(formData: FormData) {
   });
 
   if (signUpError || !userData.user?.id) {
-    console.error(signUpError?.code + " " + signUpError?.message);
+    // console.error(signUpError?.code + " " + signUpError?.message);
     return encodedRedirect(
       "error",
       "/login?view=signup",
@@ -109,7 +109,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   })
 
   if (error) {
-    console.error(error.message);
+    // console.error(error.message);
     return encodedRedirect(
       "error",
       "/login",

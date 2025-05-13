@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { CredentialResponse } from "google-one-tap";
 import { useUser } from "@/context/UserContext";
 import { supabase } from "@/lib/supabase/browser";

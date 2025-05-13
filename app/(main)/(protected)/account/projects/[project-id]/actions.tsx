@@ -1,13 +1,10 @@
 "use server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { resend } from "@/lib/utils";
-import { ResendResetPasswordTemplate } from "@/emails/ResetPassword";
 import { randomUUID } from "crypto";
 import { ResendInvitedUserTemplate } from "@/emails/InvitedUser";
 import { ProjectProfileWithAccount, Account } from "@/types";
@@ -26,7 +23,7 @@ export const getAllProjectProfilesAction = async (projectId: string) => {
   const allProjectProfilesError = response.error;
 
   if (allProjectProfilesError || !allProjectProfiles) {
-    console.error(allProjectProfilesError);
+    // console.error(allProjectProfilesError);
     throw new Error("Failed to fetch project accounts");
   }
 
@@ -69,7 +66,6 @@ export async function inviteProjectMemberAction(formData: FormData) {
       .eq("id", targetUserID);
 
     if (userQueryError) {
-      console.log(userQueryError);
       throw new Error("User query error", { cause: userQueryError });
     }
     else existingUsers = targetAccounts
@@ -138,7 +134,7 @@ export async function inviteProjectMemberAction(formData: FormData) {
   }).select();
 
   if (!newPP) {
-    console.error(NPPError)
+    // console.error(NPPError)
     throw new Error ('Project profile not created')
   }
 
@@ -197,12 +193,12 @@ export async function updateProjectUsernameAction(
     .select();
 
   if (error && error.code === "23505") {
-    console.error(error);
+    // console.error(error);
     throw new Error(
       "This username is already taken! Choose a different username"
     );
   } else if (error) {
-    console.error(error);
+    // console.error(error);
     throw new Error("Failed to update project username", { cause: error });
   }
 

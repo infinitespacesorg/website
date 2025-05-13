@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { resend } from "@/lib/utils";
 import { ResendResetPasswordTemplate } from "@/emails/ResetPassword";
