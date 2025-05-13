@@ -33,15 +33,13 @@ export async function upsertUsername(formData: FormData): Promise<void> {
     .update({ username: result.data.username })
     .eq("id", user.id);
 
-  if (userName) console.log(userName);
-
   if (error && error.code === "23505") {
-    console.error(error);
+    // console.error(error);
     throw new Error(
       "This username is already taken! Choose a different username"
     );
   } else if (error) {
-    console.error(error);
+    // console.error(error);
     throw new Error("Failed to update username", { cause: error });
   }
 

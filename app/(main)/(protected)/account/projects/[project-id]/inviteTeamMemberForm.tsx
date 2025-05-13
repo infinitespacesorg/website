@@ -14,8 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import React, { useTransition } from "react";
 import { inviteProjectMemberAction } from "./actions";
-import { useUser } from "@/context/UserContext";
-import { Account, Project, ProjectProfileWithAccount } from "@/types";
+import { Project, ProjectProfileWithAccount } from "@/types";
 
 type InviteTeamMemberFormProps = {
   project: Project;

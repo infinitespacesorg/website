@@ -1,6 +1,5 @@
 "use server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function InviteGoogleSignInAction(formData: FormData) {
   const username = formData.get("username");
@@ -12,7 +11,7 @@ export async function InviteGoogleSignInAction(formData: FormData) {
     .eq("id", userID);
 
   if (usernameError) {
-    console.error(usernameError);
+    // console.error(usernameError);
     throw new Error("username update error", { cause: usernameError });
   }
 
@@ -22,7 +21,7 @@ export async function InviteGoogleSignInAction(formData: FormData) {
     .eq("account_id", userID);
 
   if (PPUsernameError) {
-    console.error("Project Profile update error", PPUsernameError.message);
+    // console.error("Project Profile update error", PPUsernameError.message);
     throw new Error("Project Profile update error", { cause: PPUsernameError });
   }
 }
@@ -39,7 +38,5 @@ export async function InviteSupaAuthAction(formData: FormData) {
 
   if (error) {
     console.error("Set password error:", error.message);
-  } else {
-    console.log("Updated user", data);
   }
 }

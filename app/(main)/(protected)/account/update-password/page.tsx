@@ -67,8 +67,6 @@ export default function UpdatePasswordPage() {
   const searchParams = useSearchParams();
   const message = parseMessageFromSearchParams(searchParams);
 
-  console.log(message);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

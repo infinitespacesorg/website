@@ -18,7 +18,7 @@ export default function ElseHeader() {
     { label: "Login", href: "/login", target: false },
   ]);
 
-  const { authUser, account } = useUser();
+  const { authUser } = useUser();
 
   useEffect(() => {
     if (authUser) {

@@ -76,7 +76,7 @@ function ConfirmInvitePage() {
       });
 
       if (error) {
-        console.error("OTP Verification failed", error);
+        toast.error("OTP Verification failed");
         return;
       }
 
@@ -102,7 +102,6 @@ function ConfirmInvitePage() {
 
       const user = authUser;
       if (!user) {
-        console.error("No authUser available");
         toast.error("You're not logged in.");
         return;
       }
@@ -118,7 +117,6 @@ function ConfirmInvitePage() {
 
       router.push(redirectTo || "/account/profile");
     } catch (err) {
-      console.error("Unhandled error", err);
       toast.error("Something went wrong.");
     }
   }
@@ -132,7 +130,6 @@ function ConfirmInvitePage() {
 
       const user = authUser;
       if (!user) {
-        console.error("No authUser available");
         toast.error("You're not logged in.");
         return;
       }
@@ -154,7 +151,6 @@ function ConfirmInvitePage() {
         },
       });
     } catch (err) {
-      console.error("Unhandled error", err);
       toast.error("Something went wrong.");
     }
   };
