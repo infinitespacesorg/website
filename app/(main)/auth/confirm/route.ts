@@ -15,11 +15,6 @@ export async function GET(request: NextRequest) {
     const type: EmailOtpType | null =
         rawType === "email_change_new" ? "email_change" : (rawType as EmailOtpType | null);
 
-    console.log(request.url)
-    console.log(type)
-    console.log(searchParams)
-    console.log(next)
-
     if (token_hash && type) {
 
         const supabase = await createSupabaseServerClient();

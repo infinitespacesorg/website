@@ -7,8 +7,7 @@ import Script from 'next/script'
 import { supabase } from '@/lib/supabase/browser'
 import { CredentialResponse } from "google-one-tap"
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef } from 'react'
-import { it } from 'node:test'
+import { useRef } from 'react'
 
 const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 if (!clientId) throw new Error("Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID");

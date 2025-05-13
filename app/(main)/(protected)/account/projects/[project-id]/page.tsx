@@ -42,10 +42,10 @@ import {
   deleteProjectProfileAction,
   uploadProjectImageAction,
 } from "./actions";
-import { ProjectProfile, Account, ProjectProfileWithAccount } from "@/types";
+import { ProjectProfileWithAccount } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Send, SquarePen, X } from "lucide-react";
+import { SquarePen, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import ProjectNameForm from "./projectNameForm";
 import ProjectUsernameForm from "./projectUsernameForm";
@@ -57,9 +57,6 @@ import OneProjectMember from "./OneProjectMember";
 
 export default function ProjectPage() {
   const {
-    authUser,
-    account,
-    setAccount,
     projectProfiles,
     projects,
     setProjects,
@@ -95,7 +92,7 @@ export default function ProjectPage() {
           );
           setAllProjectProfiles(gotProjectProfiles);
         } catch (err: any) {
-          console.error(err.message);
+          // console.error(err.message);
         }
       };
 
@@ -123,7 +120,7 @@ export default function ProjectPage() {
 
       try {
         const { url } = await uploadProjectImageAction(formData);
-        console.log("Avatar uploaded to: ", url);
+        // console.log("Avatar uploaded to: ", url);
         setProjects((prev) =>
           prev.map((proj) =>
             proj.id === projectId
@@ -133,7 +130,7 @@ export default function ProjectPage() {
         );
         setUpdateProjectProfileImage(false);
       } catch (err: any) {
-        console.error(err.message);
+        // console.error(err.message);
       }
 
       inputRef.current?.value && (inputRef.current.value = "");
@@ -301,7 +298,7 @@ export default function ProjectPage() {
       refreshUserContext();
       router.push(`/account/profile`);
     } catch (err: any) {
-      console.error(err.message);
+      // console.error(err.message);
     }
   }
 
@@ -352,7 +349,7 @@ export default function ProjectPage() {
       {yourProjectProfile?.role === "owner" && (
         <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
           <div>
-            <h4>Project profile image</h4>
+            <h4 className="text-lg md:text-xl">Project profile image</h4>
             <p className="text-xs md:text-sm">Upload an image for your project</p>
           </div>
           <div>{ProjectProfileImage()}</div>

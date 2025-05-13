@@ -1,6 +1,4 @@
-// we're not using this page, (site)/blog is generated from the (site)/[slug] layout.tsx file
-
-export const dynamic = "force-dynamic";
+// we're not using this page, (site)/about is generated from the (site)/[slug] layout.tsx file
 
 import Blocks from "@/components/blocks";
 import { fetchSanityPageBySlug } from "../actions";

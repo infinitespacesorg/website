@@ -10,7 +10,7 @@ import { useUser } from "@/context/UserContext";
 import { createTeamAction } from "../actions";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -23,7 +23,6 @@ import {
 import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import ISLogo from "@/public/favicon.png";
-import Image from "next/image";
 import { useProjectImages } from "./useProjectImages";
 
 const navItems = [
@@ -66,10 +65,10 @@ export default function Sidebar() {
       const data = await createTeamAction(formData);
       setProjects((prev) => (prev ? [data[0], ...prev] : [data[0]]));
       setProjectProfiles((prev) => (prev ? [data[1], ...prev] : [data[1]]));
-      console.log("Team created ", data);
+      // console.log("Team created ", data);
       router.push(`/account/projects/${data[0].id}`);
     } catch (err: any) {
-      console.error(err.message);
+      // console.error(err.message);
     }
 
     setShowProjectForm(false);

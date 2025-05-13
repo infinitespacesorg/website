@@ -81,14 +81,14 @@ export default function ProfilePage() {
 
       try {
         const { url } = await uploadProfileImageAction(formData);
-        console.log("Avatar uploaded to: ", url);
+        // console.log("Avatar uploaded to: ", url);
         // await refreshUserContext()
         setAccount((prev) =>
           prev ? { ...prev, profile_image: url } : prev
         );
         setUpdateProfileImage(false)
       } catch (err: any) {
-        console.error(err.message);
+        // console.error(err.message);
       }
 
       inputRef.current?.value && (inputRef.current.value = "");
