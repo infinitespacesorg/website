@@ -8,27 +8,32 @@ import { ModeToggle } from "@/components/menu-toggle";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import WaitlistForm from "./waitlist-form";
-
-const navItems = [
-  {
-    label: "Home",
-    href: "/",
-    target: false,
-  },
-  {
-    label: "Blog",
-    href: "/blog",
-    target: false,
-  },
-  {
-    label: "About",
-    href: "/about",
-    target: false,
-  },
-];
+import { useUser } from "@/context/UserContext";
+import { NavItem } from "@/types";
 
 export default function IndexHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [navItems, setNavItems] = useState<NavItem[]>([
+    { label: "Home", href: "/", target: false },
+    { label: "Blog", href: "/blog", target: false },
+    { label: "About", href: "/about", target: false },
+    { label: "Login", href: "/login", target: false },
+  ]);
+
+  const { authUser, account } = useUser();
+
+  useEffect(() => {
+    if (authUser) {
+      setNavItems((items) => [
+        { label: "Home", href: "/", target: false },
+    { label: "Blog", href: "/blog", target: false },
+    { label: "About", href: "/about", target: false },
+    { label: "Account", href: "/account", target: false },
+    { label: "Sign Out", action: "signOut" },
+      ]);
+    }
+  }, [authUser]);
+
   const [waitlistFormOpen, setWaitlistFormOpen] = useState(false);
 
   useEffect(() => {
