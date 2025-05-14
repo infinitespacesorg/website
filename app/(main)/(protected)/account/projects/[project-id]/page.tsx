@@ -36,13 +36,31 @@
 
 import { useUser } from "@/context/UserContext";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useTransition } from "react";
 import {
   getAllProjectProfilesAction,
   deleteProjectProfileAction,
+  deleteProjectAction,
   uploadProjectImageAction,
 } from "./actions";
 import { ProjectProfileWithAccount } from "@/types";
+import {
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+  Dialog,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SquarePen, X } from "lucide-react";
@@ -54,6 +72,9 @@ import ISLogo from "@/public/favicon.png";
 import { useProjectImages } from "../../useProjectImages";
 import InviteTeamMemberForm from "./inviteTeamMemberForm";
 import OneProjectMember from "./OneProjectMember";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 export default function ProjectPage() {
   const {
@@ -65,14 +86,17 @@ export default function ProjectPage() {
   } = useUser();
   const router = useRouter();
 
+  const [isPending, startTransition] = useTransition();
   const [updateProjectUsername, setUpdateProjectUsername] = useState(false);
   const [updateProjectName, setUpdateProjectName] = useState(false);
   const [updateProjectProfileImage, setUpdateProjectProfileImage] =
     useState(false);
   const [inviteProjectMember, setInviteProjectMember] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [allProjectProfiles, setAllProjectProfiles] = useState<
     ProjectProfileWithAccount[]
   >([]);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const params = useParams();
   const projectId = params["project-id"];
@@ -100,6 +124,25 @@ export default function ProjectPage() {
     }
   }, [project]);
 
+  const formSchema = z.object({
+    project_name: z.string().refine((val) => val === project!.name, {
+      message: "Project name does not match",
+    }),
+  });
+
+  useEffect(() => {
+    if (showDeleteDialog) {
+      dialogRef.current?.showModal();
+    }
+  }, [showDeleteDialog]);
+
+  const deleteForm = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      project_name: "",
+    },
+  });
+
   if (loading)
     return <p className="m-auto my-20 text-center">loading project...</p>;
   if (!project)
@@ -117,10 +160,10 @@ export default function ProjectPage() {
       const formData = new FormData();
       formData.append("project-image", file);
       formData.append("project-id", project!.id.toString());
+      formData.append("project-role", yourProjectProfile!.role);
 
       try {
         const { url } = await uploadProjectImageAction(formData);
-        // console.log("Avatar uploaded to: ", url);
         setProjects((prev) =>
           prev.map((proj) =>
             proj.id === projectId
@@ -128,9 +171,12 @@ export default function ProjectPage() {
               : proj
           )
         );
+        refreshUserContext()
+        toast.success("Project image updated");
         setUpdateProjectProfileImage(false);
       } catch (err: any) {
         // console.error(err.message);
+        toast.error(err.message);
       }
 
       inputRef.current?.value && (inputRef.current.value = "");
@@ -149,7 +195,9 @@ export default function ProjectPage() {
 
   function displayProjectMembers() {
     if (allProjectProfiles.length > 0) {
-      const sortedPPs = allProjectProfiles.sort((a,b) => b.role.localeCompare(a.role))
+      const sortedPPs = allProjectProfiles.sort((a, b) =>
+        b.role.localeCompare(a.role)
+      );
       return (
         <div className="border-2 rounded-xl">
           <div className="flex flex-row justify-between border-b-2 p-3 lg:px-5">
@@ -287,18 +335,101 @@ export default function ProjectPage() {
     );
   }
 
+  function deleteDialog() {
+    return (
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogPortal>
+          <DialogOverlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
+          <DialogContent className="fixed z-50 w-[90vw] sm:max-w-[400px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-xl shadow-xl">
+            <DialogTitle className="text-xl text-center font-semibold mb-2">
+              Delete {project!.name}?
+            </DialogTitle>
+
+            <DialogDescription className="mb-4 text-sm text-muted-foreground">
+              Since you are the project owner, leaving this project will delete
+              the project and all of its associated data.
+            </DialogDescription>
+            <Form {...deleteForm}>
+              <form onSubmit={deleteForm.handleSubmit(handleDeleteProject)}>
+                <FormField
+                  control={deleteForm.control}
+                  name="project_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="text"
+                          placeholder={`Enter your project name to continue`}
+                          autoComplete="off"
+                          data-1p-ignore
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  className="w-full mt-3"
+                  size="sm"
+                  type="submit"
+                  disabled={isPending}
+                >
+                  {isPending && (
+                    <Loader2 className="w-6 h-6 mr-2 animate-spin" />
+                  )}
+                  Confirm & Delete
+                </Button>
+              </form>
+            </Form>
+          </DialogContent>
+        </DialogPortal>
+      </Dialog>
+    );
+  }
+
   async function handleLeaveProject() {
     const formData = new FormData();
     formData.append("projectProfileID", yourProjectProfile!.id);
     formData.append("role", yourProjectProfile!.role);
-    formData.append("projectID", yourProjectProfile!.project_id);
 
     try {
-      await deleteProjectProfileAction(formData);
-      refreshUserContext();
-      router.push(`/account/profile`);
+      const deleted = await deleteProjectProfileAction(formData);
+      if (deleted && deleted === yourProjectProfile!.id) {
+        setProjects((prev) => prev.filter((proj) => proj.id !== projectId));
+        refreshUserContext();
+        router.push(`/account/profile`);
+      }
     } catch (err: any) {
+      toast.error(err.message);
       // console.error(err.message);
+    }
+  }
+
+  async function handleDeleteProject(values: z.infer<typeof formSchema>) {
+    const result = formSchema.safeParse(values);
+
+    if (!result.success) {
+      console.log(result.error.message);
+      toast.error(result.error.message);
+    } else {
+      const formData = new FormData();
+      formData.append("submitted-project-name", values.project_name);
+      formData.append("project-name", project!.name);
+      formData.append("projectProfileID", yourProjectProfile!.id);
+      formData.append("role", yourProjectProfile!.role);
+      formData.append("projectID", yourProjectProfile!.project_id);
+      try {
+        const deleted = await deleteProjectAction(formData);
+        if (deleted && deleted === yourProjectProfile!.id) {
+        setProjects((prev) => prev.filter((proj) => proj.id !== projectId));
+        refreshUserContext();
+        router.push(`/account/profile`);
+      }
+      } catch (err: any) {
+        toast.error(err.message);
+        // console.error(err.message);
+      }
     }
   }
 
@@ -350,7 +481,9 @@ export default function ProjectPage() {
         <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
           <div>
             <h4 className="text-lg md:text-xl">Project profile image</h4>
-            <p className="text-xs md:text-sm">Upload an image for your project</p>
+            <p className="text-xs md:text-sm">
+              Upload an image for your project
+            </p>
           </div>
           <div>{ProjectProfileImage()}</div>
         </div>
@@ -359,7 +492,9 @@ export default function ProjectPage() {
         <div className="flex flex-row gap-3 md:gap-0 justify-between items-center py-3 border-b-2">
           <div>
             <h4 className="text-lg md:text-xl">Project display name</h4>
-            <p className="text-xs md:text-sm">Change the display name of your project</p>
+            <p className="text-xs md:text-sm">
+              Change the display name of your project
+            </p>
           </div>
           <div>{ProjectDisplayNameFormOrName()}</div>
         </div>
@@ -374,11 +509,18 @@ export default function ProjectPage() {
           </p>
         </div>
         <div className="w-fit my-auto">
-          <Button type="submit" onClick={() => handleLeaveProject()}>
-            Leave project
-          </Button>
+          {yourProjectProfile?.role === "owner" ? (
+            <Button type="submit" onClick={() => setShowDeleteDialog(true)}>
+              Leave project
+            </Button>
+          ) : (
+            <Button type="submit" onClick={() => handleLeaveProject()}>
+              Leave project
+            </Button>
+          )}
         </div>
       </div>
+      {showDeleteDialog && deleteDialog()}
     </section>
   );
 }

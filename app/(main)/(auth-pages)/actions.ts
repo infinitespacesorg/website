@@ -68,11 +68,6 @@ export async function signUpAction(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  return encodedRedirect(
-    "success",
-    "/login",
-    "Thanks for signing up! Please check your email for a verification link.",
-  );
 }
 
 export async function signInAction(formData: FormData) {
@@ -94,36 +89,23 @@ export async function signInAction(formData: FormData) {
   return redirect("/auth/sync?next=/account");
 };
 
-export const forgotPasswordAction = async (formData: FormData) => {
+export async function forgotPasswordAction (formData: FormData) {
   const email = formData.get("email")?.toString();
   const origin = (await headers()).get("origin");
 
   if (!email) {
-    return encodedRedirect("error", "/login", "Email is required", { view: "forgot" });
+    throw new Error('Email is required')
   }
 
   const supabase = await createSupabaseServerClient();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?redirect_to=/account/update-password`
+    redirectTo: `${origin}/auth/callback?redirect_to=/update-password`
   })
 
   if (error) {
-    // console.error(error.message);
-    return encodedRedirect(
-      "error",
-      "/login",
-      "Could not reset password",
-      { view: 'forgot' }
-    );
+    throw new Error('Could not reset password')
   }
-
-  return encodedRedirect(
-    "success",
-    "/login",
-    "Check your email for a link to reset your password.",
-    { view: 'forgot' }
-  );
 };
 
 export async function signOutAction() {

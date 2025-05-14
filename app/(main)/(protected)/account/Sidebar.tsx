@@ -37,7 +37,7 @@ const projectNameFormSchema = z.object({
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { projects, setProjects, account, setAccount, setProjectProfiles } =
+  const { projects, setProjects, account, setAccount, setProjectProfiles, refreshUserContext } =
     useUser();
 
   const [open, setOpen] = useState(false);
@@ -65,7 +65,7 @@ export default function Sidebar() {
       const data = await createTeamAction(formData);
       setProjects((prev) => (prev ? [data[0], ...prev] : [data[0]]));
       setProjectProfiles((prev) => (prev ? [data[1], ...prev] : [data[1]]));
-      // console.log("Team created ", data);
+      refreshUserContext()
       router.push(`/account/projects/${data[0].id}`);
     } catch (err: any) {
       // console.error(err.message);
@@ -120,6 +120,7 @@ export default function Sidebar() {
                         placeholder="Enter your new project name"
                         autoComplete="off"
                         data-1p-ignore
+                        className="bg-background"
                       />
                     </FormControl>
                     <FormMessage />
