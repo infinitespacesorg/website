@@ -71,8 +71,6 @@ export async function inviteProjectMemberAction(formData: FormData) {
 
   let userId: string;
 
-  console.log(existingUsers)
-
   if (existingUsers && existingUsers.length > 0) {
     userId = existingUsers[0].id;
 
@@ -82,8 +80,6 @@ export async function inviteProjectMemberAction(formData: FormData) {
       .eq("account_id", userId)
       .eq("project_id", projectID)
       .maybeSingle();
-
-    console.log(project_profile)
 
     if (project_profile)
       throw new Error("This user is already a project member!");
@@ -103,8 +99,6 @@ export async function inviteProjectMemberAction(formData: FormData) {
         throw new Error("error creating project profile", {
           cause: nPPError?.message,
         });
-
-      console.log(newProjectProfile)
 
       newProjectProfile.accounts = existingUsers[0];
 
@@ -338,7 +332,7 @@ export async function deleteProjectProfileAction(formData: FormData) {
 
   if (error) throw new Error("Failed to leave project", { cause: error });
 
-  else return projectProfileID;
+  return projectProfileID;
 }
 
 export async function deleteProjectAction(formData: FormData) {

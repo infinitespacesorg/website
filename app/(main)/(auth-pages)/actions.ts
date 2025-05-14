@@ -81,8 +81,6 @@ export async function signInAction(formData: FormData) {
 
   const { error } = await supabase.auth.signInWithPassword(data);
 
-  console.log('got here')
-
   if (error) {
     return encodedRedirect("error", "/login", error.message, { view: 'signin' });
   }
