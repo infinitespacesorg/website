@@ -16,6 +16,11 @@ import AllPosts from "@/components/ui/all-posts";
 import AboutYouTest from "./custom/about-you-test";
 import HeroTextFlex from "./custom/hero-flex-text";
 import ContactUsForm from "./custom/contact-us"
+import AllTeamMembers from "./custom/all-team-members";
+import AllEvents from "./custom/all-events"
+import ScrollyText from "./custom/scrolly-text";
+import HeroTextBackgroundImage from "./custom/hero-text-background-image";
+import AllPastProjects from "./custom/all-past-projects";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -26,6 +31,7 @@ const componentMap: {
   "hero-with-image": HeroWithImage,
   "hero-color-body-text": HeroColorBodyText,
   "hero-text-centered": HeroTextCentered,
+  "hero-text-background-image": HeroTextBackgroundImage,
   "section-header": SectionHeader,
   "split-row": SplitRow,
   "grid-row": GridRow,
@@ -37,8 +43,12 @@ const componentMap: {
   faqs: FAQs,
   "form-newsletter": FormNewsletter,
   "all-posts": AllPosts,
+  "all-team-members": AllTeamMembers,
+  "all-events": AllEvents,
+  "all-past-projects": AllPastProjects,
   "about-you-test": AboutYouTest,
   'contact-us-form': ContactUsForm,
+  'scrolly-text': ScrollyText,
 };
 
 export default function Blocks({ blocks }: { blocks: Block[] }) {

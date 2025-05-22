@@ -4,9 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* add new fonts by declaring their variable names in app/layout.tsx (similar to Roboto, Inter as FontSans), then add them in @theme here */
+
+/* https://nextjs.org/docs/pages/building-your-application/optimizing/fonts */
+
 @theme {
   --font-sans: var(--font-sans);
-
+  --font-roboto: var(--font-roboto);
+  --font-nm: var(--font-nm);
+ 
   /* Custom animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -39,6 +45,15 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
@@ -152,6 +167,25 @@
 }
 
 @layer base {
+
+  @font-face {
+    font-family: "Roboto";
+    src: url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Nanum Myeongjo";
+    src: url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Boldonse";
+    src: url("https://fonts.googleapis.com/css2?family=Boldonse&display=swap");
+    font-display: swap;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -223,3 +257,49 @@
   }
 }
 
+.scroll-text-slow {
+  animation: scroll-text 15s linear infinite;
+}
+
+.scroll-text-normal {
+  animation: scroll-text 10s linear infinite;
+}
+
+.scroll-text-fast {
+  animation: scroll-text 7s linear infinite;
+}
+
+.text-clip {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.marquee-slow {
+  display: flex;
+  width: fit-content;
+  animation: marquee 25s linear infinite;
+}
+
+.marquee-normal {
+  display: flex;
+  width: fit-content;
+  animation: marquee 15s linear infinite;
+}
+
+.marquee-fast {
+  display: flex;
+  width: fit-content;
+  animation: marquee 10s linear infinite;
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}

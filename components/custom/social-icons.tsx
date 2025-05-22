@@ -4,6 +4,7 @@ import { faFacebook, faInstagram, faYoutube, faBluesky } from "@fortawesome/free
 
 interface SocialIconsProps {
     className: string;
+    mobileNav: boolean;
 }
 
 const navItems = [
@@ -37,7 +38,7 @@ const navItems = [
     },
 ];
 
-export default function SocialIcons ({className = ''}: SocialIconsProps) {
+export default function SocialIcons ({className, mobileNav}: SocialIconsProps) {
     return (
         <div className={className}>
             {navItems.map((navItem) => (
@@ -47,7 +48,7 @@ export default function SocialIcons ({className = ''}: SocialIconsProps) {
                 target={navItem.target ? "_blank" : undefined}
                 rel={navItem.target ? "noopener noreferrer" : undefined}
                 >
-                    <FontAwesomeIcon icon={navItem.icon} className={`${navItem.class} w-4 h-4 text-gray-700 dark:text-gray-300`} />
+                    <FontAwesomeIcon icon={navItem.icon} size={mobileNav ? 'xl' : 'sm'} className={`${navItem.class} text-gray-700 dark:text-gray-300`} />
                 </Link>
             ))}
         </div>

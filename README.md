@@ -53,13 +53,24 @@ Your content should now appear in your Next.js app ([http://localhost:3000](http
 
 The schema for the `Page` document type is defined in the `sanity/schemas/document/page.ts` file. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
 
+#### 3. Adding new documents
+
 Here are the steps that Mason has taken to add a custom document:
 
 1. Create a new .ts file for your document in the sanity/schemas/documents folder; feel free to copy from an existing document as a reference.
 
-2. Add the document type to the array of types in the sanity/schema.ts file
+2. Add a query for your document type in the sanity/queries folder
 
-3. Add the document as an "orderableDocumentListDeskItem" in the sanity/structure.ts file
+3. Add the document type to the array of types in the sanity/schema.ts file
+
+4. Add the document as an "orderableDocumentListDeskItem" in the sanity/structure.ts file
+
+5. Run these two commands to update the schema.json file with JSON about the new document, and to update the sanity.types.ts file with a type for the new document:
+
+```bash
+npx sanity schema extract
+npx sanity typegen generate
+```
 
 #### 4. Adding new components
 
@@ -89,6 +100,26 @@ npx sanity typegen generate
 8. Add that component to the list of blocks in the componentMap in the components/blocks.tsx file
 
 9. Now you are free to add the block to a page in Sanity Studio, and it will be rendered in the app!
+
+#### 5. Adding a new form
+
+Here are the steps that Mason has taken to create a new form:
+
+1. Assuming this form is a block that we can put somewhere on any page, follow steps 1-6 in the previous section (adding new components / blocks). Ideally create related files in /forms subfolders if they exist.
+
+2. Create a component that will render the form JSX in the DOM, using all of the requested data fetched from the Sanity block. We are using Zod to validate and sanitize form data, react-hook-form for easier form implementation in React, and SchemaUI components like Form, Input, Button, SectionContainer, etc. instead of classic HTML elements as much as possible. Feel free to use components/custom/contact-us as a reference.
+
+3. In Supabase, create a new table that will take in the data for your form. Leave the default RLS settings and columns and add columns with appropriate data types and default values for all form data. The name of the database table will be used in the next step.
+
+4. Now that you've created the table, update the RLS policies for the table in Supabase so that ALL users can read all rows and write new rows to the table (unless you want to be more specific for some reason).
+
+5. In the app/api folder, create a new route.ts file associated with your form that will receive a POST request and connect to the Supabase JS Client to add a new row to the database table with the form data. Again, feel free to copy the syntax from the app/api/contact-us-form/route.ts file. Inside the "supabase.from('')" bit, reference the table you just named in Supabase.
+
+6. Set up a handleSend function inside the new form component to send a POST request to the API route that you just created, handling errors and responses appropriately.
+
+7. Add your new form component to the list of blocks in the componentMap in the components/blocks.tsx file
+
+8. Now you are free to add the form block to a page in Sanity Studio, and it will be rendered in the app!
 
 ### Deploying your application
 

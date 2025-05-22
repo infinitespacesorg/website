@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "motion/react"
+import { motion } from "motion/react";
+import { Button } from "@/components/ui/button";
 
 //const MainVideo =
   "https://dkljmdqtvrkrnjdtdsjw.supabase.co/storage/v1/object/public/website-storage/stage-cut.mp4";
@@ -16,11 +17,11 @@ export default function CoverVideo() {
   const [fadingOut, setFadingOut] = useState(false);
   const videoRef = useRef(null);
 
-  const MAX_PLAYS = 1
+  const MAX_PLAYS = 1;
 
   function getSvgWidth() {
     const value = window.innerWidth < 600 ? "70vw" : "400";
-    return value
+    return value;
   }
 
   function handleVideoEnd() {
@@ -29,11 +30,10 @@ export default function CoverVideo() {
       if (newCount >= MAX_PLAYS) {
         setFadingOut(true);
         setTimeout(() => {
-          setShowImage(true)
-          setFadingOut(false)  
+          setShowImage(true);
+          setFadingOut(false);
         }, 1000);
-      }
-      else {
+      } else {
         videoRef.current?.play();
       }
       return newCount;
@@ -45,16 +45,12 @@ export default function CoverVideo() {
   }, []);
 
   return (
-    <motion.section 
-    // bg-white dark:bg-black 
+    <motion.section
       className={`relative w-full`}
-      // style={{ backgroundImage: `url(${staticImage})`, backgroundSize: "cover", backgroundPosition: "center" }}
-      animate={{ height: showImage ? "auto" : "100vh"}}
+      animate={{ height: showImage ? "auto" : "100vh" }}
       initial={{ height: "100vh" }}
-      transition={{ duration: 1}}
+      transition={{ duration: 1 }}
     >
-      {/* all I did to change the styling here was changed backgroundPosition to "bottom" from "center" */}
-      {/* because the aspect ratio of the image is ~1.77:1, and the screen aspect ratio will almost always be smaller than this, I think this might be the best solution */}
       <motion.div
         className="absolute inset-0 w-full h-full"
         style={{
@@ -67,7 +63,7 @@ export default function CoverVideo() {
         transition={{ duration: 1 }}
       />
       <motion.div
-        className="absolute inset-0 w-full h-full bg-linear-to-b from-transparent from-88% to-secondary:50 via-93% to-secondary:80 to-97% to-secondary z-[40]"
+        className="absolute inset-0 w-full h-full bg-linear-to-b from-transparent from-88% to-background:50 via-93% to-background:80 to-97% to-background z-[40]"
         initial={{ opacity: 0 }}
         animate={{ opacity: showImage ? 1 : 0 }}
         transition={{ duration: 1 }}
@@ -83,7 +79,9 @@ export default function CoverVideo() {
         animate={{ opacity: fadingOut || showImage ? 0 : 1 }}
         transition={{ duration: 1 }}
       />
-      <div className={`inset-0 z-20 flex flex-col justify-center items-center text-white text-center ${showImage ? 'relative py-40' : 'absolute top-0 left-0'}`}>
+      <div
+        className={`inset-0 z-20 flex flex-col justify-center items-center text-white text-center ${showImage ? "relative py-40" : "absolute top-0 left-0"}`}
+      >
         <div>
           <svg
             width={svgWidth}
@@ -161,8 +159,14 @@ export default function CoverVideo() {
           A Spatial Entertainment Company
         </div>
       </div>
-      
+      <motion.div className="h-full">
+        <Button
+          className={`h-6 text-xs ${showImage ? "hidden": ''} z-[49] absolute bottom-5 left-1/2 -translate-x-1/2 hover:bg-primary/20`}
+          size="sm"
+          type="button"
+          onClick={() => handleVideoEnd()}
+        >Close Video</Button>
+      </motion.div>
     </motion.section>
-  )
+  );
 }
-  

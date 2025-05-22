@@ -16,6 +16,11 @@ import { formNewsletterQuery } from "./forms/newsletter";
 import { allPostsQuery } from "./all-posts";
 import { aboutYouTestQuery } from "./forms/aboutyoutest";
 import { contactUsFormQuery } from "./forms/contact-us";
+import { allTeamMembersQuery } from "./all-team-members";
+import { allEventsQuery } from "./all-events";
+import { heroTextBackgroundImageQuery } from "./hero/hero-text-background-image";
+import { scrollyTextQuery } from "./scrolly-text";
+import { allPastProjectsQuery } from "./all-pastProjects";
 
 export const PAGE_QUERY = groq`
   *[_type == "page" && slug.current == $slug][0]{
@@ -24,6 +29,7 @@ export const PAGE_QUERY = groq`
       ${heroTextCenteredQuery},
       ${heroColorBodyTextQuery},
       ${heroFlexTextQuery},
+      ${heroTextBackgroundImageQuery},
       ${sectionHeaderQuery},
       ${splitRowQuery},
       ${gridRowQuery},
@@ -35,8 +41,12 @@ export const PAGE_QUERY = groq`
       ${faqsQuery},
       ${formNewsletterQuery},
       ${allPostsQuery},
+      ${allTeamMembersQuery},
+      ${allEventsQuery},
       ${aboutYouTestQuery},
-      ${contactUsFormQuery}
+      ${contactUsFormQuery},
+      ${scrollyTextQuery},
+      ${allPastProjectsQuery}
     },
     meta_title,
     meta_description,
