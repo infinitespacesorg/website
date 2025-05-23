@@ -42,7 +42,7 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2(@types/react@19.0.8)(react@19.0.0)
       '@react-email/components':
-        specifier: ^0.0.36
+        specifier: 0.0.36
         version: 0.0.36(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@sanity/code-input':
         specifier: ^5.1.2
@@ -5356,11 +5356,6 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  prettier@3.5.0:
-    resolution: {integrity: sha512-quyMrVt6svPS7CjQ9gKb3GLEX/rl3BCL2oa/QkNcXv4YNVBC9olt3s+H7ukto06q7B1Qz46PbrKLO34PR6vXcA==}
-    engines: {node: '>=14'}
-    hasBin: true
-
   prettier@3.5.3:
     resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
     engines: {node: '>=14'}
@@ -9135,7 +9130,50 @@ snapshots:
       - '@types/react'
       - react-is
       - rxjs
-
+  '@sanity/pkg-utils@6.13.4(@types/babel__core@7.20.5)(@types/node@22.13.1)(debug@4.4.0)(typescript@5.7.3)':
+    dependencies:
+      '@babel/core': 7.26.8
+      '@babel/preset-typescript': 7.26.0(@babel/core@7.26.8)
+      '@babel/types': 7.26.8
+      '@microsoft/api-extractor': 7.48.1(@types/node@22.13.1)
+      '@microsoft/tsdoc-config': 0.17.1
+      '@optimize-lodash/rollup-plugin': 5.0.0(rollup@4.34.6)
+      '@rollup/plugin-alias': 5.1.1(rollup@4.34.6)
+      '@rollup/plugin-babel': 6.0.4(@babel/core@7.26.8)(@types/babel__core@7.20.5)(rollup@4.34.6)
+      '@rollup/plugin-commonjs': 28.0.2(rollup@4.34.6)
+      '@rollup/plugin-json': 6.1.0(rollup@4.34.6)
+      '@rollup/plugin-node-resolve': 16.0.0(rollup@4.34.6)
+      '@rollup/plugin-replace': 6.0.2(rollup@4.34.6)
+      '@rollup/plugin-terser': 0.4.4(rollup@4.34.6)
+      '@sanity/browserslist-config': 1.0.5
+      browserslist: 4.24.4
+      cac: 6.7.14
+      chalk: 4.1.2
+      chokidar: 4.0.3
+      esbuild: 0.24.2
+      esbuild-register: 3.6.0(esbuild@0.24.2)
+      find-config: 1.0.0
+      get-latest-version: 5.1.0(debug@4.4.0)
+      git-url-parse: 16.0.0
+      globby: 11.1.0
+      jsonc-parser: 3.3.1
+      mkdirp: 3.0.1
+      outdent: 0.8.0
+      parse-git-config: 3.0.0
+      pkg-up: 3.1.0
+      prettier: 3.5.3
+      pretty-bytes: 5.6.0
+      prompts: 2.4.2
+      recast: 0.23.9
+      rimraf: 4.4.1
+      rollup: 4.34.6
+      rollup-plugin-esbuild: 6.2.0(esbuild@0.24.2)(rollup@4.34.6)
+      rxjs: 7.8.1
+      treeify: 1.1.0
+      typescript: 5.7.3
+      uuid: 11.0.5
+      zod: 3.24.1
+      zod-validation-error: 3.4.0(zod@3.24.1)
   '@sanity/presentation-comlink@1.0.20(@sanity/client@6.29.1)(@sanity/types@3.89.0(@types/react@19.1.5))':
     dependencies:
       '@sanity/client': 6.29.1(debug@4.4.1)
@@ -12521,8 +12559,6 @@ snapshots:
   prelude-ls@1.2.1: {}
 
   prettier@3.4.2: {}
-
-  prettier@3.5.0: {}
 
   prettier@3.5.3: {}
 
