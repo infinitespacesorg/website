@@ -11,8 +11,8 @@ export async function createSupabaseServerClient() {
   const cookieStore = await cookies()
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL_S3!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_S3!,
     {
       auth: {
         flowType: "pkce"
