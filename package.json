@@ -45,6 +45,8 @@
     "react-hook-form": "^7.54.2",
     "react-player": "^2.16.0",
     "resend": "^4.2.0",
+    "react-dropzone": "^14.3.8",
+    "react-text-gradients": "^1.0.2",
     "sanity": "^3.75.0",
     "sonner": "^1.7.2",
     "styled-components": "^6.1",
