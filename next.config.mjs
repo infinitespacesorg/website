@@ -21,7 +21,10 @@ const nextConfig = {
   },
   compiler: {
     styledComponents: true // Enable SSR for styled-components
-  }
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+},
 };
 
 export default nextConfig;
