@@ -1,12 +1,12 @@
 {
-  "rules": {
-    "strict": "off"
-  },
-  "parserOptions": {
-    "sourceType": "script"
-  },
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript"
-  ]
+  // "rules": {
+  //   "strict": "off"
+  // },
+  // "parserOptions": {
+  //   "sourceType": "script"
+  // },
+  // "extends": [
+  //   "next/core-web-vitals",
+  //   "next/typescript"
+  // ]
 }
