@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 
-export default async function PasswordForm({ searchParams }: { searchParams?: URLSearchParams }) {
-  const params = searchParams instanceof URLSearchParams ? searchParams : new URLSearchParams();
-  const showError = params.get('error') === '1';
+export default function PasswordForm({ error }: { error?: string }) {
+  const showError = error === '1';
   return (
     <form method="POST" action="/api/gate-login">
       <h2>Password Required</h2>
