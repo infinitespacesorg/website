@@ -34,7 +34,7 @@ export const resetPasswordAction = async (formData: FormData) => {
   const token = linkData.properties.hashed_token;
   const type = linkData.properties.verification_type;
 
-  const confirmUrl = `${origin}/auth/confirm?token_hash=${token}&type=${type}&redirect_to=/account/update-password`;
+  const confirmUrl = `${origin}/auth/confirm?token_hash=${token}&type=${type}&redirect_to=/update-password`;
 
   if (linkData) {
     await resend.emails.send({

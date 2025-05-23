@@ -45,7 +45,7 @@ export default function FullNameForm({ setUpdateFullName }: FullNameFormProps) {
         prev ? { ...prev, full_name: values.full_name } : prev
       );
       setUpdateFullName(false);
-      toast.success("Full name updated!");
+      toast.success("Display name updated!");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Something went wrong";

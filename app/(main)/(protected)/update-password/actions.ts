@@ -13,7 +13,7 @@ export const updatePasswordAction = async (formData: FormData) => {
   if (newPassword != confirmPassword) {
     return encodedRedirect(
       "error",
-      "/account/update-password",
+      "/update-password",
       "Password and confirmation do not match.",
     );
   }
@@ -34,5 +34,4 @@ export const updatePasswordAction = async (formData: FormData) => {
   }
 
   revalidatePath('/', 'layout')
-  return redirect("/auth/sync?next=/account?message=password-updated");
 }

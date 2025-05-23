@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { signUpAction } from "@/app/(main)/(auth-pages)/actions";
-import { FormMessage, Message } from "@/components/ui/form-message";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const signupFormSchema = z.object({
   email: z.string().email({ message: "Please enter your email address" }),
@@ -26,15 +26,10 @@ const signupFormSchema = z.object({
     })
     .refine((val) => /[^A-Za-z0-9]/.test(val), {
       message: "Must include at least one special character",
-    })
+    }),
 });
 
-type SignUpProps = {
-  message: Message | null;
-}
-
-export default function SignIn({ message }: SignUpProps ) {
-
+export default function SignIn() {
   const {
     register,
     handleSubmit,
@@ -52,7 +47,14 @@ export default function SignIn({ message }: SignUpProps ) {
     formData.append("email", values.email);
     formData.append("password", values.password);
 
-    await signUpAction(formData);
+    try {
+      await signUpAction(formData);
+      toast.success(
+        "Thanks for signing up! Please check your email for a verification link."
+      );
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
 
   return (
@@ -62,8 +64,11 @@ export default function SignIn({ message }: SignUpProps ) {
     >
       <h1 className="text-2xl font-medium">Sign up</h1>
       <p className="text-sm text text-foreground">
-        Already have an account?{" "}
-        <Link className="text-primary font-medium underline" href="/login?view=signin">
+        Already have an account?
+        <Link
+          className="text-primary font-medium underline"
+          href="/login?view=signin"
+        >
           Sign in
         </Link>
       </p>
@@ -76,7 +81,9 @@ export default function SignIn({ message }: SignUpProps ) {
           required
         />
         {errors.email && (
-          <p className="text-destructive text-sm my-1">{errors.email.message}</p>
+          <p className="text-destructive text-sm my-1">
+            {errors.email.message}
+          </p>
         )}
         <Label htmlFor="password">Password</Label>
         <Input
@@ -87,12 +94,13 @@ export default function SignIn({ message }: SignUpProps ) {
           required
         />
         {errors.password && (
-          <p className="text-destructive text-sm my-3">{errors.password.message}</p>
+          <p className="text-destructive text-sm my-3">
+            {errors.password.message}
+          </p>
         )}
         <SubmitButton type="submit" pendingText="Signing up...">
           Sign up
         </SubmitButton>
-        {message && <FormMessage message={message} />}
       </div>
     </form>
   );
