@@ -187,7 +187,6 @@ const DropzoneEmptyState = ({ className }: { className?: string }) => {
   if (isSuccess) {
     return null
   }
-
   return (
     <div className={cn('flex flex-col items-center gap-y-2', className)}>
       <Upload size={20} className="text-muted-foreground" />
