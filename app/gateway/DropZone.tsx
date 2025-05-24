@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 export default function DropZone() {
   return (
-
       <div>
           <h3>Upload Files</h3>
           <FileUploadDemo />

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/client'
+import { createClient } from '@/lib/S3-canvas/client'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { type FileError, type FileRejection, useDropzone } from 'react-dropzone'
 
