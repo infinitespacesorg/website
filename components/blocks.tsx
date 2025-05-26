@@ -21,6 +21,7 @@ import AllEvents from "./custom/all-events"
 import ScrollyText from "./custom/scrolly-text";
 import HeroTextBackgroundImage from "./custom/hero-text-background-image";
 import AllPastProjects from "./custom/all-past-projects";
+import BasicBlockContent from "./custom/basic-block-content";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -49,6 +50,7 @@ const componentMap: {
   "about-you-test": AboutYouTest,
   'contact-us-form': ContactUsForm,
   'scrolly-text': ScrollyText,
+  'basic-block-content': BasicBlockContent
 };
 
 export default function Blocks({ blocks }: { blocks: Block[] }) {
