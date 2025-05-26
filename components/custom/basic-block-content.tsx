@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { PAGE_QUERYResult } from "@/sanity.types";
 import PortableTextRenderer from "../portable-text-renderer";
+import { PortableTextBlock } from "next-sanity";
 
 type BasicBlockContentProps = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -10,7 +11,7 @@ type BasicBlockContentProps = Extract<
 export default function BasicBlockContent({
   padding,
   customTailwind,
-  content,
+  body,
 }: BasicBlockContentProps) {
   return (
     <section
@@ -20,7 +21,7 @@ export default function BasicBlockContent({
         customTailwind
       )}
     >
-      {content && <PortableTextRenderer value={content} />}
+      {body && body?.length > 0 && <PortableTextRenderer value={body} />}
     </section>
   );
 }
