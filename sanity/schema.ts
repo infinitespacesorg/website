@@ -49,6 +49,7 @@ import allEvents from "./schemas/blocks/all-events";
 import heroTextBackgroundImage from "./schemas/blocks/hero/hero-text-background-image";
 import scrollyText from "./schemas/blocks/scrolly-text";
 import pastProjects from "./schemas/blocks/all-past-projects";
+import basicBlockContent from "./schemas/blocks/basic-block-content";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -75,6 +76,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     heroColorBodyText,
     heroTextFlex,
     heroTextBackgroundImage,
+    basicBlockContent,
     sectionHeader,
     splitRow,
     splitContent,
@@ -101,6 +103,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     allEvents,
     contactUsForm,
     scrollyText,
-    pastProjects
+    pastProjects,
   ],
 };

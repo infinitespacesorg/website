@@ -61,6 +61,7 @@ export default defineType({
         { type: "contact-us-form"},
         { type: 'scrolly-text'},
         { type: 'all-past-projects'},
+        { type: 'basic-block-content'},
       ],
     }),
     defineField({
