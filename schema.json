@@ -6641,6 +6641,13 @@
         },
         "optional": true
       },
+      "lumaEventSlug": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "meta_title": {
         "type": "objectAttribute",
         "value": {
