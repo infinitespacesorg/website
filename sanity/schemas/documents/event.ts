@@ -121,6 +121,13 @@ export default defineType({
               })
         }),
         defineField({
+          name: 'lumaEventSlug',
+          title: 'Luma Event Slug',
+          type: 'string',
+          group: 'settings',
+          description: `This is NOT the same as the customizable event URL. Go to "Manage" the event, navigate to "More", find the "Embed Event" section and grab the URL slug listed in the <a> element's href: lu.ma/event/THIS-PART`
+        }),
+        defineField({
             name: "meta_title",
             title: "Meta Title",
             type: "string",

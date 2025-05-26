@@ -25,7 +25,7 @@
     "@sanity/code-input": "^5.1.2",
     "@sanity/image-url": "^1.1.0",
     "@sanity/orderable-document-list": "^1.2.3",
-    "@sanity/preview-url-secret": "^1.2.0",
+    "@sanity/preview-url-secret": "2.0.0",
     "@sanity/ui": "^2.12.3",
     "@sanity/vision": "^3.75.0",
     "@supabase/ssr": "^0.6.1",
