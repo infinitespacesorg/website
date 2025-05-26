@@ -9,6 +9,7 @@ export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0]{
     city,
     state,
     externalLink,
+    lumaEventSlug,
     description[]{
       ...,
       _type == "image" => {
