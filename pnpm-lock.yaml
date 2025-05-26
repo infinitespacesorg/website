@@ -54,8 +54,8 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3(@emotion/is-prop-valid@1.2.2)(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react-is@18.3.1)(react@19.0.0)(rxjs@7.8.1)(sanity@3.75.0(@emotion/is-prop-valid@1.2.2)(@types/babel__core@7.20.5)(@types/node@22.13.1)(@types/react@19.0.8)(jiti@2.4.2)(lightningcss@1.29.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(terser@5.38.2)(typescript@5.7.3)(yaml@2.7.0))(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       '@sanity/preview-url-secret':
-        specifier: ^1.2.0
-        version: 1.6.21(@sanity/client@6.28.0)
+        specifier: 2.0.0
+        version: 2.0.0(@sanity/client@6.28.0)
       '@sanity/ui':
         specifier: ^2.12.3
         version: 2.12.3(@emotion/is-prop-valid@1.2.2)(react-dom@19.0.0(react@19.0.0))(react-is@18.3.1)(react@19.0.0)(styled-components@6.1.15(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
@@ -2480,11 +2480,11 @@ packages:
       react:
         optional: true
 
-  '@sanity/preview-url-secret@1.6.21':
-    resolution: {integrity: sha512-ZAIT4I5Nrsax+RBQVhSBY4PnnHgaI+eybSd5aHhjZi97+ziMTtTLnL1Hsg+ViLtPqJWwX0GiB0l8nSfGAt7+QA==}
+  '@sanity/preview-url-secret@2.0.0':
+    resolution: {integrity: sha512-JfStdSb8KT0RzePtGbUIZewNNHNNbvYHwsW4WzYEmgPTfgZnPAIMFYUFSHAKKFyKQ3tqzARRQm3uURpoSTyIkA==}
     engines: {node: '>=18'}
     peerDependencies:
-      '@sanity/client': ^6.21.3
+      '@sanity/client': ^6.22.2
 
   '@sanity/preview-url-secret@2.1.4':
     resolution: {integrity: sha512-D66VcYbGGXIkF4VQrvWo61l921LdyHKZgg5PYH0ZHcAE/wTXrMIM93I70jOp1DpN913c0vJ1sLxbLCbrEk7n8Q==}
@@ -9239,7 +9239,7 @@ snapshots:
     transitivePeerDependencies:
       - '@sanity/types'
 
-  '@sanity/preview-url-secret@1.6.21(@sanity/client@6.28.0)':
+  '@sanity/preview-url-secret@2.0.0(@sanity/client@6.28.0)':
     dependencies:
       '@sanity/client': 6.28.0(debug@4.4.0)
       '@sanity/uuid': 3.0.2
