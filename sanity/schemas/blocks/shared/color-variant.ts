@@ -1,6 +1,7 @@
 import { defineType } from "sanity";
 
 export const COLOR_VARIANTS = [
+  { title: "None", value: "none" },
   { title: "Background", value: "background" },
   { title: "Primary", value: "primary" },
   { title: "Secondary", value: "secondary" },
@@ -18,5 +19,5 @@ export const colorVariant = defineType({
     list: COLOR_VARIANTS.map(({ title, value }) => ({ title, value })),
     layout: "radio",
   },
-  initialValue: "background",
+  initialValue: "none",
 });

@@ -22,12 +22,15 @@ import ScrollyText from "./custom/scrolly-text";
 import HeroTextBackgroundImage from "./custom/hero-text-background-image";
 import AllPastProjects from "./custom/all-past-projects";
 import BasicBlockContent from "./custom/basic-block-content";
+import Hero from "./custom/hero";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
 const componentMap: {
   [K in Block["_type"]]: React.ComponentType<Extract<Block, { _type: K }>>;
 } = {
+  'basic-block-content': BasicBlockContent,
+  'hero': Hero,
   "hero-flex-text": HeroTextFlex,
   "hero-with-image": HeroWithImage,
   "hero-color-body-text": HeroColorBodyText,
@@ -50,7 +53,6 @@ const componentMap: {
   "about-you-test": AboutYouTest,
   'contact-us-form': ContactUsForm,
   'scrolly-text': ScrollyText,
-  'basic-block-content': BasicBlockContent
 };
 
 export default function Blocks({ blocks }: { blocks: Block[] }) {
