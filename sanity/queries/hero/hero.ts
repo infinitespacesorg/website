@@ -1,8 +1,8 @@
 import { groq } from "next-sanity";
 
 // @sanity-typegen-ignore
-export const superheroQuery = groq`
-  _type == "superhero" => {
+export const heroQuery = groq`
+  _type == "hero" => {
     _type,
     _key,
     globalTextColorVariant,
@@ -12,9 +12,11 @@ export const superheroQuery = groq`
     title,
     titleSize,
     titleColorVariant,
+    titleCustomGradient,
     body,
     bodySize,
     bodyColorVariant,
+    bodyCustomGradient,
     flexType,
     globalTextAlign,
     backgroundColorVariant,

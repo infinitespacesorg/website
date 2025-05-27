@@ -44,7 +44,7 @@ export default defineType({
         { type: "hero-color-body-text" },
         { type: "hero-flex-text" },
         { type: "hero-text-background-image" },
-        { type: "superhero" },
+        { type: "hero" },
         { type: "section-header" },
         { type: "split-row" },
         { type: "grid-row" },
