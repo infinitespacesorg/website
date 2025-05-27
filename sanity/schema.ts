@@ -50,6 +50,7 @@ import heroTextBackgroundImage from "./schemas/blocks/hero/hero-text-background-
 import scrollyText from "./schemas/blocks/scrolly-text";
 import pastProjects from "./schemas/blocks/all-past-projects";
 import basicBlockContent from "./schemas/blocks/basic-block-content";
+import superhero from "./schemas/blocks/hero/superhero";
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -76,6 +77,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     heroColorBodyText,
     heroTextFlex,
     heroTextBackgroundImage,
+    superhero,
     basicBlockContent,
     sectionHeader,
     splitRow,

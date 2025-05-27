@@ -20,3 +20,16 @@ export const FLEX_VARIANTS = [
   { title: "flex-col", value: "flex-col"},
   { title: "flex-col-reverse", value: "flex-col-reverse"},
 ]
+
+export const SIZE_VARIANTS = [
+  { title: "1", value: "text-sm" },
+  { title: "2", value: "text-base" },
+  { title: "3", value: "text-lg" },
+  { title: "4", value: "text-xl" },
+  { title: "5", value: "text-2xl" },
+  { title: "6", value: "text-3xl" },
+  { title: "7", value: "text-4xl" },
+  { title: "8", value: "text-5xl" },
+  { title: "9", value: "text-6xl" },
+  { title: "10", value: "text-7xl" },
+];

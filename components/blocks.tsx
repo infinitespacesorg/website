@@ -22,6 +22,7 @@ import ScrollyText from "./custom/scrolly-text";
 import HeroTextBackgroundImage from "./custom/hero-text-background-image";
 import AllPastProjects from "./custom/all-past-projects";
 import BasicBlockContent from "./custom/basic-block-content";
+import Superhero from "./custom/superhero";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -33,6 +34,7 @@ const componentMap: {
   "hero-color-body-text": HeroColorBodyText,
   "hero-text-centered": HeroTextCentered,
   "hero-text-background-image": HeroTextBackgroundImage,
+  "superhero": Superhero,
   "section-header": SectionHeader,
   "split-row": SplitRow,
   "grid-row": GridRow,
