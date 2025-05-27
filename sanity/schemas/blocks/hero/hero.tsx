@@ -2,7 +2,6 @@ import { defineField, defineType } from "sanity";
 import { DiamondPlus } from "lucide-react";
 import { FLEX_VARIANTS, SIZE_VARIANTS } from "../shared/layout-variants";
 
-
 export default defineType({
   name: "hero",
   title: "Hero",
