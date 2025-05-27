@@ -1,33 +1,58 @@
 import { defineField, defineType } from "sanity";
-import { LayoutTemplate } from "lucide-react";
+import { DiamondPlus } from "lucide-react";
 import { FLEX_VARIANTS, SIZE_VARIANTS } from "../shared/layout-variants";
 
 
 export default defineType({
-  name: "superhero",
-  title: "Super Hero",
+  name: "hero",
+  title: "Hero",
   type: "object",
-  icon: LayoutTemplate,
-  groups: [
+  icon: DiamondPlus,
+  fieldsets: [
         {
           name: "tagline",
           title: "Tagline",
+          options: {
+            collapsible: true,
+            collapsed: true,
+            modal: { type: 'popover'}
+          }
         },
         {
           name: "title",
           title: "Title",
+          options: {
+            collapsible: true,
+            collapsed: false,
+            modal: { type: 'popover'}
+          }
         },
         {
           name: "body",
           title: "Body Text",
+          options: {
+            collapsible: true,
+            collapsed: true,
+            modal: { type: 'popover'}
+          }
         },
         {
           name: "images",
           title: "Images",
+          options: {
+            collapsible: true,
+            collapsed: true,
+            modal: { type: 'popover'}
+          }
         },
         {
           name: "other",
           title: "Other",
+          options: {
+            collapsible: true,
+            collapsed: true,
+            modal: { type: 'popover'}
+          }
         },
 
       ],
@@ -35,12 +60,12 @@ export default defineType({
     defineField({
       name: "tagLine",
       type: "string",
-      group: 'tagline'
+      fieldset: 'tagline'
     }),
     defineField({
       name: "taglineSize",
       title: 'Tagline Size',
-      group: 'tagline',
+      fieldset: 'tagline',
       type: "string",
       options: {
         list: SIZE_VARIANTS.map(({ title, value }) => ({ title, value })),
@@ -50,7 +75,7 @@ export default defineType({
     }),
     defineField({
       name: "taglineColorVariant",
-      group: 'tagline',
+      fieldset: 'tagline',
       type: "color-variant",
       title: "Color Variant",
       description: "Select a tagline color variant",
@@ -58,11 +83,11 @@ export default defineType({
     defineField({
       name: "title",
       type: "string",
-      group: 'title',
+      fieldset: 'title',
     }),
     defineField({
       name: "titleSize",
-      group: 'title',
+      fieldset: 'title',
       title: 'Title Size',
       type: "string",
       options: {
@@ -73,7 +98,7 @@ export default defineType({
     }),
     defineField({
       name: "titleBackgroundImage",
-      group: 'title',
+      fieldset: 'title',
       title: "Title Background Image",
       type: "image",
       description: 'Use this to optionally use a background image to the title.',
@@ -88,19 +113,25 @@ export default defineType({
     defineField({
       name: "titleColorVariant",
       type: "color-variant",
-      group: 'title',
+      fieldset: 'title',
       title: "Title Color Variant",
       description: "Select a title color variant",
     }),
     defineField({
+      name: "titleCustomGradient",
+      type: "string",
+      fieldset: 'title',
+      description: "Use this field to write custom Tailwind for a gradient. For example: 'bg-linear-to-l from-blue-500 to-red-500'. If this field is not empty, classes 'bg-clip-text text-transparent' will be applied to accommodate gradients.",
+    }),
+    defineField({
       name: "body",
       type: "string",
-      group: 'body',
+      fieldset: 'body',
     }),
     defineField({
       name: "bodySize",
       title: 'Body Size',
-      group: 'body',
+      fieldset: 'body',
       type: "string",
       options: {
         list: SIZE_VARIANTS.map(({ title, value }) => ({ title, value })),
@@ -110,14 +141,20 @@ export default defineType({
     }),
     defineField({
       name: "bodyColorVariant",
-      group: 'body',
+      fieldset: 'body',
       type: "color-variant",
       title: "Color Variant",
       description: "Select a body color variant",
     }),
     defineField({
+      name: "bodyCustomGradient",
+      type: "string",
+      fieldset: 'body',
+      description: "Use this field to write custom Tailwind for a gradient. For example: 'bg-linear-to-l from-blue-500 to-red-500'. If this field is not empty, classes 'bg-clip-text text-transparent' will be applied to accommodate gradients.",
+    }),
+    defineField({
       name: "image",
-      group: 'images',
+      fieldset: 'images',
       title: "Image",
       type: "image",
       description: 'Use this to optionally include an image element.',
@@ -131,10 +168,10 @@ export default defineType({
     }),
     defineField({
       name: "backgroundImage",
-      group: 'images',
+      fieldset: 'images',
       title: "Background Image",
       type: "image",
-      description: 'Use this to optionally use a background image.',
+      description: 'Use this to optionally use a background image for the entire block.',
       fields: [
         {
           name: "alt",
@@ -144,30 +181,30 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "backgroundColorVariant",
+      type: "color-variant",
+      title: "Background Color Variant",
+      description: "Select a background color variant",
+      fieldset: 'other'
+    }),
+    defineField({
       name: "globalTextColorVariant",
       type: "color-variant",
       title: "Global Text Color Variant",
       description: "Select a color variant for all text - feel free to leave other Color Variant values blank if you select anything other than 'None'.",
-      group: 'other'
+      fieldset: 'other'
     }),
     defineField({
         name: 'globalTextAlign',
         type: 'string',
         title: 'Global Text Align',
         description: 'Set the text-align for all text in the hero block',
-        group: 'other',
+        fieldset: 'other',
         options: {
             list: [{ title: "left", value: "text-left" },{ title: "center", value: "text-center" },{ title: "right", value: "text-right" },],
             layout: 'radio'
         },
         initialValue: "text-center"
-    }),
-    defineField({
-      name: "backgroundColorVariant",
-      type: "color-variant",
-      title: "Background Color Variant",
-      description: "Select a background color variant",
-      group: 'other'
     }),
     defineField({
       name: "flexType",
@@ -177,7 +214,7 @@ export default defineType({
         layout: "radio",
       },
       initialValue: "flex-row",
-      group: 'other'
+      fieldset: 'other'
     }),
   ],
   preview: {
@@ -186,7 +223,7 @@ export default defineType({
     },
     prepare({ title }) {
       return {
-        title: "Super Hero",
+        title: "Hero",
         subtitle: title,
       };
     },
