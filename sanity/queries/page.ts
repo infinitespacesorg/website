@@ -22,6 +22,7 @@ import { heroTextBackgroundImageQuery } from "./hero/hero-text-background-image"
 import { scrollyTextQuery } from "./scrolly-text";
 import { allPastProjectsQuery } from "./all-pastProjects";
 import { basicBlockContentQuery } from "./basic-block-content";
+import { superheroQuery } from "./hero/superhero";
 
 export const PAGE_QUERY = groq`
   *[_type == "page" && slug.current == $slug][0]{
@@ -31,6 +32,7 @@ export const PAGE_QUERY = groq`
       ${heroColorBodyTextQuery},
       ${heroFlexTextQuery},
       ${heroTextBackgroundImageQuery},
+      ${superheroQuery},
       ${basicBlockContentQuery},
       ${sectionHeaderQuery},
       ${splitRowQuery},

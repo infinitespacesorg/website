@@ -94,3 +94,16 @@ export function parseMessageFromSearchParams(params: URLSearchParams): Message |
   if (status === "error") return { error: decodeURIComponent(msg) };
   return { message: decodeURIComponent(msg) };
 }
+
+export const SIZE_VARIANTS = [
+  { title: "1", value: "text-lg" },
+  { title: "2", value: "text-xl" },
+  { title: "3", value: "text-2xl" },
+  { title: "4", value: "text-3xl" },
+  { title: "5", value: "text-4xl" },
+  { title: "6", value: "text-5xl" },
+  { title: "7", value: "text-6xl" },
+  { title: "8", value: "text-7xl" },
+  { title: "9", value: "text-8xl" },
+  { title: "10", value: "text-9xl" },
+];
