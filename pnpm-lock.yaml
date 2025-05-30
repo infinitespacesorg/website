@@ -77,6 +77,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.5.2
         version: 8.5.2(react@19.0.0)
+      fathom-client:
+        specifier: ^3.7.2
+        version: 3.7.2
       google-one-tap:
         specifier: ^1.0.6
         version: 1.0.6
@@ -3907,6 +3910,9 @@ packages:
 
   fastq@1.19.0:
     resolution: {integrity: sha512-7SFSRCNjBQIZH/xZR3iy5iQYR8aGBE0h3VG6/cwlbrpdciNYBMotQav8c1XI3HjHH+NikUpP53nPdlZSdWmFzA==}
+
+  fathom-client@3.7.2:
+    resolution: {integrity: sha512-sWtaNivhg7uwp/q1bUuIiNj4LeQZMEZ5NXXFFpZ8le4uDedAfQG84gPOdYehtVXbl+1yX2s8lmXZ2+IQ9a/xxA==}
 
   fd-slicer@1.1.0:
     resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
@@ -11033,6 +11039,8 @@ snapshots:
   fastq@1.19.0:
     dependencies:
       reusify: 1.0.4
+
+  fathom-client@3.7.2: {}
 
   fd-slicer@1.1.0:
     dependencies:

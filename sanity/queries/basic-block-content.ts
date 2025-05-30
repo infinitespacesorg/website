@@ -8,10 +8,22 @@ export const basicBlockContentQuery = groq`
     padding,
     customTailwind,
     body[]{
-      ...,
-        children[]{
-        ...
-      }
-    }
+        ...,
+        _type == "image" => {
+          ...,
+          asset->{
+            _id,
+            url,
+            mimeType,
+            metadata {
+              lqip,
+              dimensions {
+                width,
+                height
+              }
+            }
+          }
+        }
+      },
   }
 `;
