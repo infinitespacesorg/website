@@ -4,7 +4,7 @@ import { load, trackPageview } from 'fathom-client'
 import { useEffect, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 // const MY_FATHOM_ID = process.env.FATHOM_API_TOKEN
-const MY_FATHOM_ID = process.env.FATHOM_SITE_ID
+const MY_FATHOM_ID = process.env.NEXT_PUBLIC_FATHOM_SITE_ID
 
 function TrackPageView () {
     const pathname = usePathname();
@@ -12,7 +12,8 @@ function TrackPageView () {
 
     useEffect(() => {
         load(MY_FATHOM_ID!, {
-            auto: true
+            auto: true,
+            spa: 'auto',
         })
     }, [])
 
