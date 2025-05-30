@@ -12,7 +12,7 @@ function TrackPageView () {
 
     useEffect(() => {
         load(MY_FATHOM_ID!, {
-            auto: false
+            auto: true
         })
     }, [])
 
