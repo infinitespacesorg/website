@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from "@/context/UserContext";
+import Fathom from "@/components/custom/Fathom";
 
 const isProduction = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 
@@ -69,7 +70,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <UserProvider>{children}</UserProvider>
+          <UserProvider>
+            <Fathom />
+            {children}
+          </UserProvider>
         </ThemeProvider>
         <Toaster position="top-center" richColors />
       </body>
