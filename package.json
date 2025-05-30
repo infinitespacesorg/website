@@ -33,6 +33,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.2",
+    "fathom-client": "^3.7.2",
     "google-one-tap": "^1.0.6",
     "lucide-react": "^0.469.0",
     "motion": "^12.4.2",
