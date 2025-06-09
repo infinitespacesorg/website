@@ -22,5 +22,12 @@ export default defineType({
       name: "body",
       type: "block-content",
     }),
-  ]
+  ],
+  preview: {
+    prepare() {
+      return {
+        title: "Basic Block Content",
+      };
+    },
+  },
 });
