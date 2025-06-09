@@ -8,19 +8,13 @@ import faq from "./schemas/documents/faq";
 import testimonial from "./schemas/documents/testimonial";
 import teamMember from "./schemas/documents/teamMember";
 import event from "./schemas/documents/event";
-import pastProject from "./schemas/documents/pastProject";
-
-// Schema UI shared objects
+import pastProject from "./schemas/documents/pastProject";// Schema UI shared objects
 import blockContent from "./schemas/blocks/shared/block-content";
 import link from "./schemas/blocks/shared/link";
 import { colorVariant } from "./schemas/blocks/shared/color-variant";
 import { buttonVariant } from "./schemas/blocks/shared/button-variant";
 import sectionPadding from "./schemas/blocks/shared/section-padding";
 // Schema UI objects
-import heroWithImage from "./schemas/blocks/hero/hero-with-image";
-import heroTextCentered from "./schemas/blocks/hero/hero-text-centered";
-import heroColorBodyText from "./schemas/blocks/hero/hero-color-body-text";
-import heroTextFlex from "./schemas/blocks/hero/hero-flex-text";
 import sectionHeader from "./schemas/blocks/section-header";
 import splitRow from "./schemas/blocks/split/split-row";
 import splitContent from "./schemas/blocks/split/split-content";
@@ -46,65 +40,58 @@ import aboutyoutest from "./schemas/blocks/forms/aboutyoutest";
 import contactUsForm from "./schemas/blocks/forms/contact-us"
 import allTeamMembers from "./schemas/blocks/all-team-members";
 import allEvents from "./schemas/blocks/all-events";
-import heroTextBackgroundImage from "./schemas/blocks/hero/hero-text-background-image";
 import scrollyText from "./schemas/blocks/scrolly-text";
 import pastProjects from "./schemas/blocks/all-past-projects";
 import basicBlockContent from "./schemas/blocks/basic-block-content";
-import hero from "./schemas/blocks/hero/hero";
-
+import hero from "./schemas/blocks/hero/hero"; 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
-    // documents
-    page,
-    post,
-    author,
-    category,
-    faq,
-    testimonial,
-    teamMember,
-    event,
-    pastProject,
-    // shared objects
-    blockContent,
-    link,
-    colorVariant,
-    buttonVariant,
-    sectionPadding,
-    // blocks
-    hero,
-    heroWithImage,
-    heroTextCentered,
-    heroColorBodyText,
-    heroTextFlex,
-    heroTextBackgroundImage,
-    basicBlockContent,
-    sectionHeader,
-    splitRow,
-    splitContent,
-    splitCardsList,
-    splitCard,
-    splitImage,
-    splitInfoList,
-    splitInfo,
-    gridCard,
-    pricingCard,
-    gridPost,
-    gridRow,
-    carousel1,
-    carousel2,
-    timelineRow,
-    timelinesOne,
-    cta1,
-    logoCloud1,
-    faqs,
-    newsletter,
-    aboutyoutest,
-    allPosts,
-    allTeamMembers,
-    allEvents,
-    contactUsForm,
-    scrollyText,
-    pastProjects,
-  ],
+    types: [
+        // documents
+        page,
+        post,
+        author,
+        category,
+        faq,
+        testimonial,
+        teamMember,
+        event,
+        pastProject,
+        // shared objects
+        blockContent,
+        link,
+        colorVariant,
+        buttonVariant,
+        sectionPadding,
+        // blocks
+        hero,
+        basicBlockContent,
+        sectionHeader,
+        splitRow,
+        splitContent,
+        splitCardsList,
+        splitCard,
+        splitImage,
+        splitInfoList,
+        splitInfo,
+        gridCard,
+        pricingCard,
+        gridPost,
+        gridRow,
+        carousel1,
+        carousel2,
+        timelineRow,
+        timelinesOne,
+        cta1,
+        logoCloud1,
+        faqs,
+        newsletter,
+        aboutyoutest,
+        allPosts,
+        allTeamMembers,
+        allEvents,
+        contactUsForm,
+        scrollyText,
+        pastProjects,
+    ],
 };

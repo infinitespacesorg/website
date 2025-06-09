@@ -1,7 +1,4 @@
 import { PAGE_QUERYResult } from "@/sanity.types";
-import HeroWithImage from "@/components/ui/hero/hero-with-image";
-import HeroTextCentered from "@/components/ui/hero/hero-text-centered";
-import HeroColorBodyText from "@/components/ui/hero/hero-color-body-text";
 import SectionHeader from "@/components/ui/section-header";
 import SplitRow from "@/components/ui/split/split-row";
 import GridRow from "@/components/ui/grid/grid-row";
@@ -14,12 +11,10 @@ import FAQs from "@/components/ui/faqs";
 import FormNewsletter from "@/components/ui/forms/newsletter";
 import AllPosts from "@/components/ui/all-posts";
 import AboutYouTest from "./custom/about-you-test";
-import HeroTextFlex from "./custom/hero-flex-text";
 import ContactUsForm from "./custom/contact-us"
 import AllTeamMembers from "./custom/all-team-members";
 import AllEvents from "./custom/all-events"
 import ScrollyText from "./custom/scrolly-text";
-import HeroTextBackgroundImage from "./custom/hero-text-background-image";
 import AllPastProjects from "./custom/all-past-projects";
 import BasicBlockContent from "./custom/basic-block-content";
 import Hero from "./custom/hero";
@@ -31,11 +26,6 @@ const componentMap: {
 } = {
   'basic-block-content': BasicBlockContent,
   'hero': Hero,
-  "hero-flex-text": HeroTextFlex,
-  "hero-with-image": HeroWithImage,
-  "hero-color-body-text": HeroColorBodyText,
-  "hero-text-centered": HeroTextCentered,
-  "hero-text-background-image": HeroTextBackgroundImage,
   "section-header": SectionHeader,
   "split-row": SplitRow,
   "grid-row": GridRow,

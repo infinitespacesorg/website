@@ -39,11 +39,6 @@ export default defineType({
       type: "array",
       group: "content",
       of: [
-        { type: "hero-with-image" },
-        { type: "hero-text-centered" },
-        { type: "hero-color-body-text" },
-        { type: "hero-flex-text" },
-        { type: "hero-text-background-image" },
         { type: "hero" },
         { type: "section-header" },
         { type: "split-row" },
