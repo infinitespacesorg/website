@@ -87,7 +87,7 @@ export default function FormNewsletter({
   const color = stegaClean(colorVariant);
 
   return (
-    <SectionContainer color={color} padding={padding}>
+    <SectionContainer color={color} padding={padding} className="max-w-[700px] mx-auto">
       <Form {...form}>
         <form className="pt-8" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-4">
