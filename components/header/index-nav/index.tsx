@@ -19,9 +19,9 @@ export default function IndexHeader() {
     { label: "About", href: "/about", target: false },
     {
       label: "Login",
-      href: "https://playbox.infinitespaces.co/auth/login",
+      href: "https://playbox.infinitespaces.co/auth/login?redirect_to=https://infinitespaces.co/account/profile",
       target: false,
-    },
+    }
   ]);
 
   const { authUser } = useUser();
