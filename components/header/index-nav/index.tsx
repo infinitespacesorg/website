@@ -17,7 +17,11 @@ export default function IndexHeader() {
     { label: "Home", href: "/", target: false },
     // { label: "Blog", href: "/blog", target: false },
     { label: "About", href: "/about", target: false },
-    { label: "Login", href: "/login", target: false },
+    {
+      label: "Login",
+      href: "https://playbox.infinitespaces.co/auth/login",
+      target: false,
+    },
   ]);
 
   const { authUser } = useUser();
@@ -26,10 +30,10 @@ export default function IndexHeader() {
     if (authUser) {
       setNavItems((items) => [
         { label: "Home", href: "/", target: false },
-    // { label: "Blog", href: "/blog", target: false },
-    { label: "About", href: "/about", target: false },
-    { label: "Account", href: "/account", target: false },
-    { label: "Sign Out", action: "signOut" },
+        // { label: "Blog", href: "/blog", target: false },
+        { label: "About", href: "/about", target: false },
+        { label: "Account", href: "/account", target: false },
+        { label: "Sign Out", action: "signOut" },
       ]);
     }
   }, [authUser]);
@@ -47,8 +51,6 @@ export default function IndexHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
-
   return (
     <header
       className={`top-0 w-full border-border/40 bg-background/95 z-50 ${isScrolled ? "fixed bg-white dark:bg-background" : "absolute bg-transparent"}`}
@@ -63,19 +65,32 @@ export default function IndexHeader() {
         <div
           className={`hidden md:flex gap-3 items-center justify-between ${isScrolled ? "" : "text-gray-400 dark:text-white rounded-sm"}`}
         >
-          <Button  key='waitlist' onClick={() => setWaitlistFormOpen(!waitlistFormOpen)}>Join the Waitlist</Button>
+          <Button
+            key="waitlist"
+            onClick={() => setWaitlistFormOpen(!waitlistFormOpen)}
+          >
+            Join the Waitlist
+          </Button>
           <ModeToggle />
           <DesktopNav navItems={navItems} isScrolled={isScrolled} />
         </div>
         <div
           className={`flex items-center md:hidden ${isScrolled ? "" : "text-gray-400 dark:text-white"}`}
         >
-          <Button key='waitlist' onClick={() => setWaitlistFormOpen(!waitlistFormOpen)}>Join the Waitlist</Button>
+          <Button
+            key="waitlist"
+            onClick={() => setWaitlistFormOpen(!waitlistFormOpen)}
+          >
+            Join the Waitlist
+          </Button>
           <ModeToggle />
           <MobileNav navItems={navItems} />
         </div>
       </div>
-      <WaitlistForm waitlistFormOpen={waitlistFormOpen} setWaitlistFormOpen={setWaitlistFormOpen}/>
+      <WaitlistForm
+        waitlistFormOpen={waitlistFormOpen}
+        setWaitlistFormOpen={setWaitlistFormOpen}
+      />
     </header>
   );
 }
