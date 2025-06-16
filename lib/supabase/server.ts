@@ -6,6 +6,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from 'next/headers'
 
+const isProd = process.env.NODE_ENV === 'production';
+
 export async function createSupabaseServerClient() {
 
   const cookieStore = await cookies()
@@ -24,7 +26,10 @@ export async function createSupabaseServerClient() {
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, {
+                ...options,
+                ...(isProd && { domain: '.infinitespaces.co' }),
+              })
             )
           } catch {
             // The `setAll` method was called from a Server Component.
