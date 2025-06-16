@@ -15,7 +15,7 @@ export default function ElseHeader() {
     { label: "Home", href: "/", target: false },
     // { label: "Blog", href: "/blog", target: false },
     { label: "About", href: "/about", target: false },
-    { label: "Login", href: "/login", target: false },
+    { label: "Login", href: "https://playbox.infinitespaces.co/auth/login", target: false },
   ]);
 
   const { authUser } = useUser();
