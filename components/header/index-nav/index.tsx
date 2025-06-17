@@ -38,6 +38,8 @@ export default function IndexHeader() {
     }
   }, [authUser]);
 
+  console.log(authUser)
+
   const [waitlistFormOpen, setWaitlistFormOpen] = useState(false);
 
   useEffect(() => {
