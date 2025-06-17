@@ -81,7 +81,7 @@ export default function DesktopNav({
   }
 
   return (
-    <div className={clsx("hidden xl:flex items-center gap-1 text-primary")}>
+    <div className={clsx("hidden md:flex items-center gap-1 text-primary")}>
       <DropdownMenu
         open={isOpen}
         onOpenChange={setIsOpen}

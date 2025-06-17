@@ -11,6 +11,9 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  console.log('this?')
+
   await getUserOrRedirect();
 
   return (
