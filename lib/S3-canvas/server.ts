@@ -12,7 +12,9 @@ export async function createClient() {
     {
       cookies: {
         getAll() {
-          return cookieStore.getAll()
+          const all = cookieStore.getAll()
+          console.log('[server.ts] getAll cookies: ', all)
+          return all
         },
         setAll(cookiesToSet) {
           try {
