@@ -30,7 +30,7 @@ export async function createSupabaseServerClient() {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, {
                 ...options,
-                ...(isProd && { domain: '.infinitespaces.co' }),
+                ...(isProd && { domain: '.infinitespaces.co', sameSite: 'none', secure: true }),
               })
             )
           } catch {
