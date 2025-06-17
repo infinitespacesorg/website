@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "./supabase/server";
+import { createClient } from "./S3-canvas/server";
 
 export async function getUserOrRedirect() {
       
-    const supabase = await createSupabaseServerClient()
+    const supabase = await createClient()
+
+    console.log('what')
 
     const {
         data: { user },
