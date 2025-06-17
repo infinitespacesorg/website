@@ -21,14 +21,16 @@ export async function createSupabaseServerClient() {
       },
       cookies: {
         getAll() {
-          return cookieStore.getAll()
+          const all = cookieStore.getAll()
+          console.log('[old server.ts] getAll cookies: ', all)
+          return all
         },
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, {
                 ...options,
-                ...(isProd && { domain: '.infinitespaces.co' }),
+                ...(isProd && { domain: '.infinitespaces.co', sameSite: 'none', secure: true }),
               })
             )
           } catch {
