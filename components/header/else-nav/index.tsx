@@ -32,6 +32,8 @@ export default function ElseHeader() {
     }
   }, [authUser]);
 
+  console.log(authUser)
+
   useEffect(() => {
     function handleScroll() {
       if (window.scrollY > 0) {
