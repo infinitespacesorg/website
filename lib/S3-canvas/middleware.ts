@@ -25,7 +25,7 @@ export async function updateSession(request: NextRequest) {
             supabaseResponse.cookies.set(name, value, {
               ...options,
               ...(process.env.NODE_ENV === "production" && {
-                domain: ".infinitespaces.co",
+                domain: '.infinitespaces.co', sameSite: 'none', secure: true
               }),
             })
           );
