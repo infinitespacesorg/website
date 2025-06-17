@@ -21,6 +21,9 @@ function LoginView() {
 
 export default function Login() {
   const { authUser, account, loading } = useUser();
+
+    console.log(authUser, account)
+
   const router = useRouter();
 
   const [signInLoading, setSignInLoading] = useState(false);
