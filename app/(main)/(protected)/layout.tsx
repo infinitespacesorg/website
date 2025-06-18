@@ -1,7 +1,7 @@
 import { getUserOrRedirect } from "@/lib/getUserOrRedirect";
 import ElseHeaderWrapper from "@/components/header/else-nav/wrapper";
 import FooterWithContactWrapper from "@/components/footer/footer-with-contact-us-wrapper";
-import { UserProvider } from "@/context/UserContext";
+import ClientUserProvider from "@/components/custom/client-user-provider";
 
 // every page inside this (protected) folder use this Layout,
 // and go through getUserOrRedirect so that they are redirected
@@ -16,11 +16,11 @@ export default async function ProtectedLayout({
 
   return (
     <>
-      <UserProvider initialUser={user}>
+      <ClientUserProvider initialUser={user}>
         <ElseHeaderWrapper />
         <div className="pt-15 md:pt-0">{children}</div>
         <FooterWithContactWrapper />
-      </UserProvider>
+      </ClientUserProvider>
     </>
   );
 }
