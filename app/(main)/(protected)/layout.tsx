@@ -1,6 +1,7 @@
 import { getUserOrRedirect } from "@/lib/getUserOrRedirect";
 import ElseHeaderWrapper from "@/components/header/else-nav/wrapper";
 import FooterWithContactWrapper from "@/components/footer/footer-with-contact-us-wrapper";
+import { UserProvider } from "@/context/UserContext";
 
 // every page inside this (protected) folder use this Layout,
 // and go through getUserOrRedirect so that they are redirected
@@ -11,16 +12,15 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  console.log('this?')
-
-  await getUserOrRedirect();
+  const user = await getUserOrRedirect();
 
   return (
     <>
-      <ElseHeaderWrapper />
-      <div className="pt-15 md:pt-0">{children}</div>
-      <FooterWithContactWrapper />
+      <UserProvider initialUser={user}>
+        <ElseHeaderWrapper />
+        <div className="pt-15 md:pt-0">{children}</div>
+        <FooterWithContactWrapper />
+      </UserProvider>
     </>
   );
 }
