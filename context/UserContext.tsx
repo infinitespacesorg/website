@@ -29,8 +29,14 @@ const UserContext = createContext<UserContextType>({
   refreshUserContext: async() => {}
 });
 
-export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [authUser, setAuthUser] = useState<User | null>(null);
+export const UserProvider = ({
+  children,
+  initialUser = null,
+}: {
+  children: React.ReactNode;
+  initialUser?: User | null;
+}) => {
+  const [authUser, setAuthUser] = useState<User | null>(initialUser);
   const [account, setAccount] = useState<Account | null>(null);
   const [projectProfiles, setProjectProfiles] = useState<ProjectProfile[]>([]);
   const [projects, setProjects] = useState<Project[]>([])
