@@ -16,6 +16,9 @@ export async function GET(request: Request) {
   const isProd = process.env.NODE_ENV === 'production'
   const baseUrl = isProd ? 'https://infinitespaces.co' : origin
 
+  console.log('callback URL:' request.url)
+  console.log('code param:', code)
+
   if (code) {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
