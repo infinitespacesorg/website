@@ -1,6 +1,4 @@
-import { createClient } from "@/lib/S3-canvas/client";
-
-const supabase = createClient()
+import { supabase } from "@/lib/supabase/browser";
 
 interface FormSubmission {
     name: string;
@@ -18,7 +16,7 @@ export const POST = async (request: Request) => {
     if (!origin || !allowedOrigins.includes(origin)) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403 });
     }
-    
+
     try {
 
         const body: FormSubmission = await request.json()
