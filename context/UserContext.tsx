@@ -120,7 +120,7 @@ export const UserProvider = ({
   
 
   useEffect(() => {
-    refreshUserContext();
+    // refreshUserContext();
 
     const { data: subscription } = supabasePlaybox.auth.onAuthStateChange(async () => {
       const {
