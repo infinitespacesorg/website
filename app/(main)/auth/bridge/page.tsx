@@ -9,14 +9,22 @@ function BridgeHandler() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") || "/account";
 
-  const { authUser, loading, refreshUserContext } = useUser();
+  const { authUser, refreshUserContext } = useUser();
 
   useEffect(() => {
+    const alreadySynced = sessionStorage.getItem("supabaseBridgeSync");
+
+    if (alreadySynced) return;
+
+    sessionStorage.setItem("supabaseBridgeSync", "true");
+
     (async () => {
       await refreshUserContext();
+
       setTimeout(() => {
         if (authUser) {
           router.replace(next);
+          sessionStorage.removeItem('supabaseBridgeSync')
         } else {
           console.warn("authUser not present in /auth/bridge, skipping redirect");
         }
@@ -26,6 +34,7 @@ function BridgeHandler() {
 
   return null;
 }
+
 
 export default function BridgePage() {
   return (
