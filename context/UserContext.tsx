@@ -2,10 +2,11 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@/lib/S3-canvas/client";
+import { supabase } from '@/lib/supabase/browser'
 import type { User } from "@supabase/supabase-js";
 import type { Account, Project, ProjectProfile } from "@/types";
 
-const supabase = createClient()
+const supabasePlaybox = createClient()
 
 type UserContextType = {
   authUser: User | null;
@@ -54,7 +55,7 @@ export const UserProvider = ({
     const {
       data: { user },
       error: userError,
-    } = await supabase.auth.getUser();
+    } = await supabasePlaybox.auth.getUser();
 
     console.log(user, userError)
 
@@ -121,10 +122,10 @@ export const UserProvider = ({
   useEffect(() => {
     refreshUserContext();
 
-    const { data: subscription } = supabase.auth.onAuthStateChange(async () => {
+    const { data: subscription } = supabasePlaybox.auth.onAuthStateChange(async () => {
       const {
         data: { user },
-      } = await supabase.auth.getUser();
+      } = await supabasePlaybox.auth.getUser();
 
       setAuthUser(user ?? null);
 
