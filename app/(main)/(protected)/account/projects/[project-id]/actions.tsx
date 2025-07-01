@@ -1,6 +1,6 @@
 "use server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/S3-canvas/server";
+import { supabaseAdmin } from "@/lib/S3-canvas/admin";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
 import { headers } from "next/headers";
@@ -38,7 +38,7 @@ export async function inviteProjectMemberAction(formData: FormData) {
     throw new Error("please enter an email address");
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -176,7 +176,7 @@ export async function updateProjectUsernameAction(
     throw new Error(errorMessage);
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -224,7 +224,7 @@ export async function updateProjectNameAction(
     throw new Error(errorMessage);
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -258,7 +258,7 @@ export async function uploadProjectImageAction(formData: FormData) {
   const fileExt = file.name.split(".").pop();
   const fileName = `${randomUUID()}.${fileExt}`;
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -314,7 +314,7 @@ export async function deleteProjectProfileAction(formData: FormData) {
   if (!projectProfileID) throw new Error("No account ID provided");
   if (!role) throw new Error("Project profile has no role");
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -348,7 +348,7 @@ export async function deleteProjectAction(formData: FormData) {
   if (projectName !== submittedProjectName)
     throw new Error("Project name does not match user input");
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

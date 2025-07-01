@@ -1,6 +1,6 @@
 'use server';
 
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/S3-canvas/server';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { encodedRedirect } from '@/lib/utils';
@@ -18,7 +18,7 @@ export const updatePasswordAction = async (formData: FormData) => {
     );
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

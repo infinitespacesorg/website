@@ -2,8 +2,8 @@
 
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/S3-canvas/server";
+import { supabaseAdmin } from "@/lib/S3-canvas/admin";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { resend } from "@/lib/utils"
@@ -77,7 +77,7 @@ export async function signInAction(formData: FormData) {
     password: formData.get("password") as string,
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword(data);
 
@@ -97,7 +97,7 @@ export async function forgotPasswordAction (formData: FormData) {
     throw new Error('Email is required')
   }
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${origin}/auth/callback?redirect_to=/update-password`
@@ -109,7 +109,7 @@ export async function forgotPasswordAction (formData: FormData) {
 };
 
 export async function signOutAction() {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
   await supabase.auth.signOut();
   return redirect("/auth/sync?next=/login");
 };
