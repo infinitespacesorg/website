@@ -9,8 +9,8 @@ export async function createClient() {
   console.log('I guess I need this?')
 
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL_S3!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_S3!,
+    process.env.NEXT_PUBLIC_SUPABASE_PLAYBOX_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PLAYBOX_ANON_KEY!,
     {
       cookies: {
         getAll() {
