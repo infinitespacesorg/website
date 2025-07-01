@@ -14,8 +14,6 @@ function BridgeHandler() {
   useEffect(() => {
     (async () => {
       await refreshUserContext();
-
-      // Wait a tick to let state settle
       setTimeout(() => {
         if (authUser) {
           router.replace(next);
