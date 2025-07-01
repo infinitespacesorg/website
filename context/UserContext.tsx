@@ -2,11 +2,11 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@/lib/S3-canvas/client";
-import { supabase } from '@/lib/supabase/browser'
+import { supabase } from "@/lib/supabase/browser";
 import type { User } from "@supabase/supabase-js";
 import type { Account, Project, ProjectProfile } from "@/types";
 
-const supabasePlaybox = createClient()
+const supabasePlaybox = createClient();
 
 type UserContextType = {
   authUser: User | null;
@@ -29,7 +29,7 @@ const UserContext = createContext<UserContextType>({
   setAccount: () => {},
   setProjects: () => {},
   setProjectProfiles: () => {},
-  refreshUserContext: async() => {}
+  refreshUserContext: async () => {},
 });
 
 export const UserProvider = ({
@@ -42,22 +42,25 @@ export const UserProvider = ({
   const [authUser, setAuthUser] = useState<User | null>(initialUser);
   const [account, setAccount] = useState<Account | null>(null);
   const [projectProfiles, setProjectProfiles] = useState<ProjectProfile[]>([]);
-  const [projects, setProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   const refreshUserContext = async () => {
     setLoading(true);
 
-    console.log('refreshing user context')
-  
+    console.log("refreshing user context");
+
+    const session = await supabasePlaybox.auth.getSession();
+    console.log("session", session);
+
     await new Promise((resolve) => setTimeout(resolve, 100));
-  
+
     const {
       data: { user },
       error: userError,
     } = await supabasePlaybox.auth.getUser();
 
-    console.log('user, userError', user, userError)
+    console.log("user, userError", user, userError);
 
     if (userError || !user) {
       setAuthUser(null);
@@ -67,9 +70,9 @@ export const UserProvider = ({
       setLoading(false);
       return;
     }
-  
+
     setAuthUser(user);
-  
+
     const { data: accountData, error: accountError } = await supabase
       .from("accounts")
       .select("*")
@@ -84,14 +87,13 @@ export const UserProvider = ({
     } else {
       setAccount(accountData);
     }
-  
-    const {
-      data: projectProfilesData,
-      error: projectProfilesError,
-    } = await supabase
-      .from("project_profiles")
-      .select("*")
-      .eq("account_id", user.id).order('updated_at', {ascending: false} );
+
+    const { data: projectProfilesData, error: projectProfilesError } =
+      await supabase
+        .from("project_profiles")
+        .select("*")
+        .eq("account_id", user.id)
+        .order("updated_at", { ascending: false });
     if (projectProfilesError || !projectProfilesData) {
       setProjectProfiles([]);
       setProjects([]);
@@ -100,13 +102,14 @@ export const UserProvider = ({
     } else {
       setProjectProfiles(projectProfilesData);
     }
-  
+
     const projectIds = projectProfilesData.map((t) => t.project_id);
     const { data: projectsData, error: projectsError } = await supabase
       .from("projects")
       .select("*")
-      .in("id", projectIds).order('updated_at', {ascending: false} );
-  
+      .in("id", projectIds)
+      .order("updated_at", { ascending: false });
+
     if (projectsError || !projectsData) {
       setProjects([]);
       setLoading(false);
@@ -114,32 +117,16 @@ export const UserProvider = ({
     } else {
       setProjects(projectsData);
     }
-  
+
     setLoading(false);
   };
-  
 
   useEffect(() => {
-    // refreshUserContext();
-
-    const { data: subscription } = supabasePlaybox.auth.onAuthStateChange(async () => {
-      const {
-        data: { user },
-      } = await supabasePlaybox.auth.getUser();
-
-      setAuthUser(user ?? null);
-
-      if (user) {
-        const { data: accountData } = await supabase
-          .from("accounts")
-          .select("*")
-          .eq("id", user.id)
-          .single();
-        setAccount(accountData ?? null);
-      } else {
-        setAccount(null);
+    const { data: subscription } = supabasePlaybox.auth.onAuthStateChange(
+      async () => {
+        await refreshUserContext();
       }
-    });
+    );
 
     return () => {
       subscription.subscription.unsubscribe();
@@ -147,7 +134,19 @@ export const UserProvider = ({
   }, []);
 
   return (
-    <UserContext.Provider value={{ authUser, account, setAccount, projectProfiles, setProjectProfiles, projects, setProjects, loading, refreshUserContext }}>
+    <UserContext.Provider
+      value={{
+        authUser,
+        account,
+        setAccount,
+        projectProfiles,
+        setProjectProfiles,
+        projects,
+        setProjects,
+        loading,
+        refreshUserContext,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
