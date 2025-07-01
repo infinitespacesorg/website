@@ -1,6 +1,6 @@
 import { type EmailOtpType } from '@supabase/supabase-js'
 import { type NextRequest } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/S3-canvas/server'
 import { redirect } from 'next/navigation'
 
 // this one handles password resets, only that for now I think?
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     if (token_hash && type) {
 
-        const supabase = await createSupabaseServerClient();
+        const supabase = await createClient();
 
         const { error } = await supabase.auth.verifyOtp({
             type,

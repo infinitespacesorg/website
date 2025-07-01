@@ -4,10 +4,11 @@
 // and it doesn't behave as nicely as the GoogleSignInButton
 
 import Script from 'next/script'
-import { supabase } from '@/lib/supabase/browser'
+import { createClient } from '@/lib/S3-canvas/client'
 import { CredentialResponse } from "google-one-tap"
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
+const supabase = createClient()
 
 const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 if (!clientId) throw new Error("Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID");

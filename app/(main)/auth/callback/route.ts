@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/S3-canvas/server";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString() || "/account";
 
   if (code) {
-    const supabase = await createSupabaseServerClient();
+    const supabase = await createClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) console.error("❌ exchange error:", error);
