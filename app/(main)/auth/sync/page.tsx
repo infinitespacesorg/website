@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 
-export default function AuthSyncPage() {
+function AuthSyncHandler() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const next = searchParams.get("next") || "/account/profile";
@@ -17,9 +17,18 @@ export default function AuthSyncPage() {
     })();
   }, [next, refreshUserContext, router]);
 
+  return null;
+}
+
+export default function AuthSyncPage() {
+  
+
   return (
     <main className="flex items-center justify-center h-screen">
       <p className="text-muted-foreground text-sm">Syncing session...</p>
+      <Suspense>
+        <AuthSyncHandler/>
+      </Suspense>
     </main>
   );
 }
