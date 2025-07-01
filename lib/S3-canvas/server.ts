@@ -6,8 +6,6 @@ const isProd = process.env.NODE_ENV === 'production';
 export async function createClient() {
   const cookieStore = await cookies()
 
-  console.log('hellooooo')
-
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL_S3!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_S3!,
