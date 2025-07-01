@@ -111,6 +111,6 @@ export async function forgotPasswordAction (formData: FormData) {
 export async function signOutAction() {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  return redirect("/auth/sync?next=/login");
+  return redirect("/");
 };
 
