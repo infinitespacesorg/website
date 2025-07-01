@@ -16,6 +16,9 @@ export async function GET(request: Request) {
   console.log('requestUrl', requestUrl)
   console.log('origin', origin)
 
+  const isProd = process.env.NODE_ENV === 'production'
+  const baseUrl = isProd ? 'https://infinitespaces.co' : origin
+
   if (code) {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
@@ -24,5 +27,5 @@ export async function GET(request: Request) {
     else console.log("✅ exchange success:", data);
   }
 
-  return NextResponse.redirect(`${origin}/auth/sync?next=${encodeURIComponent(redirectTo)}`);
+  return NextResponse.redirect(`${baseUrl}/auth/sync?next=${encodeURIComponent(redirectTo)}`);
 }
