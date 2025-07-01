@@ -27,5 +27,5 @@ export async function GET(request: Request) {
     else console.log("✅ exchange success:", data);
   }
 
-  return NextResponse.redirect(`${baseUrl}/auth/sync?next=${encodeURIComponent(redirectTo)}`);
+  return NextResponse.redirect(`${baseUrl}/auth/bridge?next=${encodeURIComponent(redirectTo)}`);
 }
