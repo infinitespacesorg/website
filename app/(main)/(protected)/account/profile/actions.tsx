@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/lib/S3-canvas/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import * as z from "zod";
 import { randomUUID } from "crypto";
@@ -17,7 +17,7 @@ export async function upsertUsername(formData: FormData): Promise<void> {
     throw new Error(errorMessage);
   }
 
-  const supabase = await createClient();
+  const supabase = await createSupabaseServerClient();
 
   const {
     data: { user },
@@ -60,7 +60,7 @@ export async function upsertFullName(formData: FormData): Promise<void> {
     throw new Error(errorMessage);
   }
 
-  const supabase = await createClient();
+  const supabase = await createSupabaseServerClient();
 
   const {
     data: { user },
@@ -89,7 +89,7 @@ export async function uploadProfileImageAction(formData: FormData) {
   const fileExt = file.name.split(".").pop();
   const fileName = `${randomUUID()}.${fileExt}`;
 
-  const supabase = await createClient();
+  const supabase = await createSupabaseServerClient();
 
   const {
     data: { user },
