@@ -44,6 +44,8 @@ export const UserProvider = ({
 
   const refreshUserContext = async () => {
     setLoading(true);
+
+    console.log('refreshing user context')
   
     await new Promise((resolve) => setTimeout(resolve, 100));
   
@@ -51,6 +53,9 @@ export const UserProvider = ({
       data: { user },
       error: userError,
     } = await supabase.auth.getUser();
+
+    console.log(user, userError)
+
     if (userError || !user) {
       setAuthUser(null);
       setAccount(null);

@@ -83,7 +83,6 @@ export default function ProfilePage() {
 
       try {
         const { url } = await uploadProfileImageAction(formData);
-        // console.log("Avatar uploaded to: ", url);
         setAccount((prev) => (prev ? { ...prev, profile_image: url } : prev));
         toast.success('Profile image updated');
         refreshUserContext();
