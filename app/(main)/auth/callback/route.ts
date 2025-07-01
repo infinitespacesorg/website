@@ -13,6 +13,9 @@ export async function GET(request: Request) {
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString() || "/account";
 
+  console.log('requestUrl', requestUrl)
+  console.log('origin', origin)
+
   if (code) {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
