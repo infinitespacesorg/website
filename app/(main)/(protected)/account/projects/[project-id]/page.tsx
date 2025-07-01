@@ -410,7 +410,6 @@ export default function ProjectPage() {
     const result = formSchema.safeParse(values);
 
     if (!result.success) {
-      console.log(result.error.message);
       toast.error(result.error.message);
     } else {
       const formData = new FormData();
