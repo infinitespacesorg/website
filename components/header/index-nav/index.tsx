@@ -38,7 +38,7 @@ export default function IndexHeader() {
     }
   }, [authUser]);
 
-  console.log(authUser)
+  console.log('index nav', authUser)
 
   const [waitlistFormOpen, setWaitlistFormOpen] = useState(false);
 

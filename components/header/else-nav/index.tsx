@@ -32,7 +32,7 @@ export default function ElseHeader() {
     }
   }, [authUser]);
 
-  console.log(authUser)
+  console.log('else nav', authUser)
 
   useEffect(() => {
     function handleScroll() {

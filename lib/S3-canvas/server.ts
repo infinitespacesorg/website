@@ -15,7 +15,6 @@ export async function createClient() {
       cookies: {
         getAll() {
           const all = cookieStore.getAll()
-          console.log('[server.ts] getAll cookies: ', all)
           return all
         },
         setAll(cookiesToSet) {
