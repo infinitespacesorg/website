@@ -22,7 +22,6 @@ export async function createSupabaseServerClient() {
       cookies: {
         getAll() {
           const all = cookieStore.getAll()
-          console.log('[old server.ts] getAll cookies: ', all)
           return all
         },
         setAll(cookiesToSet) {

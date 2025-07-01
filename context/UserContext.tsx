@@ -57,7 +57,7 @@ export const UserProvider = ({
       error: userError,
     } = await supabasePlaybox.auth.getUser();
 
-    console.log(user, userError)
+    console.log('user, userError', user, userError)
 
     if (userError || !user) {
       setAuthUser(null);
