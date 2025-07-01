@@ -1,9 +1,11 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/browser";
+import { createClient } from "@/lib/S3-canvas/client";
 import type { User } from "@supabase/supabase-js";
 import type { Account, Project, ProjectProfile } from "@/types";
+
+const supabase = createClient()
 
 type UserContextType = {
   authUser: User | null;

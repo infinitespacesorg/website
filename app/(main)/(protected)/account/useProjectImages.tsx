@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase/browser'
+import { createClient } from '@/lib/S3-canvas/client'
 import { Project } from '@/types'
+const supabase = createClient()
 
 export function useProjectImages(projects: Project[]) {
   const [signedUrls, setSignedUrls] = useState<Record<string, string>>({})

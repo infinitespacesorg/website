@@ -5,7 +5,8 @@ import Script from "next/script";
 import { useRef } from "react";
 import { CredentialResponse } from "google-one-tap";
 import { useUser } from "@/context/UserContext";
-import { supabase } from "@/lib/supabase/browser";
+import { createClient } from "@/lib/S3-canvas/client";
+const supabase = createClient()
 
 const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 if (!clientId) throw new Error("Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID");

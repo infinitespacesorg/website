@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase/browser";
+import { createClient } from "@/lib/S3-canvas/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import * as z from "zod";
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/form";
 import { parseMessageFromSearchParams } from "@/lib/utils";
 import { InviteGoogleSignInAction } from "./actions";
+
+const supabase = createClient()
 
 const passwordSchema = z.object({
   password: z

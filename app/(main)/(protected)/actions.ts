@@ -1,6 +1,6 @@
 "use server"
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { createClient } from "@/lib/S3-canvas/server";
+import { supabaseAdmin } from '@/lib/S3-canvas/admin'
 
 export async function createTeamAction(formData: FormData) {
     const projectName = formData.get("projectName")
@@ -8,7 +8,7 @@ export async function createTeamAction(formData: FormData) {
 
     if (!projectName) throw new Error('No project name provided')
 
-    const supabase = await createSupabaseServerClient();
+    const supabase = await createClient();
 
     const {
         data: { user },
