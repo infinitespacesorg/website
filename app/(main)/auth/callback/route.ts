@@ -13,9 +13,6 @@ export async function GET(request: Request) {
   const origin = requestUrl.origin;
   const redirectTo = requestUrl.searchParams.get("redirect_to")?.toString() || "/account";
 
-  console.log('requestUrl', requestUrl)
-  console.log('origin', origin)
-
   const isProd = process.env.NODE_ENV === 'production'
   const baseUrl = isProd ? 'https://infinitespaces.co' : origin
 
