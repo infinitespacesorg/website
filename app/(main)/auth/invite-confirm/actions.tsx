@@ -1,5 +1,5 @@
 "use server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { supabaseAdmin } from "@/lib/S3-canvas/admin";
 
 export async function InviteGoogleSignInAction(formData: FormData) {
   const username = formData.get("username");

@@ -1,6 +1,6 @@
 "use server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/S3-canvas/server";
+import { supabaseAdmin } from "@/lib/S3-canvas/admin";
 import { encodedRedirect } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
@@ -53,7 +53,7 @@ export async function updateEmailAddress(formData: FormData): Promise<void> {
   const newEmail = formData.get("email")?.toString()
   if (!newEmail) throw new Error('Please provide a new email address')
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -107,7 +107,7 @@ export const deleteAccountAction = async (formData: FormData) => {
   const accountId = formData.get("accountID")?.toString();
   if (!accountId) throw new Error("No account ID provided");
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
