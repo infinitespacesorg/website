@@ -7,7 +7,7 @@ import { useUser } from "@/context/UserContext";
 
 const supabaseAuth = createAuthClient();
 
-console.log(supabaseAuth)
+console.log('supabaseAuth', supabaseAuth)
 
 function BridgeHandler() {
   const searchParams = useSearchParams();
