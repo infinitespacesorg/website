@@ -2,10 +2,12 @@
 
 import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { createClient } from "@/lib/S3-canvas/client"; // your browser supabase client
+import { createClient } from "@/lib/S3-canvas/client";
 import { useUser } from "@/context/UserContext";
 
 const supabase = createClient();
+
+console.log(supabase)
 
 function BridgeHandler() {
   const searchParams = useSearchParams();
