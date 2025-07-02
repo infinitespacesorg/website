@@ -19,7 +19,7 @@ export default function IndexHeader() {
     { label: "About", href: "/about", target: false },
     {
       label: "Login",
-      href: "https://playbox.infinitespaces.co/auth/login?redirect_to=https://infinitespaces.co/auth/callback?redirect_to=/account/profile",
+      href: "https://playbox.infinitespaces.co/auth/login?redirect_to=https://playbox.infinitespaces.co/auth/callback?redirect_to=https://infinitespaces.co/auth/bridge?next=/account/profile",
       target: false,
     }
   ]);
