@@ -1,42 +1,57 @@
 "use client";
 
 import { useEffect, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
+import { createClient } from "@/lib/S3-canvas/client"; // your browser supabase client
 import { useUser } from "@/context/UserContext";
-import { createClient } from "@/lib/S3-canvas/client";
-const supabase = createClient()
+
+const supabase = createClient();
 
 function BridgeHandler() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") || "/account";
-
-  const { authUser, refreshUserContext } = useUser();
+  const router = useRouter();
+  const next = searchParams.get("next") || "/account/profile";
+  const sessionParam = searchParams.get("session");
+  const { refreshUserContext, authUser } = useUser();
 
   useEffect(() => {
-    const alreadySynced = sessionStorage.getItem("supabaseBridgeSync");
+    const syncSession = async () => {
+      if (sessionParam) {
+        try {
+          const decoded = JSON.parse(atob(decodeURIComponent(sessionParam)));
 
-    if (alreadySynced) return;
+          const { access_token, refresh_token } = decoded;
 
-    sessionStorage.setItem("supabaseBridgeSync", "true");
+          const { data, error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token,
+          });
 
-    (async () => {
-      const { data: session, error } = await supabase.auth.getSession();
-      console.log("Client session from supabase-js", session, error);
+          if (error) {
+            console.error("❌ Failed to set session:", error);
+            return;
+          }
+
+          console.log("✅ Session set via setSession:", data);
+        } catch (err) {
+          console.error("❌ Failed to decode session:", err);
+          return;
+        }
+      }
+
       await refreshUserContext();
 
       setTimeout(() => {
         if (authUser) {
           router.replace(next);
-          sessionStorage.removeItem("supabaseBridgeSync");
         } else {
-          console.warn(
-            "authUser not present in /auth/bridge, skipping redirect"
-          );
+          console.warn("Still no authUser after refresh — not redirecting.");
         }
       }, 100);
-    })();
-  }, [authUser, next, refreshUserContext, router]);
+    };
+
+    syncSession();
+  }, [sessionParam, next, router, refreshUserContext, authUser]);
 
   return null;
 }
@@ -44,7 +59,7 @@ function BridgeHandler() {
 export default function BridgePage() {
   return (
     <main className="flex items-center justify-center h-screen">
-      <p className="text-muted-foreground text-sm">Preparing your session...</p>
+      <p className="text-muted-foreground text-sm">Syncing session...</p>
       <Suspense fallback={null}>
         <BridgeHandler />
       </Suspense>
