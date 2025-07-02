@@ -2,12 +2,12 @@
 
 import { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { createClient } from "@/lib/S3-canvas/client";
+import { createClient as createAuthClient } from "@/lib/S3-canvas/client";
 import { useUser } from "@/context/UserContext";
 
-const supabase = createClient();
+const supabaseAuth = createAuthClient();
 
-console.log(supabase)
+console.log(supabaseAuth)
 
 function BridgeHandler() {
   const searchParams = useSearchParams();
@@ -24,7 +24,7 @@ function BridgeHandler() {
 
           const { access_token, refresh_token } = decoded;
 
-          const { data, error } = await supabase.auth.setSession({
+          const { data, error } = await supabaseAuth.auth.setSession({
             access_token,
             refresh_token,
           });
