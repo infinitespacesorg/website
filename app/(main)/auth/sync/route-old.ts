@@ -15,5 +15,5 @@ export async function GET(request: Request) {
     return redirect(next);
   }
 
-  return redirect("/auth/login");
+  return redirect("/login");
 }
