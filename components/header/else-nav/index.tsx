@@ -15,7 +15,7 @@ export default function ElseHeader() {
     { label: "Home", href: "/", target: false },
     // { label: "Blog", href: "/blog", target: false },
     { label: "About", href: "/about", target: false },
-    { label: "Login", href: "https://playbox.infinitespaces.co/auth/login?redirect_to=https://playbox.infinitespaces.co/auth/callback?redirect_to=https://infinitespaces.co/auth/bridge?next=/account/profile", target: false },
+    // { label: "Login", href: "https://playbox.infinitespaces.co/auth/login?redirect_to=https://playbox.infinitespaces.co/auth/callback?redirect_to=https://infinitespaces.co/auth/bridge?next=/account/profile", target: false },
   ]);
 
   const { authUser } = useUser();
@@ -31,8 +31,6 @@ export default function ElseHeader() {
       ]);
     }
   }, [authUser]);
-
-  console.log('else nav', authUser)
 
   useEffect(() => {
     function handleScroll() {

@@ -4,7 +4,7 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import { Suspense, useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, redirect } from "next/navigation";
 import { parseMessageFromSearchParams } from "@/lib/utils";
 import GoogleSignInButton from "./GoogleSignInButton";
 
@@ -20,9 +20,11 @@ function LoginView() {
 }
 
 export default function Login() {
-  const { authUser, account, loading } = useUser();
 
-    console.log(authUser, account)
+
+  return redirect('/');
+
+  const { authUser, account, loading } = useUser();
 
   const router = useRouter();
 

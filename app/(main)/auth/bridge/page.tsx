@@ -7,8 +7,6 @@ import { useUser } from "@/context/UserContext";
 
 const supabaseAuth = createAuthClient();
 
-console.log('supabaseAuth', supabaseAuth)
-
 function BridgeHandler() {
   const searchParams = useSearchParams();
   const router = useRouter();

@@ -11,8 +11,6 @@ export async function GET(request: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log('/sync user', user)
-
   if (user) {
     return redirect(next);
   }

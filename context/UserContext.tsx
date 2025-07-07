@@ -48,10 +48,7 @@ export const UserProvider = ({
   const refreshUserContext = async () => {
     setLoading(true);
 
-    console.log("refreshing user context");
-
     const session = await supabasePlaybox.auth.getSession();
-    console.log("session", session);
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -59,8 +56,6 @@ export const UserProvider = ({
       data: { user },
       error: userError,
     } = await supabasePlaybox.auth.getUser();
-
-    console.log("user, userError", user, userError);
 
     if (userError || !user) {
       setAuthUser(null);
