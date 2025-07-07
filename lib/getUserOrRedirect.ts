@@ -5,8 +5,6 @@ export async function getUserOrRedirect() {
       
     const supabase = await createClient()
 
-    console.log(supabase)
-
     const {
         data: { user },
     } = await supabase.auth.getUser();
