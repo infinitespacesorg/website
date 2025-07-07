@@ -78,7 +78,6 @@ export default function AboutYouTest({
     }) => {
       try {
 
-        console.log(firstName, lastName, creativeType, location, album2025)
         const response = await fetch("/api/submitAYTForm", {
           method: "POST",
           headers: {
