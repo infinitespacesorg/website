@@ -169,7 +169,7 @@ const Viewer: React.FC = () => {
 
     try {
       const transcode = await transcodeSpz(transcodeInfo);
-      const blob = new Blob([transcode.fileBytes], { type: "application/octet-stream" });
+      const blob = new Blob([new Uint8Array(transcode.fileBytes)], { type: "application/octet-stream" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
