@@ -21,6 +21,7 @@ import splitContent from "./schemas/blocks/split/split-content";
 import splitCardsList from "./schemas/blocks/split/split-cards-list";
 import splitCard from "./schemas/blocks/split/split-card";
 import splitImage from "./schemas/blocks/split/split-image";
+import splitSplat from "./schemas/blocks/split/split-splat";
 import splitInfoList from "./schemas/blocks/split/split-info-list";
 import splitInfo from "./schemas/blocks/split/split-info";
 import gridCard from "./schemas/blocks/grid/grid-card";
@@ -72,6 +73,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         splitCardsList,
         splitCard,
         splitImage,
+        splitSplat,
         splitInfoList,
         splitInfo,
         gridCard,

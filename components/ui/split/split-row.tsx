@@ -5,6 +5,7 @@ import { PAGE_QUERYResult } from "@/sanity.types";
 import SplitContent from "./split-content";
 import SplitCardsList from "./split-cards-list";
 import SplitImage from "./split-image";
+import SplitSplat from "./split-splat";
 import SplitInfoList from "./split-info-list";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
@@ -19,6 +20,7 @@ const componentMap: {
   "split-content": SplitContent,
   "split-cards-list": SplitCardsList,
   "split-image": SplitImage,
+  "split-splat": SplitSplat,
   "split-info-list": SplitInfoList,
 };
 
